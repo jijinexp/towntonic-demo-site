@@ -14,12 +14,21 @@ const IMAGES = [
 
 export default function GalleryPage() {
   const [selectedImg, setSelectedImg] = useState<number | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelectedImg(null);
+      setIsClosing(false);
+    }, 150);
+  };
 
   // Close lightbox on Escape key press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setSelectedImg(null);
+        handleClose();
       }
     };
     if (selectedImg !== null) {
@@ -70,17 +79,17 @@ export default function GalleryPage() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="gallery-lightbox-title"
-          onClick={() => setSelectedImg(null)}
+          onClick={handleClose}
         >
           <button
-            onClick={() => setSelectedImg(null)}
+            onClick={handleClose}
             className="absolute top-4 right-4 text-white hover:text-stone-300 focus:outline-none focus:ring-2 focus:ring-gold"
             aria-label="Close Lightbox"
           >
             <X size={32} />
           </button>
           <div
-            className="max-w-4xl w-full flex flex-col items-center"
+            className={`t-modal ${isClosing ? "is-closing" : "is-open"} max-w-4xl w-full flex flex-col items-center`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative w-full h-[65vh]">

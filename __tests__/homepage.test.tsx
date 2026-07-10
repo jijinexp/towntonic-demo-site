@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitForElementToBeRemoved } from "@testing-library/react";
 import Homepage from "@/app/page";
 
 describe("Homepage Content", () => {
@@ -16,7 +16,7 @@ describe("Homepage Content", () => {
     expect(screen.getByText(/Canterbury Sourced Dinner/)).toBeInTheDocument();
   });
 
-  it("opens the lightbox when a gallery card is clicked and closes it via close button", () => {
+  it("opens the lightbox when a gallery card is clicked and closes it via close button", async () => {
     render(<Homepage />);
     
     // Simulates clicking a gallery card to open the lightbox modal
@@ -33,10 +33,10 @@ describe("Homepage Content", () => {
     
     // Clicks the close button to verify that the lightbox is closed (no longer in the document)
     fireEvent.click(closeButton);
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 
-  it("closes the lightbox when the Escape key is pressed", () => {
+  it("closes the lightbox when the Escape key is pressed", async () => {
     render(<Homepage />);
     
     // Simulates clicking a gallery card to open the lightbox modal
@@ -50,6 +50,6 @@ describe("Homepage Content", () => {
     fireEvent.keyDown(window, { key: "Escape", code: "Escape" });
     
     // Asserts lightbox is closed
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 });

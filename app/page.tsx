@@ -29,13 +29,22 @@ const galleryItems = [
 
 export default function Page() {
   const [activeImg, setActiveImg] = useState<number | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setActiveImg(null);
+      setIsClosing(false);
+    }, 150);
+  };
 
   useEffect(() => {
     if (activeImg === null) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setActiveImg(null);
+        handleClose();
       }
     };
 
@@ -174,16 +183,20 @@ export default function Page() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="lightbox-title"
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 backdrop-blur-xs"
+          onClick={handleClose}
         >
           <button
-            onClick={() => setActiveImg(null)}
+            onClick={handleClose}
             className="absolute top-4 right-4 text-white hover:text-stone-300"
             aria-label="Close Lightbox"
           >
             <X size={32} />
           </button>
-          <div className="max-w-4xl w-full flex flex-col items-center">
+          <div
+            className={`t-modal ${isClosing ? "is-closing" : "is-open"} max-w-4xl w-full flex flex-col items-center`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="relative w-full h-[60vh]">
               <Image
                 src={galleryItems[activeImg].src}

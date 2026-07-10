@@ -65,6 +65,15 @@ export default function MenuPage() {
   const [activeTab, setActiveTab] = useState<"brunch" | "dinner" | "drinks">("brunch");
   const [selectedTag, setSelectedTag] = useState<"All" | MenuItem["tags"][number]>("All");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelectedItem(null);
+      setIsClosing(false);
+    }, 150);
+  };
 
   const filterTags = ["All", "Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"] as const;
 
@@ -72,7 +81,7 @@ export default function MenuPage() {
     if (!selectedItem) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setSelectedItem(null);
+        handleClose();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -150,15 +159,15 @@ export default function MenuPage() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
-          onClick={() => setSelectedItem(null)}
+          onClick={handleClose}
           className="fixed inset-0 z-50 bg-black/55 flex items-center justify-center p-4 backdrop-blur-xs"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-250"
+            className={`t-modal ${isClosing ? "is-closing" : "is-open"} bg-white rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative`}
           >
             <button
-              onClick={() => setSelectedItem(null)}
+              onClick={handleClose}
               className="absolute top-4 right-4 z-10 text-white bg-black/40 hover:bg-black/60 p-2 rounded-full transition-all"
               aria-label="Close Modal"
             >

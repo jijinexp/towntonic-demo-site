@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Calendar, User, CheckCircle, ArrowRight, ArrowLeft } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Calendar, User, ArrowRight, ArrowLeft } from "lucide-react";
 
 const TIME_SLOTS = ["11:30 am", "12:00 pm", "12:30 pm", "1:00 pm", "5:30 pm", "6:00 pm", "6:30 pm", "7:00 pm", "7:30 pm"];
 const SEAT_ZONES = [
@@ -43,9 +43,20 @@ export default function BookingWizard() {
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
   
-  // Errors
   const [error, setError] = useState("");
   const [bookingRef, setBookingRef] = useState("");
+
+  const pathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    if (step === 4 && pathRef.current) {
+      const len = typeof pathRef.current.getTotalLength === "function"
+        ? Math.ceil(pathRef.current.getTotalLength())
+        : 40;
+      pathRef.current.style.strokeDasharray = String(len);
+      pathRef.current.style.strokeDashoffset = String(len);
+    }
+  }, [step]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -322,9 +333,13 @@ export default function BookingWizard() {
 
       {/* STEP 4: SUCCESS SCREEN */}
       {step === 4 && (
-        <div className="text-center py-6 animate-in zoom-in-95 duration-300">
+        <div className="text-center py-6">
           <div className="flex justify-center mb-6">
-            <CheckCircle size={64} className="text-gold" />
+            <span className="t-success-check" data-state={step === 4 ? "in" : "out"} aria-hidden="true">
+              <svg className="w-16 h-16 text-gold" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+                <path ref={pathRef} d="M14 24l8 8 14-16" />
+              </svg>
+            </span>
           </div>
           <h3 className="font-serif text-3xl font-bold text-primary mb-2">Table Reserved</h3>
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-6">

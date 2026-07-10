@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitForElementToBeRemoved } from "@testing-library/react";
 import AboutPage from "@/app/about/page";
 import ContactPage from "@/app/contact/page";
 import GalleryPage from "@/app/gallery/page";
@@ -19,7 +19,7 @@ describe("Auxiliary Pages Content", () => {
     expect(phoneLink).toHaveAttribute("href", "tel:+6433381150");
   });
 
-  it("renders Gallery showcase elements and handles lightbox accessibility", () => {
+  it("renders Gallery showcase elements and handles lightbox accessibility", async () => {
     render(<GalleryPage />);
     expect(screen.getByRole("heading", { name: "Gallery" })).toBeInTheDocument();
     
@@ -37,14 +37,14 @@ describe("Auxiliary Pages Content", () => {
     expect(lightbox).toHaveAttribute("aria-labelledby", "gallery-lightbox-title");
     
     fireEvent.keyDown(window, { key: "Escape" });
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
     
     fireEvent.click(galleryButtons[0]);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     
     const closeBtn = screen.getByRole("button", { name: "Close Lightbox" });
     fireEvent.click(closeBtn);
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
     
     fireEvent.click(galleryButtons[0]);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
@@ -54,6 +54,6 @@ describe("Auxiliary Pages Content", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     
     fireEvent.click(screen.getByRole("dialog"));
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 });

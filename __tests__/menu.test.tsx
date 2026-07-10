@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitForElementToBeRemoved } from "@testing-library/react";
 import MenuPage from "@/app/menu/page";
 
 describe("Interactive Menu Filter", () => {
@@ -37,7 +37,7 @@ describe("Interactive Menu Filter", () => {
     expect(screen.queryByText("Blueberry Hotcake")).not.toBeInTheDocument();
   });
 
-  it("opens details modal when clicking a menu item and closes it via close button", () => {
+  it("opens details modal when clicking a menu item and closes it via close button", async () => {
     render(<MenuPage />);
     
     // Click on Avocado Sourdough card
@@ -53,10 +53,10 @@ describe("Interactive Menu Filter", () => {
     fireEvent.click(closeBtn);
 
     // Modal should disappear
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 
-  it("opens details modal when pressing Enter or Space key on MenuCard", () => {
+  it("opens details modal when pressing Enter or Space key on MenuCard", async () => {
     render(<MenuPage />);
     
     // Test Enter key on the MenuCard button/div
@@ -67,14 +67,14 @@ describe("Interactive Menu Filter", () => {
     // Close it using the close button
     const closeBtn = screen.getByRole("button", { name: "Close Modal" });
     fireEvent.click(closeBtn);
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
 
     // Test Space key on the MenuCard
     fireEvent.keyDown(itemCard, { key: " ", code: "Space" });
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  it("closes details modal when pressing the Escape key", () => {
+  it("closes details modal when pressing the Escape key", async () => {
     render(<MenuPage />);
     
     // Click to open the modal
@@ -84,10 +84,10 @@ describe("Interactive Menu Filter", () => {
 
     // Press Escape key
     fireEvent.keyDown(window, { key: "Escape", code: "Escape" });
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 
-  it("closes details modal when clicking on the backdrop overlay", () => {
+  it("closes details modal when clicking on the backdrop overlay", async () => {
     render(<MenuPage />);
     
     // Click to open the modal
@@ -98,7 +98,7 @@ describe("Interactive Menu Filter", () => {
     // Click on the backdrop (the element with role="dialog")
     const backdrop = screen.getByRole("dialog");
     fireEvent.click(backdrop);
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 
   it("does not close details modal when clicking inside the modal content", () => {
