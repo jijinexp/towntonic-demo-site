@@ -4,7 +4,7 @@ import MenuPage from "@/app/menu/page";
 describe("Interactive Menu Filter", () => {
   it("renders menu categories and filter tags", () => {
     render(<MenuPage />);
-    expect(screen.getByText("All Day Menu")).toBeInTheDocument();
+    expect(screen.getByText("All Day Menu (8am - 2pm)")).toBeInTheDocument();
     expect(screen.getByText("Dinner")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Gluten-Free" })).toBeInTheDocument();
   });
