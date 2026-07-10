@@ -6,7 +6,7 @@ describe("Interactive Menu Filter", () => {
     render(<MenuPage />);
     expect(screen.getByText("Brunch")).toBeInTheDocument();
     expect(screen.getByText("Dinner")).toBeInTheDocument();
-    expect(screen.getByText("Gluten-Free")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Gluten-Free" })).toBeInTheDocument();
   });
 
   it("filters items by vegan tag correctly when clicked", async () => {
@@ -17,31 +17,31 @@ describe("Interactive Menu Filter", () => {
     
     // Saffron cod is dinner and NOT vegan, it should not show up
     expect(screen.queryByText("Saffron Blue Cod")).not.toBeInTheDocument();
-    // Avocado sourdough is vegan, should be visible
-    expect(screen.getByText("Avocado Sourdough")).toBeInTheDocument();
+    // Mr. Simple is vegan, should be visible
+    expect(screen.getByText("Mr. Simple")).toBeInTheDocument();
   });
 
   it("switches categories when category tabs are clicked", () => {
     render(<MenuPage />);
     
-    // Default category is Brunch, so Blueberry Hotcake should be visible, Saffron Blue Cod should not
-    expect(screen.getByText("Blueberry Hotcake")).toBeInTheDocument();
+    // Default category is Brunch, so French Toast should be visible, Saffron Blue Cod should not
+    expect(screen.getByText("French Toast")).toBeInTheDocument();
     expect(screen.queryByText("Saffron Blue Cod")).not.toBeInTheDocument();
 
     // Click Dinner tab
     const dinnerTab = screen.getByRole("tab", { name: "Dinner" });
     fireEvent.click(dinnerTab);
 
-    // Now Saffron Blue Cod should be visible, Blueberry Hotcake should not
+    // Now Saffron Blue Cod should be visible, French Toast should not
     expect(screen.getByText("Saffron Blue Cod")).toBeInTheDocument();
-    expect(screen.queryByText("Blueberry Hotcake")).not.toBeInTheDocument();
+    expect(screen.queryByText("French Toast")).not.toBeInTheDocument();
   });
 
   it("opens details modal when clicking a menu item and closes it via close button", async () => {
     render(<MenuPage />);
     
-    // Click on Avocado Sourdough card
-    const itemCard = screen.getByText("Avocado Sourdough");
+    // Click on Mr. Simple card
+    const itemCard = screen.getByText("Mr. Simple");
     fireEvent.click(itemCard);
 
     // Modal with detailed description and close button should appear
@@ -60,7 +60,7 @@ describe("Interactive Menu Filter", () => {
     render(<MenuPage />);
     
     // Check that MenuCard is a focusable button
-    const itemCard = screen.getByRole("button", { name: /Avocado Sourdough/i });
+    const itemCard = screen.getByRole("button", { name: /Mr. Simple/i });
     expect(itemCard).toBeInTheDocument();
     
     // Clicking it opens the details modal
@@ -72,7 +72,7 @@ describe("Interactive Menu Filter", () => {
     render(<MenuPage />);
     
     // Click to open the modal
-    const itemCard = screen.getByText("Avocado Sourdough");
+    const itemCard = screen.getByText("Mr. Simple");
     fireEvent.click(itemCard);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
@@ -85,7 +85,7 @@ describe("Interactive Menu Filter", () => {
     render(<MenuPage />);
     
     // Click to open the modal
-    const itemCard = screen.getByText("Avocado Sourdough");
+    const itemCard = screen.getByText("Mr. Simple");
     fireEvent.click(itemCard);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
@@ -99,12 +99,12 @@ describe("Interactive Menu Filter", () => {
     render(<MenuPage />);
     
     // Click to open the modal
-    const itemCard = screen.getByText("Avocado Sourdough");
+    const itemCard = screen.getByText("Mr. Simple");
     fireEvent.click(itemCard);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
     // Click inside the modal (e.g. on the title)
-    const modalTitle = screen.getByRole("heading", { name: "Avocado Sourdough", level: 3 });
+    const modalTitle = screen.getByRole("heading", { name: "Mr. Simple", level: 3 });
     fireEvent.click(modalTitle);
     
     // Modal should still be open
