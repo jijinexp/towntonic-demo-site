@@ -6,6 +6,7 @@ describe("Interactive Menu Filter", () => {
     render(<MenuPage />);
     expect(screen.getByText("All Day Menu (8am - 2pm)")).toBeInTheDocument();
     expect(screen.getByText("Dinner")).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Dessert" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Gluten-Free" })).toBeInTheDocument();
   });
 

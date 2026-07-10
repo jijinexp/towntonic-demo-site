@@ -22,7 +22,7 @@ interface MenuExplorerProps {
 }
 
 export default function MenuExplorer({ items }: MenuExplorerProps) {
-  const [activeTab, setActiveTab] = useState<"brunch" | "dinner" | "drinks" >("brunch");
+  const [activeTab, setActiveTab] = useState<"brunch" | "dinner" | "dessert" | "drinks" >("brunch");
   const [selectedTag, setSelectedTag] = useState<"All" | MenuItem["tags"][number]>("All");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -48,7 +48,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedItem]);
 
-  const tabs = ["brunch", "dinner", "drinks"] as const;
+  const tabs = ["brunch", "dinner", "dessert", "drinks"] as const;
 
   const handleTabKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const currentIndex = tabs.indexOf(activeTab);
@@ -108,7 +108,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 : "border-transparent text-stone-400 hover:text-stone-600"
             }`}
           >
-            {tab === "brunch" ? "All Day Menu (8am - 2pm)" : tab === "dinner" ? "Dinner" : "Drinks"}
+            {tab === "brunch" ? "All Day Menu (8am - 2pm)" : tab === "dinner" ? "Dinner" : tab === "dessert" ? "Dessert" : "Drinks"}
           </button>
         ))}
       </div>
@@ -320,6 +320,56 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "softs")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : activeTab === "dessert" ? (
+            <div className="flex flex-col gap-14">
+              {/* DESSERTS */}
+              {filteredItems.filter((item) => item.subCategory === "dessert").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Desserts</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "dessert")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* COOKIES */}
+              {filteredItems.filter((item) => item.subCategory === "cookies").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cookies</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "cookies")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* CHEESE */}
+              {filteredItems.filter((item) => item.subCategory === "cheese").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cheese Selection</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "cheese")
                       .map((item) => (
                         <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
                       ))}

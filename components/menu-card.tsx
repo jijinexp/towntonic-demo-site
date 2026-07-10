@@ -6,7 +6,7 @@ export interface MenuItem {
   name: string;
   price: number;
   description: string;
-  category: "brunch" | "dinner" | "drinks";
+  category: "brunch" | "dinner" | "drinks" | "dessert";
   subCategory?: string;
   tags: ("Vegan" | "Vegetarian" | "Gluten-Free" | "Dairy-Free")[];
   image: string;

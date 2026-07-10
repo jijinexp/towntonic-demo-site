@@ -540,6 +540,103 @@ const MENU_ITEMS: MenuItem[] = [
     tags: ["Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"],
     image: "/images/gallery_coffee.jpg",
   },
+
+  // DESSERTS, COOKIES & CHEESE
+  // Desserts
+  {
+    id: "ds1",
+    name: "Kahlua and Espresso Tiramisu",
+    price: 19.50,
+    description: "Rich cocoa, sublime crema, lady fingers soaked in espresso and Kahlua liqueur, topped with chocolate flakes.",
+    category: "dessert",
+    subCategory: "dessert",
+    tags: ["Vegetarian"],
+    image: "/images/gallery_coffee.jpg",
+  },
+  {
+    id: "ds2",
+    name: "TT Strawberries and Cream",
+    price: 19.00,
+    description: "Delicate strawberry Vacherin, sweet champagne jelly, plum Doris sorbet, and fragrant herb sugar.",
+    category: "dessert",
+    subCategory: "dessert",
+    tags: ["Vegetarian", "Gluten-Free"],
+    image: "/images/hero_brunch.jpg",
+  },
+  {
+    id: "ds3",
+    name: "Triple Chocolate Delice",
+    price: 19.50,
+    description: "Indulgent triple chocolate delice served with tart cherry gel, biscoff crumb, vanilla ice cream, and freeze-dried raspberry dust.",
+    category: "dessert",
+    subCategory: "dessert",
+    tags: ["Vegetarian"],
+    image: "/images/gallery_dinner.jpg",
+  },
+  {
+    id: "ds4",
+    name: "Sorbet Sampler",
+    price: 16.00,
+    description: "A refreshing sampler of our daily house-made sorbet selections. Ask your server for today's flavors.",
+    category: "dessert",
+    subCategory: "dessert",
+    tags: ["Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"],
+    image: "/images/about_suppliers.jpg",
+  },
+
+  // Cookies
+  {
+    id: "ds_ck1",
+    name: "Shortbread Cookies",
+    price: 2.50,
+    description: "Classic buttery, melt-in-your-mouth house-baked shortbread cookies.",
+    category: "dessert",
+    subCategory: "cookies",
+    tags: ["Vegetarian"],
+    image: "/images/gallery_coffee.jpg",
+  },
+  {
+    id: "ds_ck2",
+    name: "Chocolate Chip Cookies",
+    price: 2.50,
+    description: "Rich, chewy cookies loaded with dark chocolate chips, baked daily.",
+    category: "dessert",
+    subCategory: "cookies",
+    tags: ["Vegetarian"],
+    image: "/images/gallery_coffee.jpg",
+  },
+  {
+    id: "ds_ck3",
+    name: "Coconut Macaroon",
+    price: 1.50,
+    description: "Sweet, chewy coconut macaroon cookie with a crisp golden exterior.",
+    category: "dessert",
+    subCategory: "cookies",
+    tags: ["Vegetarian", "Gluten-Free"],
+    image: "/images/gallery_coffee.jpg",
+  },
+
+  // Cheese
+  {
+    id: "ds_ch1",
+    name: "Whipped Brie",
+    price: 20.00,
+    description: "Lightly whipped French brie served with sweet pickled grapes, manuka honey, mixed toasted nuts, olive tapenade, and crunchy crostini.",
+    category: "dessert",
+    subCategory: "cheese",
+    tags: ["Vegetarian"],
+    image: "/images/gallery_coffee.jpg",
+  },
+  {
+    id: "ds_ch2",
+    name: "Local Cheese Selection",
+    price: 21.50,
+    description: "A curated platter of fine local cheeses, sweet quince jelly, fresh seasonal fruits, crackers, and mixed nuts.",
+    category: "dessert",
+    subCategory: "cheese",
+    tags: ["Vegetarian"],
+    image: "/images/gallery_dinner.jpg",
+  },
 ];
 
 export default function MenuPage() {
