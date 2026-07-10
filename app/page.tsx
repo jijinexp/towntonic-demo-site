@@ -1,8 +1,13 @@
-"use client";
-import { useState, useEffect } from "react";
+import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, MapPin, Clock, Star, X } from "lucide-react";
+import { Phone, MapPin, Clock, Star } from "lucide-react";
+import HomepageGallery from "@/components/homepage-gallery";
+
+export const metadata: Metadata = {
+  title: "Town Tonic - Modern Bistro & Eating House in Addington",
+  description: "Experience seasonal, locally sourced dining at Town Tonic, located in the heart of Addington, Christchurch. Reserve your table or explore our menu today.",
+};
 
 const galleryItems = [
   {
@@ -28,32 +33,6 @@ const galleryItems = [
 ];
 
 export default function Page() {
-  const [activeImg, setActiveImg] = useState<number | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
-
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setActiveImg(null);
-      setIsClosing(false);
-    }, 150);
-  };
-
-  useEffect(() => {
-    if (activeImg === null) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        handleClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [activeImg]);
-
   return (
     <div className="flex flex-col font-sans">
       {/* HERO SECTION */}
@@ -76,13 +55,13 @@ export default function Page() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/reservations"
-              className="bg-primary hover:bg-primary-hover text-white text-base font-semibold px-8 py-3.5 rounded-sm transition-all shadow-sm w-full sm:w-auto text-center"
+              className="bg-primary hover:bg-primary-hover text-white text-base font-semibold px-8 py-3.5 rounded-sm transition-all shadow-sm w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               Reserve a Table
             </Link>
             <Link
               href="/menu"
-              className="border-2 border-white hover:bg-white hover:text-primary text-white text-base font-semibold px-8 py-3 rounded-sm transition-all w-full sm:w-auto text-center"
+              className="border-2 border-white hover:bg-white hover:text-primary text-white text-base font-semibold px-8 py-3 rounded-sm transition-all w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               Explore Menu
             </Link>
@@ -93,15 +72,15 @@ export default function Page() {
       {/* MOBILE QUICK ACTION BAR / INFO BANNER */}
       <section className="bg-stone-50 border-b border-stone-200">
         <div className="mx-auto max-w-7xl px-4 py-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-stone-200">
-          <a href="tel:033381150" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline">
+          <a href="tel:+6433381150" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
             <Phone size={18} className="text-gold" />
             <span>Call Us: 03 338 1150</span>
           </a>
-          <a href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch" target="_blank" rel="noopener noreferrer" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline">
+          <a href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch" target="_blank" rel="noopener noreferrer" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
             <MapPin size={18} className="text-gold" />
             <span>Shop 1/335 Lincoln Road</span>
           </a>
-          <div className="py-2 sm:py-0 flex items-center justify-center gap-2 text-slate-700 font-medium">
+          <div className="py-2 sm:py-0 flex items-center justify-center gap-2 text-stone-700 font-medium">
             <Clock size={18} className="text-gold" />
             <span>Open: 8:30 am – 2:00 pm today</span>
           </div>
@@ -114,39 +93,12 @@ export default function Page() {
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Story</span>
             <h2 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Simple Craft, Local Passion</h2>
-            <p className="text-slate-600 mt-4">
+            <p className="text-stone-600 mt-4">
               We believe in serving real food made from Canterbury ingredients. Click on any item below to view details.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {galleryItems.map((item, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setActiveImg(idx)}
-                className="text-left w-full block group cursor-pointer border border-stone-100 rounded-sm overflow-hidden bg-stone-50 transition-all duration-300 hover:shadow-md"
-              >
-                <div className="relative h-[300px] w-full overflow-hidden">
-                  <Image
-                    src={item.src}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-serif text-xl font-bold text-primary group-hover:text-gold transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-slate-600 text-sm mt-2 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
+          <HomepageGallery items={galleryItems} />
         </div>
       </section>
 
@@ -161,7 +113,7 @@ export default function Page() {
           <p className="font-serif text-xl md:text-2xl italic leading-relaxed text-primary max-w-2xl mx-auto">
             &ldquo;The avocado toast was absolutely fresh and the atmosphere was lovely. A perfect blend of refined brunch and cozy cafe vibes.&rdquo;
           </p>
-          <span className="block mt-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <span className="block mt-4 text-xs font-semibold uppercase tracking-wider text-stone-500">
             — Sarah M., Christchurch Diner
           </span>
         </div>
@@ -169,50 +121,13 @@ export default function Page() {
 
       {/* STICKY BOTTOM ACTION BAR FOR MOBILE */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-stone-200 p-3 flex gap-3 shadow-lg">
-        <Link href="/menu" className="flex-1 border border-primary text-primary text-center py-2.5 rounded-sm font-semibold text-sm">
+        <Link href="/menu" className="flex-1 border border-primary text-primary text-center py-2.5 rounded-sm font-semibold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
           View Menu
         </Link>
-        <Link href="/reservations" className="flex-1 bg-primary text-white text-center py-2.5 rounded-sm font-semibold text-sm">
+        <Link href="/reservations" className="flex-1 bg-primary text-white text-center py-2.5 rounded-sm font-semibold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
           Book Table
         </Link>
       </div>
-
-      {/* LIGHTBOX MODAL */}
-      {activeImg !== null && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="lightbox-title"
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 backdrop-blur-xs"
-          onClick={handleClose}
-        >
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 text-white hover:text-stone-300"
-            aria-label="Close Lightbox"
-          >
-            <X size={32} />
-          </button>
-          <div
-            className={`t-modal ${isClosing ? "is-closing" : "is-open"} max-w-4xl w-full flex flex-col items-center`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative w-full h-[60vh]">
-              <Image
-                src={galleryItems[activeImg].src}
-                alt={galleryItems[activeImg].title}
-                fill
-                className="object-contain"
-                sizes="100vw"
-              />
-            </div>
-            <div className="text-center text-white mt-6 max-w-xl">
-              <h3 id="lightbox-title" className="font-serif text-2xl font-bold text-gold">{galleryItems[activeImg].title}</h3>
-              <p className="text-stone-300 mt-2 text-sm">{galleryItems[activeImg].desc}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

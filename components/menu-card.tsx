@@ -17,20 +17,11 @@ interface MenuCardProps {
 }
 
 export default function MenuCard({ item, onSelect }: MenuCardProps) {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onSelect(item);
-    }
-  };
-
   return (
-    <div
+    <button
+      type="button"
       onClick={() => onSelect(item)}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      role="button"
-      className="flex flex-col border border-stone-200 rounded-sm bg-white overflow-hidden cursor-pointer hover:border-gold hover:shadow-sm transition-all duration-200"
+      className="text-left w-full flex flex-col border border-stone-200 rounded-sm bg-white overflow-hidden cursor-pointer hover:border-gold hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-all duration-200"
     >
       <div className="relative h-[200px] w-full">
         <Image
@@ -41,13 +32,13 @@ export default function MenuCard({ item, onSelect }: MenuCardProps) {
           sizes="(max-width: 768px) 100vw, 33vw"
         />
       </div>
-      <div className="p-5 flex-grow flex flex-col justify-between">
+      <div className="p-5 flex-grow flex flex-col justify-between w-full">
         <div>
           <div className="flex justify-between items-baseline mb-2">
             <h4 className="font-serif text-lg font-bold text-primary">{item.name}</h4>
             <span className="font-sans font-medium text-gold">${item.price.toFixed(2)}</span>
           </div>
-          <p className="text-slate-600 text-xs leading-relaxed mb-4">{item.description}</p>
+          <p className="text-stone-600 text-xs leading-relaxed mb-4">{item.description}</p>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {item.tags.map((t, idx) => (
@@ -57,6 +48,6 @@ export default function MenuCard({ item, onSelect }: MenuCardProps) {
           ))}
         </div>
       </div>
-    </div>
+    </button>
   );
 }

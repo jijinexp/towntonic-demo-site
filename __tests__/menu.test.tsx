@@ -29,7 +29,7 @@ describe("Interactive Menu Filter", () => {
     expect(screen.queryByText("Saffron Blue Cod")).not.toBeInTheDocument();
 
     // Click Dinner tab
-    const dinnerTab = screen.getByRole("button", { name: "Dinner" });
+    const dinnerTab = screen.getByRole("tab", { name: "Dinner" });
     fireEvent.click(dinnerTab);
 
     // Now Saffron Blue Cod should be visible, Blueberry Hotcake should not
@@ -56,21 +56,15 @@ describe("Interactive Menu Filter", () => {
     await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 
-  it("opens details modal when pressing Enter or Space key on MenuCard", async () => {
+  it("renders MenuCard as a button and opens details modal when clicked", async () => {
     render(<MenuPage />);
     
-    // Test Enter key on the MenuCard button/div
+    // Check that MenuCard is a focusable button
     const itemCard = screen.getByRole("button", { name: /Avocado Sourdough/i });
-    fireEvent.keyDown(itemCard, { key: "Enter", code: "Enter" });
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(itemCard).toBeInTheDocument();
     
-    // Close it using the close button
-    const closeBtn = screen.getByRole("button", { name: "Close Modal" });
-    fireEvent.click(closeBtn);
-    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
-
-    // Test Space key on the MenuCard
-    fireEvent.keyDown(itemCard, { key: " ", code: "Space" });
+    // Clicking it opens the details modal
+    fireEvent.click(itemCard);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 

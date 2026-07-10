@@ -145,7 +145,7 @@ export default function BookingWizard() {
                 id="booking-guests"
                 value={guests}
                 onChange={(e) => setGuests(parseInt(e.target.value))}
-                className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 font-medium"
+                className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
               >
                 {[...Array(10)].map((_, i) => (
                   <option key={i} value={i + 1}>{i + 1} {i + 1 === 1 ? "Guest" : "Guests"}</option>
@@ -164,7 +164,7 @@ export default function BookingWizard() {
                 min={mounted ? getLocalDateString() : undefined}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 font-medium"
+                className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
               />
             </div>
           </div>
@@ -181,10 +181,10 @@ export default function BookingWizard() {
                     setTime(slot);
                     setError("");
                   }}
-                  className={`py-2 text-xs font-semibold rounded border transition-all ${
+                  className={`py-2 text-xs font-semibold rounded border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
                     time === slot
                       ? "bg-primary border-primary text-white"
-                      : "bg-white border-stone-200 text-slate-600 hover:bg-stone-50"
+                      : "bg-white border-stone-200 text-stone-600 hover:bg-stone-50"
                   }`}
                 >
                   {slot}
@@ -195,7 +195,7 @@ export default function BookingWizard() {
 
           <button
             onClick={handleStep1Next}
-            className="mt-4 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all"
+            className="mt-4 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
             <span>Next Step</span>
             <ArrowRight size={16} />
@@ -213,7 +213,7 @@ export default function BookingWizard() {
                 <label
                   key={sz.id}
                   htmlFor={`zone-${sz.id}`}
-                  className={`p-4 border rounded cursor-pointer block transition-all focus-within:ring-2 focus-within:ring-primary ${
+                  className={`p-4 border rounded cursor-pointer block transition-all focus-within:ring-2 focus-within:ring-gold focus-within:outline-none ${
                     zone === sz.id
                       ? "border-gold bg-stone-50/50"
                       : "border-stone-200 bg-white hover:bg-stone-50"
@@ -231,7 +231,7 @@ export default function BookingWizard() {
                       className="accent-primary"
                     />
                   </div>
-                  <p className="text-slate-500 text-xs leading-relaxed">{sz.desc}</p>
+                  <p className="text-stone-500 text-xs leading-relaxed">{sz.desc}</p>
                 </label>
               ))}
             </div>
@@ -240,14 +240,14 @@ export default function BookingWizard() {
           <div className="flex gap-4 mt-4">
             <button
               onClick={() => setStep(1)}
-              className="flex-1 border border-stone-200 text-slate-600 hover:bg-stone-50 py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all"
+              className="flex-1 border border-stone-200 text-stone-600 hover:bg-stone-50 py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <ArrowLeft size={16} />
               <span>Back</span>
             </button>
             <button
               onClick={handleStep2Next}
-              className="flex-1 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all"
+              className="flex-1 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <span>Next Step</span>
               <ArrowRight size={16} />
@@ -269,7 +269,7 @@ export default function BookingWizard() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. John Doe"
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700"
+              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -283,7 +283,7 @@ export default function BookingWizard() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 021 234 567"
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700"
+              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -297,7 +297,7 @@ export default function BookingWizard() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. john@example.com"
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700"
+              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -308,7 +308,7 @@ export default function BookingWizard() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Allergies, high chair requests, birthdays..."
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 h-24 resize-none"
+              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 h-24 resize-none focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -316,14 +316,14 @@ export default function BookingWizard() {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="flex-1 border border-stone-200 text-slate-600 hover:bg-stone-50 py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all"
+              className="flex-1 border border-stone-200 text-stone-600 hover:bg-stone-50 py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <ArrowLeft size={16} />
               <span>Back</span>
             </button>
             <button
               type="submit"
-              className="flex-1 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm"
+              className="flex-1 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <span>Confirm Booking</span>
             </button>
@@ -342,11 +342,11 @@ export default function BookingWizard() {
             </span>
           </div>
           <h3 className="font-serif text-3xl font-bold text-primary mb-2">Table Reserved</h3>
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-6">
             Booking Ref: <span className="text-gold font-bold">{bookingRef}</span>
           </p>
           
-          <div className="bg-stone-50 border border-stone-200 rounded-sm p-5 text-left mb-8 text-sm text-slate-600 flex flex-col gap-3 font-sans">
+          <div className="bg-stone-50 border border-stone-200 rounded-sm p-5 text-left mb-8 text-sm text-stone-600 flex flex-col gap-3 font-sans">
             <div className="flex justify-between border-b border-stone-200 pb-2">
               <span className="font-semibold text-primary">Guest Count:</span>
               <span>{guests} {guests === 1 ? "person" : "people"}</span>
@@ -361,7 +361,7 @@ export default function BookingWizard() {
             </div>
           </div>
 
-          <p className="text-xs text-slate-500 mb-8 leading-relaxed max-w-sm mx-auto">
+          <p className="text-xs text-stone-500 mb-8 leading-relaxed max-w-sm mx-auto">
             A confirmation email has been dispatched to <span className="font-semibold">{email}</span>. If you need to make changes, please dial <a href="tel:+6433381150" className="text-primary hover:underline font-semibold">03 338 1150</a>.
           </p>
 
@@ -379,7 +379,7 @@ export default function BookingWizard() {
               setBookingRef("");
               setError("");
             }}
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all"
+            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
             Book Another Table
           </button>
