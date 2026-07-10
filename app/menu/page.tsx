@@ -219,7 +219,7 @@ export default function MenuPage() {
       <div className="text-center max-w-xl mx-auto mb-12">
         <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mb-3">Our Menu</h1>
         <p className="text-stone-600 text-sm">
-          Canterbury ingredients prepared with care. We serve all-day brunch, refined dinners, and selected local drinks.
+          Canterbury ingredients prepared with care. We serve our all-day menu, refined dinners, and selected local drinks.
         </p>
       </div>
 

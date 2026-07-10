@@ -96,7 +96,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 : "border-transparent text-stone-400 hover:text-stone-600"
             }`}
           >
-            {tab === "brunch" ? "Brunch" : tab === "dinner" ? "Dinner" : "Drinks"}
+            {tab === "brunch" ? "All Day Menu" : tab === "dinner" ? "Dinner" : "Drinks"}
           </button>
         ))}
       </div>
