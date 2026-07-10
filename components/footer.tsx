@@ -1,3 +1,5 @@
+import Link from "next/link";
+import Image from "next/image";
 import { Phone, MapPin, Mail } from "lucide-react";
 import { OpeningHours } from "@/types";
 
@@ -13,7 +15,15 @@ export default function Footer() {
     <footer className="bg-stone-50 border-t border-stone-200 py-12 text-sm text-stone-600 font-sans">
       <div className="mx-auto max-w-7xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <h3 className="font-serif text-lg font-bold text-primary mb-4">Town Tonic</h3>
+          <Link href="/" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm mb-4" aria-label="Town Tonic Home">
+            <Image
+              src="/images/logo.png"
+              alt="Town Tonic"
+              width={120}
+              height={32}
+              className="h-8 w-auto object-contain"
+            />
+          </Link>
           <p className="leading-relaxed">
             Christchurch’s favorite eating house & bar. Bridges the gap between casual daytime cafe and premium evening bistro.
           </p>
