@@ -9,7 +9,7 @@ export default function NavBar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-stone-200 bg-white/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 w-full border-b border-border bg-bg-page/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
           <Link href="/" className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm" aria-label="Town Tonic Home">
             <Image
@@ -49,7 +49,7 @@ export default function NavBar() {
         {isOpen && (
           <nav
             id="mobile-menu"
-            className="md:hidden border-t border-stone-100 bg-white p-4 flex flex-col gap-4 font-sans font-medium text-text-secondary text-base"
+            className="md:hidden border-t border-border bg-bg-page p-4 flex flex-col gap-4 font-sans font-medium text-text-secondary text-base"
           >
             <Link href="/menu" onClick={() => setIsOpen(false)} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Menu</Link>
             <Link href="/reservations" onClick={() => setIsOpen(false)} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Reservations</Link>
@@ -63,10 +63,10 @@ export default function NavBar() {
       </header>
 
       {/* Mobile Sticky Bottom Action Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 border-t border-stone-200 p-3 flex gap-3 shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-bg-page/95 border-t border-border p-3 flex gap-3 shadow-lg">
         <Link
           href="/menu"
-          className="flex-1 border border-primary text-primary hover:bg-stone-50 text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="flex-1 border border-primary text-primary hover:bg-bg-elevated text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
           View Menu
         </Link>
