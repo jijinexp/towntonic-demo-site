@@ -36,6 +36,32 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedItem]);
 
+  const tabs = ["brunch", "dinner", "drinks"] as const;
+
+  const handleTabKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = tabs.indexOf(activeTab);
+    let nextIndex = currentIndex;
+
+    if (e.key === "ArrowRight") {
+      nextIndex = (currentIndex + 1) % tabs.length;
+    } else if (e.key === "ArrowLeft") {
+      nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    } else {
+      return;
+    }
+
+    e.preventDefault();
+    const nextTab = tabs[nextIndex];
+    setActiveTab(nextTab);
+    setSelectedTag("All");
+
+    // Focus the newly active tab button
+    const tabElements = e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    if (tabElements[nextIndex]) {
+      tabElements[nextIndex].focus();
+    }
+  };
+
   const filteredItems = items.filter((item) => {
     const matchesCategory = item.category === activeTab;
     const matchesTag = selectedTag === "All" || item.tags.includes(selectedTag as MenuItem["tags"][number]);
@@ -50,14 +76,16 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
       <div 
         role="tablist" 
         aria-label="Menu Categories" 
+        onKeyDown={handleTabKeyDown}
         className="flex justify-center border-b border-stone-200 mb-8"
       >
-        {(["brunch", "dinner", "drinks"] as const).map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab}
             role="tab"
             aria-selected={activeTab === tab}
             aria-controls="menu-grid-panel"
+            tabIndex={activeTab === tab ? 0 : -1}
             onClick={() => {
               setActiveTab(tab);
               setSelectedTag("All"); // Reset sub-filters on tab swap

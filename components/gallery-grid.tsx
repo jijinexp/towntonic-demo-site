@@ -70,11 +70,13 @@ export default function GalleryGrid({ images }: GalleryGridProps) {
       {/* LIGHTBOX MODAL */}
       {selectedImg !== null && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          ref={modalRef}
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 focus-visible:outline-none"
           role="dialog"
           aria-modal="true"
           aria-labelledby="gallery-lightbox-title"
           onClick={handleClose}
+          tabIndex={-1}
         >
           <button
             onClick={handleClose}
@@ -84,10 +86,8 @@ export default function GalleryGrid({ images }: GalleryGridProps) {
             <X size={32} />
           </button>
           <div
-            ref={modalRef}
             className={`t-modal ${isClosing ? "is-closing" : "is-open"} max-w-4xl w-full flex flex-col items-center focus-visible:outline-none`}
             onClick={(e) => e.stopPropagation()}
-            tabIndex={-1}
           >
             <div className="relative w-full h-[65vh]">
               <Image

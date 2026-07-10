@@ -44,7 +44,7 @@ describe("Global layout components", () => {
     
     // Verify phone link href
     const phoneLink = screen.getByRole("link", { name: "03 338 1150" });
-    expect(phoneLink).toHaveAttribute("href", "tel:033381150");
+    expect(phoneLink).toHaveAttribute("href", "tel:+6433381150");
     
     // Verify maps link href
     const mapsLink = screen.getByRole("link", { name: /335 Lincoln Road/ });

@@ -12,7 +12,7 @@ export default function ContactPage() {
       <div className="text-center max-w-xl mx-auto mb-16">
         <span className="text-gold uppercase tracking-wider font-semibold text-xs">Find Us</span>
         <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mt-2 mb-3">Contact Us</h1>
-        <p className="text-slate-600 text-sm">
+        <p className="text-stone-600 text-sm">
           We are situated in the energetic heart of Addington, ready for your visit.
         </p>
       </div>
@@ -23,14 +23,14 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-stone-100 flex flex-col justify-center items-center">
             <MapPin size={48} className="text-gold mb-4" />
             <h3 className="font-serif text-xl font-bold text-primary mb-2">Lincoln Road, Addington</h3>
-            <p className="text-slate-500 text-xs mb-6 max-w-xs">
+            <p className="text-stone-500 text-xs mb-6 max-w-xs">
               Shop 1/335 Lincoln Road, Addington, Christchurch 8024
             </p>
             <a
               href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all shadow-sm"
+              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               Open in Google Maps
             </a>
@@ -41,7 +41,7 @@ export default function ContactPage() {
         <div className="flex flex-col justify-center">
           <h2 className="font-serif text-3xl font-bold text-primary mb-6">Get in Touch</h2>
           
-          <div className="space-y-6 text-sm text-slate-600 mb-8">
+          <div className="space-y-6 text-sm text-stone-600 mb-8">
             <div className="flex items-start gap-4">
               <MapPin className="text-gold mt-1" size={20} />
               <div>
@@ -54,7 +54,7 @@ export default function ContactPage() {
               <Phone className="text-gold mt-1" size={20} />
               <div>
                 <h4 className="font-bold text-primary mb-1">Phone</h4>
-                <a href="tel:+6433381150" className="hover:underline text-primary font-medium">03 338 1150</a>
+                <a href="tel:+6433381150" className="hover:underline text-primary font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">03 338 1150</a>
               </div>
             </div>
 
@@ -62,7 +62,7 @@ export default function ContactPage() {
               <Mail className="text-gold mt-1" size={20} />
               <div>
                 <h4 className="font-bold text-primary mb-1">Email</h4>
-                <a href="mailto:info@towntonic.co.nz" className="hover:underline text-primary font-medium">info@towntonic.co.nz</a>
+                <a href="mailto:info@towntonic.co.nz" className="hover:underline text-primary font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">info@towntonic.co.nz</a>
               </div>
             </div>
 
@@ -76,7 +76,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-stone-50 border border-stone-200 rounded p-5 text-xs text-slate-500 flex gap-3">
+          <div className="bg-stone-50 border border-stone-200 rounded p-5 text-xs text-stone-500 flex gap-3">
             <ShieldAlert className="text-gold flex-shrink-0" size={20} />
             <div>
               <h5 className="font-bold text-primary mb-1">Parking Instructions</h5>
