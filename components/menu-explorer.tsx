@@ -257,6 +257,76 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 </div>
               )}
             </div>
+          ) : activeTab === "drinks" ? (
+            <div className="flex flex-col gap-14">
+              {/* COCKTAILS & MOCKTAILS */}
+              {filteredItems.filter((item) => item.subCategory === "cocktails").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cocktails & Mocktails</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Artisanal creations and refreshing non-alcoholic blends</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "cocktails")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* WINES */}
+              {filteredItems.filter((item) => item.subCategory === "wines").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Fine Wines</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Proudly curated by local Christchurch Powerhouse Wine Company</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "wines")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* BEERS */}
+              {filteredItems.filter((item) => item.subCategory === "beers").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Craft Beers & Cider</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Featuring local Christchurch Three Boys & Cassels breweries</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "beers")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* COFFEE, TEA & SOFTS */}
+              {filteredItems.filter((item) => item.subCategory === "softs").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Coffee, Tea & Non-Alcoholic</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Espresso bar available all day, freshly squeezed juices until 2pm</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "softs")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredItems.map((item) => (
