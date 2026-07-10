@@ -112,10 +112,11 @@ export default function Page() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {galleryItems.map((item, idx) => (
-              <div
+              <button
                 key={idx}
+                type="button"
                 onClick={() => setActiveImg(idx)}
-                className="group cursor-pointer border border-stone-100 rounded-sm overflow-hidden bg-stone-50 transition-all duration-300 hover:shadow-md"
+                className="text-left w-full block group cursor-pointer border border-stone-100 rounded-sm overflow-hidden bg-stone-50 transition-all duration-300 hover:shadow-md"
               >
                 <div className="relative h-[300px] w-full overflow-hidden">
                   <Image
@@ -134,7 +135,7 @@ export default function Page() {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -172,6 +173,7 @@ export default function Page() {
         <div
           role="dialog"
           aria-modal="true"
+          aria-labelledby="lightbox-title"
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
         >
           <button
@@ -192,7 +194,7 @@ export default function Page() {
               />
             </div>
             <div className="text-center text-white mt-6 max-w-xl">
-              <h3 className="font-serif text-2xl font-bold text-gold">{galleryItems[activeImg].title}</h3>
+              <h3 id="lightbox-title" className="font-serif text-2xl font-bold text-gold">{galleryItems[activeImg].title}</h3>
               <p className="text-stone-300 mt-2 text-sm">{galleryItems[activeImg].desc}</p>
             </div>
           </div>
