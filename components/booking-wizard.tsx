@@ -22,6 +22,13 @@ const formatFriendlyDate = (dateStr: string) => {
   });
 };
 
+const getLocalDateString = () => {
+  const local = new Date();
+  const offset = local.getTimezoneOffset();
+  const localDate = new Date(local.getTime() - (offset * 60 * 1000));
+  return localDate.toISOString().split("T")[0];
+};
+
 export default function BookingWizard() {
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState(1);
@@ -43,7 +50,7 @@ export default function BookingWizard() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    setDate(new Date().toISOString().split("T")[0]);
+    setDate(getLocalDateString());
   }, []);
 
   const handleStep1Next = () => {
@@ -85,7 +92,14 @@ export default function BookingWizard() {
             <span className="text-stone-400 text-xs font-semibold">{step}/3</span>
           </div>
           {/* PROGRESS BAR */}
-          <div className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+          <div
+            role="progressbar"
+            aria-valuenow={step}
+            aria-valuemin={1}
+            aria-valuemax={3}
+            aria-valuetext={`Step ${step} of 3`}
+            className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden"
+          >
             <div
               className="bg-primary h-full transition-all duration-300"
               style={{ width: `${(step / 3) * 100}%` }}
@@ -127,7 +141,7 @@ export default function BookingWizard() {
               <input
                 id="booking-date"
                 type="date"
-                min={mounted ? new Date().toISOString().split("T")[0] : undefined}
+                min={mounted ? getLocalDateString() : undefined}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 font-medium"
@@ -137,7 +151,7 @@ export default function BookingWizard() {
 
           <div className="flex flex-col">
             <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Preferred Time Slot</span>
-            <div className="grid grid-cols-3 gap-2">
+            <div role="group" aria-label="Preferred Time Slot" className="grid grid-cols-3 gap-2">
               {TIME_SLOTS.map((slot) => (
                 <button
                   key={slot}
@@ -174,7 +188,7 @@ export default function BookingWizard() {
         <div className="flex flex-col gap-6 animate-in fade-in duration-200">
           <div className="flex flex-col">
             <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Choose Dining Zone</span>
-            <div className="flex flex-col gap-3">
+            <div role="radiogroup" aria-label="Choose Dining Zone" className="flex flex-col gap-3">
               {SEAT_ZONES.map((sz) => (
                 <label
                   key={sz.id}
@@ -321,14 +335,14 @@ export default function BookingWizard() {
           </div>
 
           <p className="text-xs text-slate-500 mb-8 leading-relaxed max-w-sm mx-auto">
-            A confirmation email has been dispatched to <span className="font-semibold">{email}</span>. If you need to make changes, please dial <a href="tel:033381150" className="text-primary hover:underline font-semibold">03 338 1150</a>.
+            A confirmation email has been dispatched to <span className="font-semibold">{email}</span>. If you need to make changes, please dial <a href="tel:+6433381150" className="text-primary hover:underline font-semibold">03 338 1150</a>.
           </p>
 
           <button
             onClick={() => {
               setStep(1);
               setGuests(2);
-              setDate(new Date().toISOString().split("T")[0]);
+              setDate(getLocalDateString());
               setTime("");
               setZone("main");
               setName("");
