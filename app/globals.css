@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1E3F2E;
+  --color-primary-hover: #142B20;
+  --color-gold: #B3925C;
+  --color-gold-hover: #9E7F4B;
+  --color-bg-soft: #FAF9F6;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Outfit", sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0F172A;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+}
