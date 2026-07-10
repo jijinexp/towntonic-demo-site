@@ -15,8 +15,8 @@ describe("Interactive Menu Filter", () => {
     const veganFilter = screen.getByRole("button", { name: "Vegan" });
     fireEvent.click(veganFilter);
     
-    // Saffron cod is dinner and NOT vegan, it should not show up
-    expect(screen.queryByText("Saffron Blue Cod")).not.toBeInTheDocument();
+    // Fish of the day is dinner and NOT vegan, it should not show up
+    expect(screen.queryByText("Pan Fried Fish of the Day")).not.toBeInTheDocument();
     // Mr. Simple is vegan, should be visible
     expect(screen.getByText("Mr. Simple")).toBeInTheDocument();
   });
@@ -24,16 +24,16 @@ describe("Interactive Menu Filter", () => {
   it("switches categories when category tabs are clicked", () => {
     render(<MenuPage />);
     
-    // Default category is Brunch, so French Toast should be visible, Saffron Blue Cod should not
+    // Default category is Brunch, so French Toast should be visible, Pan Fried Fish of the Day should not
     expect(screen.getByText("French Toast")).toBeInTheDocument();
-    expect(screen.queryByText("Saffron Blue Cod")).not.toBeInTheDocument();
+    expect(screen.queryByText("Pan Fried Fish of the Day")).not.toBeInTheDocument();
 
     // Click Dinner tab
     const dinnerTab = screen.getByRole("tab", { name: "Dinner" });
     fireEvent.click(dinnerTab);
 
-    // Now Saffron Blue Cod should be visible, French Toast should not
-    expect(screen.getByText("Saffron Blue Cod")).toBeInTheDocument();
+    // Now Pan Fried Fish of the Day should be visible, French Toast should not
+    expect(screen.getByText("Pan Fried Fish of the Day")).toBeInTheDocument();
     expect(screen.queryByText("French Toast")).not.toBeInTheDocument();
   });
 

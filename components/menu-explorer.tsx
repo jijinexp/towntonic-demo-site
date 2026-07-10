@@ -187,6 +187,76 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 </div>
               )}
             </div>
+          ) : activeTab === "dinner" ? (
+            <div className="flex flex-col gap-14">
+              {/* TRUST THE CHEF GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "tasting").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Trust the Chef</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Tasting menus priced per person</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "tasting")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* GROWERS GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "growers").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Clearwater & Canterbury Growers</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Grown in Canterbury soil, sustainable & symbiotic living</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "growers")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* SEAFOOD GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "seafood").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Theo&apos;s Fisheries & Seafood</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Harvested ethically and sustainably with wild caught perfection</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "seafood")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* MEAT GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "meat").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Maihan & Westmeats Mains</h3>
+                    <p className="text-stone-500 text-xs italic mt-0.5">Family businesses supporting the community and local farms</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "meat")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredItems.map((item) => (
