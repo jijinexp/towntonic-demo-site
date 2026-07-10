@@ -86,7 +86,19 @@ The interface utilizes a clean, editorial light theme to highlight food photogra
 
 ---
 
-## 4. Technical Architecture
+## 4. Mobile-First UX Strategy
+
+Over 75% of restaurant traffic occurs on mobile devices. The following non-negotiable UX principles are baked directly into the design and implementation of this site:
+
+*   **Tappable Call-to-Actions (NAP-H Links):** All telephone numbers on the site are structured as `tel:` links. The address is wrapped in a Google Maps direct routing URL. This allows users en route to call or open navigation with a single tap.
+*   **Sticky Bottom Action Bar (Mobile Hero):** On mobile viewports, a sticky navigation bar is fixed to the bottom of the screen with a primary "Reserve" button and secondary "Menu" button, ensuring the primary conversion actions are accessible without scrolling or menu taps.
+*   **HTML Native Responsive Menus:** The digital menus are HTML-based (no PDF downloads) and display as a single-column layout on mobile, scaling to multi-columns on desktop. Category selectors are swipeable horizontally on touch screens.
+*   **Touch-Friendly Wizard Controls:** All form elements on the reservation wizard utilize large touch targets (minimum 48px height) with tap-to-select chips for date/time slots rather than traditional tiny dropdown selectors.
+*   **Optimized Performance & Load Speed:** Next.js Image optimization (`next/image`) is strictly used with appropriate `sizes` attributes, ensuring mobile users on 3G/4G networks experience fast page load speeds (< 2s).
+
+---
+
+## 5. Technical Architecture
 
 ### Component Hierarchy
 *   `app/layout.tsx`: Main HTML frame, global fonts, navbar, and footer.
@@ -113,10 +125,6 @@ Tailwind CSS v4 will be set up using native CSS variables under the `@theme` dir
 
 ---
 
-## 5. Image Assets (Custom Generated)
-We will generate the following premium food and atmosphere assets using `generate_image` to replace placeholders:
-1.  `public/images/hero_brunch.jpg` — A vibrant, gourmet brunch plate (e.g., avocado on sourdough with microgreens) in bright natural light.
-2.  `public/images/gallery_dinner.jpg` — Fine dining dinner dish (e.g., pan-seared blue cod with saffron emulsion) with minimalist plating.
-3.  `public/images/gallery_coffee.jpg` — Artisan latte art in a ceramic cup, next to seasonal fruits.
-4.  `public/images/gallery_interior.jpg` — Elegant, sun-lit wooden tables and green plants of Town Tonic's interior.
-5.  `public/images/about_suppliers.jpg` — Locally sourced organic vegetables and herbs from Canterbury.
+## 6. Image Assets
+Please refer to `public/images` folder for the images to be used in the website.
+
