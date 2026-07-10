@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, User, CheckCircle, ArrowRight, ArrowLeft } from "lucide-react";
 
 const TIME_SLOTS = ["11:30 am", "12:00 pm", "12:30 pm", "1:00 pm", "5:30 pm", "6:00 pm", "6:30 pm", "7:00 pm", "7:30 pm"];
@@ -9,10 +9,24 @@ const SEAT_ZONES = [
   { id: "garden", name: "Heated Garden Bar", desc: "Lush outdoor green courtyard setting with overhead heating." },
 ];
 
+const formatFriendlyDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) return dateStr;
+  const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+  return d.toLocaleDateString("en-NZ", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
 export default function BookingWizard() {
+  const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState(1);
   const [guests, setGuests] = useState(2);
-  const [date, setDate] = useState(() => new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [zone, setZone] = useState("main");
   
@@ -25,6 +39,12 @@ export default function BookingWizard() {
   // Errors
   const [error, setError] = useState("");
   const [bookingRef, setBookingRef] = useState("");
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+    setDate(new Date().toISOString().split("T")[0]);
+  }, []);
 
   const handleStep1Next = () => {
     if (!time) {
@@ -41,7 +61,7 @@ export default function BookingWizard() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone || !email) {
+    if (!name.trim() || !phone.trim() || !email.trim()) {
       setError("Please fill out all contact fields.");
       return;
     }
@@ -107,7 +127,7 @@ export default function BookingWizard() {
               <input
                 id="booking-date"
                 type="date"
-                min={new Date().toISOString().split("T")[0]}
+                min={mounted ? new Date().toISOString().split("T")[0] : undefined}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 font-medium"
@@ -116,12 +136,13 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Preferred Time Slot</label>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Preferred Time Slot</span>
             <div className="grid grid-cols-3 gap-2">
               {TIME_SLOTS.map((slot) => (
                 <button
                   key={slot}
                   type="button"
+                  aria-pressed={time === slot}
                   onClick={() => {
                     setTime(slot);
                     setError("");
@@ -152,29 +173,32 @@ export default function BookingWizard() {
       {step === 2 && (
         <div className="flex flex-col gap-6 animate-in fade-in duration-200">
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Choose Dining Zone</label>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Choose Dining Zone</span>
             <div className="flex flex-col gap-3">
               {SEAT_ZONES.map((sz) => (
-                <div
+                <label
                   key={sz.id}
-                  onClick={() => setZone(sz.id)}
-                  className={`p-4 border rounded cursor-pointer transition-all ${
+                  htmlFor={`zone-${sz.id}`}
+                  className={`p-4 border rounded cursor-pointer block transition-all ${
                     zone === sz.id
                       ? "border-gold bg-stone-50/50"
                       : "border-stone-200 bg-white hover:bg-stone-50"
                   }`}
                 >
                   <div className="flex justify-between items-center mb-1">
-                    <h4 className="font-semibold text-sm text-primary">{sz.name}</h4>
+                    <span className="font-semibold text-sm text-primary">{sz.name}</span>
                     <input
+                      id={`zone-${sz.id}`}
                       type="radio"
+                      name="dining-zone"
+                      value={sz.id}
                       checked={zone === sz.id}
                       onChange={() => setZone(sz.id)}
                       className="accent-primary"
                     />
                   </div>
                   <p className="text-slate-500 text-xs leading-relaxed">{sz.desc}</p>
-                </div>
+                </label>
               ))}
             </div>
           </div>
@@ -282,13 +306,13 @@ export default function BookingWizard() {
           </p>
           
           <div className="bg-stone-50 border border-stone-200 rounded-sm p-5 text-left mb-8 text-sm text-slate-600 flex flex-col gap-3 font-sans">
-            <div className="flex justify-between border-b border-stone-150 pb-2">
+            <div className="flex justify-between border-b border-stone-200 pb-2">
               <span className="font-semibold text-primary">Guest Count:</span>
               <span>{guests} {guests === 1 ? "person" : "people"}</span>
             </div>
-            <div className="flex justify-between border-b border-stone-150 pb-2">
+            <div className="flex justify-between border-b border-stone-200 pb-2">
               <span className="font-semibold text-primary">Date & Time:</span>
-              <span>{date} at {time}</span>
+              <span>{formatFriendlyDate(date)} at {time}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold text-primary">Dining Zone:</span>
@@ -323,3 +347,4 @@ export default function BookingWizard() {
     </div>
   );
 }
+
