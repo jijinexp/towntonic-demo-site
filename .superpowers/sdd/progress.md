@@ -7,3 +7,4 @@
 - [x] Task 5: Custom Embedded Reservation Form (Step-by-Step Wizard) (commits ac283e4..5cc8d60, review clean)
 - [x] Task 6: Auxiliary Pages (About, Contact, Gallery Showcase) (commits ec98cba..4594b8d, review clean)
 - [x] Task 7: Color Palette Redesign (commits 61ef523..86824f8, review clean)
+- [x] Dark Mode Task 1: Theme Tokens and Layout Shell (commits c522f3f..0d10341, review clean)
