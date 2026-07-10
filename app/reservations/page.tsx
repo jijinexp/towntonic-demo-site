@@ -1,5 +1,5 @@
 import BookingWizard from "@/components/booking-wizard";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, Clock, Phone } from "lucide-react";
 
 export const metadata = {
   title: "Table Reservations - Town Tonic Christchurch",
@@ -15,12 +15,21 @@ export default function ReservationsPage() {
         <p className="text-slate-600 text-sm mb-6">
           Select your party details, choose your favorite seating zone, and book your spot instantly.
         </p>
+
+        {/* Visible NAP-H Details */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-xs font-semibold text-slate-500">
+          <span className="text-primary font-bold">Town Tonic</span>
+          <span className="hidden sm:inline text-stone-300">|</span>
+          <a href="tel:+6433381150" className="hover:text-gold transition-colors flex items-center gap-1.5">
+            <Phone size={14} className="text-gold" />
+            <span>03 338 1150</span>
+          </a>
+          <span className="hidden sm:inline text-stone-300">|</span>
           <a
             href="https://maps.google.com/?q=338+Lincoln+Road,+Addington,+Christchurch"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:underline hover:text-gold transition-colors"
+            className="hover:text-gold transition-colors flex items-center gap-1.5"
           >
             <MapPin size={16} className="text-gold shrink-0" />
             <span>338 Lincoln Road, Addington, Christchurch</span>

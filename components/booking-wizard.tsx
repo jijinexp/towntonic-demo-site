@@ -54,6 +54,15 @@ export default function BookingWizard() {
   }, []);
 
   const handleStep1Next = () => {
+    if (!date) {
+      setError("Please select a dining date.");
+      return;
+    }
+    const todayStr = getLocalDateString();
+    if (date < todayStr) {
+      setError("Please select a current or future dining date.");
+      return;
+    }
     if (!time) {
       setError("Please select a dining time slot.");
       return;
@@ -193,7 +202,7 @@ export default function BookingWizard() {
                 <label
                   key={sz.id}
                   htmlFor={`zone-${sz.id}`}
-                  className={`p-4 border rounded cursor-pointer block transition-all ${
+                  className={`p-4 border rounded cursor-pointer block transition-all focus-within:ring-2 focus-within:ring-primary ${
                     zone === sz.id
                       ? "border-gold bg-stone-50/50"
                       : "border-stone-200 bg-white hover:bg-stone-50"
@@ -245,6 +254,7 @@ export default function BookingWizard() {
               id="booking-name"
               type="text"
               required
+              autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. John Doe"
@@ -258,6 +268,7 @@ export default function BookingWizard() {
               id="booking-phone"
               type="tel"
               required
+              autoComplete="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 021 234 567"
@@ -271,6 +282,7 @@ export default function BookingWizard() {
               id="booking-email"
               type="email"
               required
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. john@example.com"
