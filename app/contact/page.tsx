@@ -1,0 +1,83 @@
+import { Phone, MapPin, Mail, Clock, ShieldAlert } from "lucide-react";
+
+export const metadata = {
+  title: "Contact & Location - Town Tonic Christchurch",
+  description: "Hours, maps, and directions for finding Town Tonic in Addington, Christchurch.",
+};
+
+export default function ContactPage() {
+  return (
+    <div className="py-16 px-4 max-w-6xl mx-auto font-sans">
+      <div className="text-center max-w-xl mx-auto mb-16">
+        <span className="text-gold uppercase tracking-wider font-semibold text-xs">Find Us</span>
+        <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mt-2 mb-3">Contact Us</h1>
+        <p className="text-slate-600 text-sm">
+          We are situated in the energetic heart of Addington, ready for your visit.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        {/* MAP PLACEHOLDER */}
+        <div className="bg-stone-100 border border-stone-200 rounded-sm h-[400px] flex flex-col justify-center items-center text-center p-8 relative overflow-hidden group">
+          <div className="absolute inset-0 bg-stone-100 flex flex-col justify-center items-center">
+            <MapPin size={48} className="text-gold mb-4" />
+            <h3 className="font-serif text-xl font-bold text-primary mb-2">Lincoln Road, Addington</h3>
+            <p className="text-slate-500 text-xs mb-6 max-w-xs">
+              Shop 1/335 Lincoln Road, Addington, Christchurch 8024
+            </p>
+            <a
+              href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all shadow-sm"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+        </div>
+
+        {/* CONTACT INFORMATION */}
+        <div className="flex flex-col justify-center">
+          <h2 className="font-serif text-3xl font-bold text-primary mb-6">Get in Touch</h2>
+          
+          <div className="space-y-6 text-sm text-slate-600 mb-8">
+            <div className="flex items-start gap-4">
+              <MapPin className="text-gold mt-1" size={20} />
+              <div>
+                <h4 className="font-bold text-primary mb-1">Address</h4>
+                <p>Shop 1/335 Lincoln Road, Addington, Christchurch 8024</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <Phone className="text-gold mt-1" size={20} />
+              <div>
+                <h4 className="font-bold text-primary mb-1">Phone</h4>
+                <a href="tel:+6433381150" className="hover:underline text-primary font-medium">03 338 1150</a>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <Mail className="text-gold mt-1" size={20} />
+              <div>
+                <h4 className="font-bold text-primary mb-1">Email</h4>
+                <a href="mailto:info@towntonic.co.nz" className="hover:underline text-primary font-medium">info@towntonic.co.nz</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-stone-50 border border-stone-200 rounded p-5 text-xs text-slate-500 flex gap-3">
+            <ShieldAlert className="text-gold flex-shrink-0" size={20} />
+            <div>
+              <h5 className="font-bold text-primary mb-1">Parking Instructions</h5>
+              <p className="leading-relaxed">
+                Complimentary visitor street parking is available along Lincoln Road and surrounding side roads. Off-street parking lots are located behind Shop 1.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
