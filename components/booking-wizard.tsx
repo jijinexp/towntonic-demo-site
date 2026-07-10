@@ -12,7 +12,7 @@ const SEAT_ZONES = [
 export default function BookingWizard() {
   const [step, setStep] = useState(1);
   const [guests, setGuests] = useState(2);
-  const [date, setDate] = useState("2026-07-15");
+  const [date, setDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [time, setTime] = useState("");
   const [zone, setZone] = useState("main");
   
@@ -84,10 +84,11 @@ export default function BookingWizard() {
       {step === 1 && (
         <div className="flex flex-col gap-6 animate-in fade-in duration-200">
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Number of Guests</label>
+            <label htmlFor="booking-guests" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Number of Guests</label>
             <div className="flex items-center gap-3">
               <User size={18} className="text-gold" />
               <select
+                id="booking-guests"
                 value={guests}
                 onChange={(e) => setGuests(parseInt(e.target.value))}
                 className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 font-medium"
@@ -100,11 +101,13 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Select Date</label>
+            <label htmlFor="booking-date" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Select Date</label>
             <div className="flex items-center gap-3">
               <Calendar size={18} className="text-gold" />
               <input
+                id="booking-date"
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-slate-700 font-medium"
@@ -199,8 +202,9 @@ export default function BookingWizard() {
       {step === 3 && (
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 animate-in fade-in duration-200">
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Full Name</label>
+            <label htmlFor="booking-name" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Full Name</label>
             <input
+              id="booking-name"
               type="text"
               required
               value={name}
@@ -211,8 +215,9 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Phone Number</label>
+            <label htmlFor="booking-phone" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Phone Number</label>
             <input
+              id="booking-phone"
               type="tel"
               required
               value={phone}
@@ -223,8 +228,9 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Email Address</label>
+            <label htmlFor="booking-email" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Email Address</label>
             <input
+              id="booking-email"
               type="email"
               required
               value={email}
@@ -235,8 +241,9 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Special Notes (Optional)</label>
+            <label htmlFor="booking-notes" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Special Notes (Optional)</label>
             <textarea
+              id="booking-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Allergies, high chair requests, birthdays..."
@@ -296,11 +303,16 @@ export default function BookingWizard() {
           <button
             onClick={() => {
               setStep(1);
+              setGuests(2);
+              setDate(new Date().toISOString().split("T")[0]);
               setTime("");
+              setZone("main");
               setName("");
               setPhone("");
               setEmail("");
               setNotes("");
+              setBookingRef("");
+              setError("");
             }}
             className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all"
           >
