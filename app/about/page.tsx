@@ -1,7 +1,8 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Our Story - Town Tonic Christchurch",
   description: "Learn about the local sourcing and bistronomy concept behind Town Tonic.",
 };
@@ -53,7 +54,7 @@ export default function AboutPage() {
             <p className="text-xs text-slate-400">Sustainably caught blue cod</p>
           </div>
           <div className="bg-stone-50 p-6 border border-stone-100 rounded-sm">
-            <h4 className="text-primary font-bold mb-1">Canterbury organic Farms</h4>
+            <h4 className="text-primary font-bold mb-1">Canterbury Organic Farms</h4>
             <p className="text-xs text-slate-400">Fresh heirloom tomatoes & herbs</p>
           </div>
           <div className="bg-stone-50 p-6 border border-stone-100 rounded-sm">

@@ -1,6 +1,7 @@
+import { Metadata } from "next";
 import { Phone, MapPin, Mail, Clock, ShieldAlert } from "lucide-react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Contact & Location - Town Tonic Christchurch",
   description: "Hours, maps, and directions for finding Town Tonic in Addington, Christchurch.",
 };
@@ -62,6 +63,15 @@ export default function ContactPage() {
               <div>
                 <h4 className="font-bold text-primary mb-1">Email</h4>
                 <a href="mailto:info@towntonic.co.nz" className="hover:underline text-primary font-medium">info@towntonic.co.nz</a>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <Clock className="text-gold mt-1" size={20} />
+              <div>
+                <h4 className="font-bold text-primary mb-1">Hours of Operation</h4>
+                <p>Mon - Fri: 7:00 am - Late</p>
+                <p>Sat - Sun: 8:00 am - Late</p>
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
+import { Metadata } from "next";
 import BookingWizard from "@/components/booking-wizard";
 import { MapPin, Clock, Phone } from "lucide-react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Table Reservations - Town Tonic Christchurch",
   description: "Book your lunch, brunch, or dinner table online at Town Tonic.",
 };
