@@ -5,6 +5,18 @@ import { X } from "lucide-react";
 import MenuCard, { MenuItem } from "@/components/menu-card";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 
+const ADD_ONS = [
+  { name: "Two Eggs", price: 7.00 },
+  { name: "Crispy Bacon", price: 6.90 },
+  { name: "Two Sausages", price: 6.00 },
+  { name: "Sautéed Mushrooms", price: 5.50 },
+  { name: "Smoked Salmon", price: 7.50 },
+  { name: "Grilled Haloumi", price: 6.90 },
+  { name: "Chili Hollandaise", price: 3.50 },
+  { name: "Hash Browns", price: 6.00 },
+  { name: "Fries", price: 12.00 },
+];
+
 interface MenuExplorerProps {
   items: MenuItem[];
 }
@@ -125,14 +137,85 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
         aria-label={`${activeTab} menu section`}
       >
         {filteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item) => (
-              <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
-            ))}
-          </div>
+          activeTab === "brunch" ? (
+            <div className="flex flex-col gap-14">
+              {/* HONEST GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "honest").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Honest</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "honest")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* EGGS GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "eggs").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Eggs</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "eggs")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* LUNCH GROUP */}
+              {filteredItems.filter((item) => item.subCategory === "lunch").length > 0 && (
+                <div>
+                  <div className="border-l-4 border-gold pl-3 mb-6">
+                    <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Lunch</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredItems
+                      .filter((item) => item.subCategory === "lunch")
+                      .map((item) => (
+                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredItems.map((item) => (
+                <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+              ))}
+            </div>
+          )
         ) : (
           <div className="text-center py-20 border border-stone-100 rounded bg-stone-50">
             <p className="text-stone-500 font-medium">No dishes match your selected filter.</p>
+          </div>
+        )}
+
+        {/* ADD-ONS SECTION */}
+        {activeTab === "brunch" && (
+          <div className="mt-16 border-t border-stone-200 pt-12 max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <span className="text-gold uppercase tracking-wider font-semibold text-xs">Side Additions</span>
+              <h3 className="font-serif text-2xl md:text-3xl font-bold text-primary mt-1">Menu Add-ons</h3>
+              <p className="text-stone-500 text-xs mt-1 italic">Only available to order with meals</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {ADD_ONS.map((addon, index) => (
+                <div key={index} className="flex justify-between items-center bg-stone-50 border border-stone-200 rounded px-4 py-3 font-sans">
+                  <span className="text-stone-700 font-medium text-sm">{addon.name}</span>
+                  <span className="text-gold font-bold text-sm">${addon.price.toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
