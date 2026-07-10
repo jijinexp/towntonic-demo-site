@@ -5,4 +5,4 @@
 - [x] Task 3: Homepage Implementation & Image Asset Generation (commits 5809cab..528a93e, review clean)
 - [x] Task 4: Interactive Menu Component and Page (commits fdb3fc9..79c5ee9, review clean)
 - [x] Task 5: Custom Embedded Reservation Form (Step-by-Step Wizard) (commits ac283e4..5cc8d60, review clean)
-- [ ] Task 6: Auxiliary Pages (About, Contact, Gallery Showcase)
+- [x] Task 6: Auxiliary Pages (About, Contact, Gallery Showcase) (commits ec98cba..4594b8d, review clean)
