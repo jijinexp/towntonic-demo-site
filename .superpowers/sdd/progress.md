@@ -6,3 +6,4 @@
 - [x] Task 4: Interactive Menu Component and Page (commits fdb3fc9..79c5ee9, review clean)
 - [x] Task 5: Custom Embedded Reservation Form (Step-by-Step Wizard) (commits ac283e4..5cc8d60, review clean)
 - [x] Task 6: Auxiliary Pages (About, Contact, Gallery Showcase) (commits ec98cba..4594b8d, review clean)
+- [x] Task 7: Color Palette Redesign (commits 61ef523..86824f8, review clean)
