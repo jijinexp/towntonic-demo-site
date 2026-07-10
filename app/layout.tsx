@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${outfit.variable}`}>
-      <body className="antialiased min-h-screen flex flex-col bg-white">
+      <body className="antialiased min-h-screen flex flex-col bg-white pb-20 md:pb-0">
         <NavBar />
         <main className="flex-grow">{children}</main>
         <Footer />

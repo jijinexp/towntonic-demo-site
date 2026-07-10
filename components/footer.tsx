@@ -1,5 +1,12 @@
-import Link from "next/link";
-import { Phone, MapPin, Mail, Clock } from "lucide-react";
+import { Phone, MapPin, Mail } from "lucide-react";
+import { OpeningHours } from "@/types";
+
+const openingHours: OpeningHours[] = [
+  { day: "Mon", hours: "8:30 am – 2:00 pm", closed: false },
+  { day: "Tue – Fri", hours: "8:30 am – 2:00 pm, 5:30 pm – 8:00 pm", closed: false },
+  { day: "Sat", hours: "9:00 am – 2:00 pm, 5:30 pm – 8:30 pm", closed: false },
+  { day: "Sun", hours: "Closed", closed: true },
+];
 
 export default function Footer() {
   return (
@@ -33,10 +40,15 @@ export default function Footer() {
         <div>
           <h4 className="font-semibold text-primary mb-4">Opening Hours</h4>
           <ul className="space-y-2 flex flex-col">
-            <li className="flex justify-between"><span>Mon:</span> <span>8:30 am – 2:00 pm</span></li>
-            <li className="flex justify-between"><span>Tue – Fri:</span> <span>8:30 am – 2:00 pm, 5:30 pm – 8:00 pm</span></li>
-            <li className="flex justify-between"><span>Sat:</span> <span>9:00 am – 2:00 pm, 5:30 pm – 8:30 pm</span></li>
-            <li className="flex justify-between font-medium text-red-700"><span>Sun:</span> <span>Closed</span></li>
+            {openingHours.map((item) => (
+              <li
+                key={item.day}
+                className={`flex justify-between ${item.closed ? "font-medium text-red-700" : ""}`}
+              >
+                <span>{item.day}:</span>
+                <span>{item.hours}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
