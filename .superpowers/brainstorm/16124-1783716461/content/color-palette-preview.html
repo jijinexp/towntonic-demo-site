@@ -1,0 +1,187 @@
+<h2>Option A: Color Palette Preview</h2>
+<p class="subtitle">Here is a side-by-side comparison of a menu card showing how the new Steel Blue (#3E5167) and Timber Gold (#BD8545) look compared to the original Forest Green and Antique Gold.</p>
+
+<style>
+  .comparison-split {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .preview-card {
+    width: 320px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e5e5e0;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    font-family: "Outfit", sans-serif;
+  }
+
+  .preview-image {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .preview-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tag-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .preview-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .preview-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .preview-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .preview-desc {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  .preview-button {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.6rem;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  /* OLD COLORS MAPPING */
+  .card-old .preview-tag {
+    background: #faf9f6;
+    color: #1e3f2e;
+    border: 1px solid #e2e8f0;
+  }
+  .card-old .preview-title {
+    color: #1e3f2e;
+  }
+  .card-old .preview-price {
+    color: #b3925c;
+  }
+  .card-old .preview-button {
+    background: #1e3f2e;
+    color: #ffffff;
+  }
+  .card-old .preview-button:hover {
+    background: #142b20;
+  }
+
+  /* NEW COLORS MAPPING */
+  .card-new .preview-tag {
+    background: #f4f7f9;
+    color: #3e5167;
+    border: 1px solid #d2dfea;
+  }
+  .card-new .preview-title {
+    color: #3e5167;
+  }
+  .card-new .preview-price {
+    color: #bd8545;
+  }
+  .card-new .preview-button {
+    background: #3e5167;
+    color: #ffffff;
+  }
+  .card-new .preview-button:hover {
+    background: #2b3847;
+  }
+  
+  .card-label {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  .card-label.new-label {
+    color: #bd8545;
+  }
+</style>
+
+<div class="comparison-split">
+  <!-- BEFORE -->
+  <div>
+    <div class="card-label">Original: Forest Green</div>
+    <div class="preview-card card-old">
+      <div class="preview-image" style="background-image: url('/images/hero_brunch.jpg');"></div>
+      <div class="preview-content">
+        <div class="tag-row">
+          <span class="preview-tag">Vegan</span>
+          <span class="preview-tag">Gluten-Free</span>
+        </div>
+        <div class="title-row">
+          <span class="preview-title">Mr. Simple</span>
+          <span class="preview-price">$21.00</span>
+        </div>
+        <p class="preview-desc">Sourdough toast with smashed avocado, pumpkin seeds, toasted nuts, and house pickled onions.</p>
+        <div class="preview-button">View Details</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AFTER -->
+  <div>
+    <div class="card-label new-label">Option A: Industrial Steel Blue</div>
+    <div class="preview-card card-new">
+      <div class="preview-image" style="background-image: url('/images/hero_brunch.jpg');"></div>
+      <div class="preview-content">
+        <div class="tag-row">
+          <span class="preview-tag">Vegan</span>
+          <span class="preview-tag">Gluten-Free</span>
+        </div>
+        <div class="title-row">
+          <span class="preview-title">Mr. Simple</span>
+          <span class="preview-price">$21.00</span>
+        </div>
+        <p class="preview-desc">Sourdough toast with smashed avocado, pumpkin seeds, toasted nuts, and house pickled onions.</p>
+        <div class="preview-button">View Details</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="options" style="margin-top: 3rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Approve and Implement</h3>
+      <p>Apply these theme values to globals.css</p>
+    </div>
+  </div>
+</div>

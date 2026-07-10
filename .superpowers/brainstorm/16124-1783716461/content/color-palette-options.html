@@ -1,0 +1,232 @@
+<h2>Choose a New Color Palette</h2>
+<p class="subtitle">We extracted the dominant tones from <code>floorshot2.jpeg</code> (warm timber, steel blue, and sandy neutrals). Select an option below to set the design direction.</p>
+
+<style>
+  .palette-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .palette-option {
+    border: 1px solid #e5e5e0;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .palette-option:hover {
+    border-color: #bd8545;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+  }
+  
+  .palette-option.selected {
+    border-color: #bd8545;
+    background: #fafaf7;
+    box-shadow: 0 0 0 2px #bd8545;
+  }
+
+  .palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .palette-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .palette-badge {
+    background: #bd8545;
+    color: #white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .swatch-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .swatch-label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: #666;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .swatch:hover .swatch-label {
+    opacity: 1;
+  }
+
+  .palette-desc {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .pros-cons-mini {
+    display: grid;
+    grid-template-cols: 1fr 1fr;
+    gap: 1rem;
+    font-size: 0.8rem;
+    border-top: 1px solid #f0f0eb;
+    padding-top: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .pro-list {
+    color: #2e5c3e;
+  }
+  .con-list {
+    color: #8c3f3f;
+  }
+</style>
+
+<div class="palette-grid">
+  <!-- APPROACH A -->
+  <div class="palette-option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="palette-header">
+      <div class="palette-title">
+        <span class="palette-badge">Option A</span>
+        Wood & Steel Blue Industrial (Recommended)
+      </div>
+    </div>
+    
+    <div class="swatch-row">
+      <div class="swatch" style="background-color: #3e5167;"><span class="swatch-label">Primary</span></div>
+      <div class="swatch" style="background-color: #bd8545;"><span class="swatch-label">Accent</span></div>
+      <div class="swatch" style="background-color: #ebc29c;"><span class="swatch-label">Warm Sand</span></div>
+      <div class="swatch" style="background-color: #b9d2e1;"><span class="swatch-label">Light Ice</span></div>
+      <div class="swatch" style="background-color: #fdfdff;"><span class="swatch-label">White</span></div>
+    </div>
+
+    <p class="palette-desc">
+      Replaces the Forest Green with a deep, sophisticated Steel Blue (#3E5167) and adopts Warm Timber Gold (#BD8545) as the primary brand accent. Backed by Warm Sand and Light Ice Blue base layers.
+    </p>
+
+    <div class="pros-cons-mini">
+      <div class="pro-list">
+        <strong>Pros:</strong>
+        <ul>
+          <li>Highly premium, contemporary cafe feel</li>
+          <li>Reflects the actual interior leather & steel panels</li>
+        </ul>
+      </div>
+      <div class="con-list">
+        <strong>Cons:</strong>
+        <ul>
+          <li>Moves away from organic green tones</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH B -->
+  <div class="palette-option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="palette-header">
+      <div class="palette-title">
+        <span class="palette-badge">Option B</span>
+        Forest Timber & Charcoal (Warm & Organic)
+      </div>
+    </div>
+    
+    <div class="swatch-row">
+      <div class="swatch" style="background-color: #4d2f19;"><span class="swatch-label">Primary</span></div>
+      <div class="swatch" style="background-color: #bd8545;"><span class="swatch-label">Accent</span></div>
+      <div class="swatch" style="background-color: #1e3f2e;"><span class="swatch-label">Forest Green</span></div>
+      <div class="swatch" style="background-color: #ebc29c;"><span class="swatch-label">Warm Sand</span></div>
+      <div class="swatch" style="background-color: #fdfdff;"><span class="swatch-label">White</span></div>
+    </div>
+
+    <p class="palette-desc">
+      Keeps the Forest Green as a secondary supportive accent, but elevates rich Espresso Wood (#4D2F19) to the primary tone with Warm Timber Gold (#BD8545) for interactive components.
+    </p>
+
+    <div class="pros-cons-mini">
+      <div class="pro-list">
+        <strong>Pros:</strong>
+        <ul>
+          <li>Incredibly cozy, earthy, and organic</li>
+          <li>Keeps brand continuity with Forest Green</li>
+        </ul>
+      </div>
+      <div class="con-list">
+        <strong>Cons:</strong>
+        <ul>
+          <li>Slightly darker overall presentation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH C -->
+  <div class="palette-option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="palette-header">
+      <div class="palette-title">
+        <span class="palette-badge">Option C</span>
+        Clean Slate Minimalist (High-End Studio)
+      </div>
+    </div>
+    
+    <div class="swatch-row">
+      <div class="swatch" style="background-color: #040103;"><span class="swatch-label">Primary</span></div>
+      <div class="swatch" style="background-color: #71a3cd;"><span class="swatch-label">Accent</span></div>
+      <div class="swatch" style="background-color: #bd8545;"><span class="swatch-label">Timber Gold</span></div>
+      <div class="swatch" style="background-color: #b9d2e1;"><span class="swatch-label">Light Ice</span></div>
+      <div class="swatch" style="background-color: #fdfdff;"><span class="swatch-label">White</span></div>
+    </div>
+
+    <p class="palette-desc">
+      A high-contrast, modern architectural look. Deep Charcoal Black (#040103) anchors the texts and dark blocks, while Slate Blue (#71A3CD) and Timber Gold provide accent spots.
+    </p>
+
+    <div class="pros-cons-mini">
+      <div class="pro-list">
+        <strong>Pros:</strong>
+        <ul>
+          <li>Very bold, editorial, and architecturally striking</li>
+          <li>Extremely clean layout hierarchy</li>
+        </ul>
+      </div>
+      <div class="con-list">
+        <strong>Cons:</strong>
+        <ul>
+          <li>Less traditional warmth than Option A or B</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
