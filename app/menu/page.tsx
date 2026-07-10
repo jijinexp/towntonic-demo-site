@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import MenuCard, { MenuItem } from "@/components/menu-card";
@@ -63,10 +63,21 @@ const MENU_ITEMS: MenuItem[] = [
 
 export default function MenuPage() {
   const [activeTab, setActiveTab] = useState<"brunch" | "dinner" | "drinks">("brunch");
-  const [selectedTag, setSelectedTag] = useState<string>("All");
+  const [selectedTag, setSelectedTag] = useState<"All" | MenuItem["tags"][number]>("All");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
-  const filterTags = ["All", "Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"];
+  const filterTags = ["All", "Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"] as const;
+
+  useEffect(() => {
+    if (!selectedItem) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedItem(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedItem]);
 
   const filteredItems = MENU_ITEMS.filter((item) => {
     const matchesCategory = item.category === activeTab;
@@ -139,9 +150,13 @@ export default function MenuPage() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
+          onClick={() => setSelectedItem(null)}
           className="fixed inset-0 z-50 bg-black/55 flex items-center justify-center p-4 backdrop-blur-xs"
         >
-          <div className="bg-white rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-250">
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-250"
+          >
             <button
               onClick={() => setSelectedItem(null)}
               className="absolute top-4 right-4 z-10 text-white bg-black/40 hover:bg-black/60 p-2 rounded-full transition-all"

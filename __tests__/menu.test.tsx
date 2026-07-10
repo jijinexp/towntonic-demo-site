@@ -55,4 +55,65 @@ describe("Interactive Menu Filter", () => {
     // Modal should disappear
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
+
+  it("opens details modal when pressing Enter or Space key on MenuCard", () => {
+    render(<MenuPage />);
+    
+    // Test Enter key on the MenuCard button/div
+    const itemCard = screen.getByRole("button", { name: /Avocado Sourdough/i });
+    fireEvent.keyDown(itemCard, { key: "Enter", code: "Enter" });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    
+    // Close it using the close button
+    const closeBtn = screen.getByRole("button", { name: "Close Modal" });
+    fireEvent.click(closeBtn);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    // Test Space key on the MenuCard
+    fireEvent.keyDown(itemCard, { key: " ", code: "Space" });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("closes details modal when pressing the Escape key", () => {
+    render(<MenuPage />);
+    
+    // Click to open the modal
+    const itemCard = screen.getByText("Avocado Sourdough");
+    fireEvent.click(itemCard);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    // Press Escape key
+    fireEvent.keyDown(window, { key: "Escape", code: "Escape" });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("closes details modal when clicking on the backdrop overlay", () => {
+    render(<MenuPage />);
+    
+    // Click to open the modal
+    const itemCard = screen.getByText("Avocado Sourdough");
+    fireEvent.click(itemCard);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    // Click on the backdrop (the element with role="dialog")
+    const backdrop = screen.getByRole("dialog");
+    fireEvent.click(backdrop);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("does not close details modal when clicking inside the modal content", () => {
+    render(<MenuPage />);
+    
+    // Click to open the modal
+    const itemCard = screen.getByText("Avocado Sourdough");
+    fireEvent.click(itemCard);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    // Click inside the modal (e.g. on the title)
+    const modalTitle = screen.getByRole("heading", { name: "Avocado Sourdough", level: 3 });
+    fireEvent.click(modalTitle);
+    
+    // Modal should still be open
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
 });

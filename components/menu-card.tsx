@@ -17,9 +17,19 @@ interface MenuCardProps {
 }
 
 export default function MenuCard({ item, onSelect }: MenuCardProps) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onSelect(item);
+    }
+  };
+
   return (
     <div
       onClick={() => onSelect(item)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
       className="flex flex-col border border-stone-200 rounded-sm bg-white overflow-hidden cursor-pointer hover:border-gold hover:shadow-sm transition-all duration-200"
     >
       <div className="relative h-[200px] w-full">
