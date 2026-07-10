@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, MapPin, Calendar, Clock, Star, ArrowRight, X } from "lucide-react";
+import { Phone, MapPin, Clock, Star, X } from "lucide-react";
 
 const galleryItems = [
   {
@@ -29,6 +29,21 @@ const galleryItems = [
 
 export default function Page() {
   const [activeImg, setActiveImg] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (activeImg === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveImg(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeImg]);
 
   return (
     <div className="flex flex-col font-sans">
@@ -125,7 +140,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* TESTIMONIAL carousal */}
+      {/* TESTIMONIAL carousel */}
       <section className="bg-stone-50 py-16 px-4 border-y border-stone-200">
         <div className="mx-auto max-w-4xl text-center">
           <div className="flex justify-center gap-1 text-gold mb-4">
@@ -154,7 +169,11 @@ export default function Page() {
 
       {/* LIGHTBOX MODAL */}
       {activeImg !== null && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+        >
           <button
             onClick={() => setActiveImg(null)}
             className="absolute top-4 right-4 text-white hover:text-stone-300"
