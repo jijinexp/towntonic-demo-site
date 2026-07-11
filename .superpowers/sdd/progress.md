@@ -10,3 +10,6 @@
 - [x] Dark Mode Task 1: Theme Tokens and Layout Shell (commits c522f3f..0d10341, review clean)
 - [x] Dark Mode Task 2: Page Files Dark Mode Conversion (commits 0e7958c..70b72c2, review clean)
 - [x] Dark Mode Task 3: Interactive Components Dark Mode Conversion (commits 2d4f506..b9893fa, review clean)
+- [x] Palette+Motion Task 1: Palette foundation (commits c513265..72d3e07, review clean)
+- [x] Palette+Motion Task 2: Motion tokens + Reveal (commits 72d3e07..a5cc532, review clean; Minor: components/reveal.tsx setTimeout not cleared on unmount — Task 3 stagger use case)
+- [x] Palette+Motion Task 3: Hover polish + reveals (commits a5cc532..abab123, review clean; note: jest.setup.ts polyfill added outside brief scope but reviewer approved; footer "Follow" section not present — eyebrow applied to two real headings)
