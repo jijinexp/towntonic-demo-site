@@ -24,12 +24,13 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el || revealed) return;
+    let timeoutId: number | undefined;
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             const trigger = () => setRevealed(true);
-            if (delayMs > 0) window.setTimeout(trigger, delayMs);
+            if (delayMs > 0) timeoutId = window.setTimeout(trigger, delayMs);
             else trigger();
             io.disconnect();
             break;
@@ -39,7 +40,10 @@ export default function Reveal({
       { threshold }
     );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+    };
   }, [delayMs, threshold, revealed]);
 
   const Tag = as as ElementType;

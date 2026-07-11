@@ -2,12 +2,20 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [barHidden, setBarHidden] = useState(false);
+  const [barHidden, setBarHidden] = useState(true);
   const lastScrollY = useRef(0);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const rafId = requestAnimationFrame(() => setBarHidden(false));
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
@@ -46,10 +54,10 @@ export default function NavBar() {
           
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 font-sans font-medium text-text-secondary text-sm">
-            <Link href="/menu" className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Menu</Link>
-            <Link href="/reservations" className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Reservations</Link>
-            <Link href="/about" className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Our Story</Link>
-            <Link href="/contact" className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Contact</Link>
+            <Link href="/menu" data-active={pathname === "/menu" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Menu</Link>
+            <Link href="/reservations" data-active={pathname === "/reservations" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Reservations</Link>
+            <Link href="/about" data-active={pathname === "/about" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Our Story</Link>
+            <Link href="/contact" data-active={pathname === "/contact" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Contact</Link>
             <Link href="/reservations" className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-sm t-hover-lift hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
               Book Table
             </Link>
