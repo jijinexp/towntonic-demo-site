@@ -22,7 +22,7 @@ export default function MenuCard({ item, onSelect }: MenuCardProps) {
     <button
       type="button"
       onClick={() => onSelect(item)}
-      className="text-left w-full flex flex-col border border-border rounded-sm bg-bg-card overflow-hidden cursor-pointer hover:border-gold hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-all duration-200"
+      className="text-left w-full flex flex-col border border-border rounded-sm bg-bg-card overflow-hidden cursor-pointer hover:border-border-strong hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-all duration-200"
     >
       <span className="relative h-[200px] w-full block">
         <Image

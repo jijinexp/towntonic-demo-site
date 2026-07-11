@@ -12,7 +12,7 @@ const openingHours: OpeningHours[] = [
 
 export default function Footer() {
   return (
-    <footer className="bg-bg-card border-t border-border py-12 text-sm text-text-secondary font-sans">
+    <footer className="bg-bg-card border-t border-border-strong py-12 text-sm text-text-secondary font-sans">
       <div className="mx-auto max-w-7xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <Link href="/" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm mb-4" aria-label="Town Tonic Home">
@@ -29,7 +29,9 @@ export default function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="font-semibold text-primary mb-4">Contact & Location</h4>
+          <h4 className="mb-4">
+            <span className="text-gold uppercase tracking-wider font-semibold text-xs">Contact & Location</span>
+          </h4>
           <ul className="space-y-3">
             <li className="flex items-center gap-2.5">
               <MapPin size={16} className="text-gold" />
@@ -48,7 +50,9 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="font-semibold text-primary mb-4">Opening Hours</h4>
+          <h4 className="mb-4">
+            <span className="text-gold uppercase tracking-wider font-semibold text-xs">Opening Hours</span>
+          </h4>
           <ul className="space-y-2 flex flex-col">
             {openingHours.map((item) => (
               <li

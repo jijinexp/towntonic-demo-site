@@ -157,6 +157,44 @@ h1, h2, h3, h4, .font-serif {
   .t-reveal { opacity: 1 !important; transform: none !important; }
 }
 
+/* Hover: subtle lift for primary/gold buttons */
+.t-hover-lift {
+  transition: transform var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+  will-change: transform;
+}
+.t-hover-lift:hover { transform: translateY(-1px); }
+.t-hover-lift:active { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .t-hover-lift:hover, .t-hover-lift:active { transform: none; }
+}
+
+/* Nav underline: scaleX from left on hover */
+.t-nav-link {
+  position: relative;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.t-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.t-nav-link:hover::after,
+.t-nav-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+.t-nav-link[data-active="true"]::after {
+  transform-origin: left center;
+}
+
 /* Global reduced-motion guard. Per-component overrides may still opt out. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

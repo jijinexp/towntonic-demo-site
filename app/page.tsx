@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Phone, MapPin, Clock, Star } from "lucide-react";
 import HomepageGallery from "@/components/homepage-gallery";
+import Reveal from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Town Tonic - Modern Bistro & Eating House in Addington",
@@ -55,13 +56,13 @@ export default function Page() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/reservations"
-              className="bg-primary hover:bg-primary-hover text-white text-base font-semibold px-8 py-3.5 rounded-sm transition-all shadow-sm w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="bg-primary hover:bg-primary-hover text-white text-base font-semibold px-8 py-3.5 rounded-sm t-hover-lift shadow-sm w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               Reserve a Table
             </Link>
             <Link
               href="/menu"
-              className="border-2 border-white/20 hover:bg-bg-elevated hover:text-text-primary text-white text-base font-semibold px-8 py-3 rounded-sm transition-all w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="border-2 border-white/20 hover:bg-bg-elevated hover:border-sage hover:text-text-primary text-white text-base font-semibold px-8 py-3 rounded-sm t-hover-lift w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               Explore Menu
             </Link>
@@ -91,11 +92,13 @@ export default function Page() {
       <section className="py-20 px-4 bg-bg-page">
         <div className="mx-auto max-w-7xl">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Story</span>
-            <h2 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Simple Craft, Local Passion</h2>
-            <p className="text-text-secondary mt-4">
-              We believe in serving real food made from Canterbury ingredients. Click on any item below to view details.
-            </p>
+            <Reveal>
+              <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Story</span>
+              <h2 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Simple Craft, Local Passion</h2>
+              <p className="text-text-secondary mt-4">
+                We believe in serving real food made from Canterbury ingredients. Click on any item below to view details.
+              </p>
+            </Reveal>
           </div>
 
           <HomepageGallery items={galleryItems} />
@@ -105,17 +108,19 @@ export default function Page() {
       {/* TESTIMONIAL carousel */}
       <section className="bg-bg-card py-16 px-4 border-y border-border">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="flex justify-center gap-1 text-gold mb-4">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={18} fill="currentColor" />
-            ))}
-          </div>
-          <p className="font-serif text-xl md:text-2xl italic leading-relaxed text-primary max-w-2xl mx-auto">
-            &ldquo;The avocado toast was absolutely fresh and the atmosphere was lovely. A perfect blend of refined brunch and cozy cafe vibes.&rdquo;
-          </p>
-          <span className="block mt-4 text-xs font-semibold uppercase tracking-wider text-text-muted">
-            — Sarah M., Christchurch Diner
-          </span>
+          <Reveal>
+            <div className="flex justify-center gap-1 text-gold mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={18} fill="currentColor" />
+              ))}
+            </div>
+            <p className="font-serif text-xl md:text-2xl italic leading-relaxed text-primary max-w-2xl mx-auto">
+              &ldquo;The avocado toast was absolutely fresh and the atmosphere was lovely. A perfect blend of refined brunch and cozy cafe vibes.&rdquo;
+            </p>
+            <span className="block mt-4 text-xs font-semibold uppercase tracking-wider text-text-muted">
+              — Sarah M., Christchurch Diner
+            </span>
+          </Reveal>
         </div>
       </section>
 

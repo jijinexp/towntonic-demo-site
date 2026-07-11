@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import Reveal from "@/components/reveal";
 
 interface GalleryItem {
   src: string;
@@ -47,30 +48,31 @@ export default function HomepageGallery({ items }: HomepageGalleryProps) {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {items.map((item, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => setActiveImg(idx)}
-            className="text-left w-full block group cursor-pointer border border-border rounded-sm overflow-hidden bg-bg-card transition-all duration-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-          >
-            <div className="relative h-[300px] w-full overflow-hidden">
-              <Image
-                src={item.src}
-                alt={item.title}
-                fill
-                className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-            <div className="p-6">
-              <h3 className="font-serif text-xl font-bold text-primary group-hover:text-gold transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-text-secondary text-sm mt-2 leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
-          </button>
+          <Reveal delayMs={idx * 80} key={item.title}>
+            <button
+              type="button"
+              onClick={() => setActiveImg(idx)}
+              className="text-left w-full block group cursor-pointer border border-border rounded-sm overflow-hidden bg-bg-card transition-all duration-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <div className="relative h-[300px] w-full overflow-hidden">
+                <Image
+                  src={item.src}
+                  alt={item.title}
+                  fill
+                  className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif text-xl font-bold text-primary group-hover:text-gold transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-text-secondary text-sm mt-2 leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            </button>
+          </Reveal>
         ))}
       </div>
 
