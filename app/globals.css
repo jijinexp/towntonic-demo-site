@@ -214,6 +214,27 @@ h1, h2, h3, h4, .font-serif {
   .t-pulse-dot { animation: none; }
 }
 
+/* Sprig signature draw */
+.t-sprig .t-sprig-stroke {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  transition: stroke-dashoffset var(--dur-signature) var(--ease-out);
+}
+.t-sprig .t-sprig-leaf {
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+}
+.t-sprig.is-drawn .t-sprig-stroke {
+  stroke-dashoffset: 0;
+}
+.t-sprig.is-drawn .t-sprig-leaf {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-sprig .t-sprig-stroke { stroke-dashoffset: 0 !important; transition: none !important; }
+  .t-sprig .t-sprig-leaf   { opacity: 1 !important; transition: none !important; }
+}
+
 /* Global reduced-motion guard. Per-component overrides may still opt out. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Phone, MapPin, Mail, Clock, ShieldAlert } from "lucide-react";
+import SprigHeading from "@/components/sprig-heading";
 
 export const metadata: Metadata = {
   title: "Contact & Location - Town Tonic Christchurch",
@@ -10,8 +11,7 @@ export default function ContactPage() {
   return (
     <div className="py-16 px-4 max-w-6xl mx-auto font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
-        <span className="text-gold uppercase tracking-wider font-semibold text-xs">Find Us</span>
-        <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mt-2 mb-3">Contact Us</h1>
+        <SprigHeading eyebrow="Find Us" as="h1">Contact Us</SprigHeading>
         <p className="text-text-secondary text-sm">
           We are situated in the energetic heart of Addington, ready for your visit.
         </p>

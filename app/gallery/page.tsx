@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import GalleryGrid from "@/components/gallery-grid";
+import SprigHeading from "@/components/sprig-heading";
 
 export const metadata: Metadata = {
   title: "Gallery - Visual Showcase of Dishes & Vibe | Town Tonic Christchurch",
@@ -19,8 +20,7 @@ export default function GalleryPage() {
   return (
     <div className="py-16 px-4 max-w-7xl mx-auto font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
-        <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Showcase</span>
-        <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mt-2 mb-3">Gallery</h1>
+        <SprigHeading eyebrow="Visual Showcase" as="h1">Gallery</SprigHeading>
         <p className="text-text-secondary text-sm">
           Explore our crafted dishes, locally roasted coffee, and the relaxed dining ambiance of our space.
         </p>

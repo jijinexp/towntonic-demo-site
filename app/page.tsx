@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Phone, MapPin, Clock, Star } from "lucide-react";
 import HomepageGallery from "@/components/homepage-gallery";
 import Reveal from "@/components/reveal";
+import SprigHeading from "@/components/sprig-heading";
 
 export const metadata: Metadata = {
   title: "Town Tonic - Modern Bistro & Eating House in Addington",
@@ -97,8 +98,7 @@ export default function Page() {
         <div className="mx-auto max-w-7xl">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <Reveal>
-              <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Story</span>
-              <h2 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Simple Craft, Local Passion</h2>
+              <SprigHeading eyebrow="Visual Story">Simple Craft, Local Passion</SprigHeading>
               <p className="text-text-secondary mt-4">
                 We believe in serving real food made from Canterbury ingredients. Click on any item below to view details.
               </p>
@@ -113,6 +113,7 @@ export default function Page() {
       <section className="bg-bg-card py-16 px-4 border-y border-border">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
+            <SprigHeading eyebrow="Kind Words" className="mb-6">Guests on Town Tonic</SprigHeading>
             <div className="flex justify-center gap-1 text-gold mb-4">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} size={18} fill="currentColor" />
