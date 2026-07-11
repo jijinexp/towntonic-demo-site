@@ -26,10 +26,60 @@ body {
   background-color: #1C1F26;
   color: #E8E4DF;
   font-family: var(--font-sans);
+  line-height: 1.65;
 }
 
-h1, h2, h3, h4, .font-serif {
+/* Readability bump for body copy across devices — leaves headings, nav, and
+   layout utilities untouched. Targets paragraphs, list items, descriptions. */
+p, li, dd, blockquote {
+  font-size: 1.0625rem;   /* 17px */
+  line-height: 1.65;
+}
+@media (min-width: 768px) {
+  p, li, dd, blockquote {
+    font-size: 1.125rem;   /* 18px */
+  }
+}
+
+.font-serif {
   font-family: var(--font-serif);
+}
+
+/* Display font (Lilita One) for headings, nav options, and button text */
+h1, h2, h3, h4, h5, h6,
+h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif,
+nav a, nav button,
+button,
+a[class*="bg-primary"],
+a[class*="bg-gold"],
+a[class*="border-primary"] {
+  font-family: var(--font-display) !important;
+}
+
+/* White fill for hero-scale headings + filled buttons on dark surfaces */
+h1, h2, h3, h4, h5, h6,
+h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif,
+a[class*="bg-primary"],
+a[class*="bg-gold"] {
+  color: #fff !important;
+}
+
+/* Navbar: white text at top (transparent over hero), dark once scrolled onto white bg */
+header nav a,
+header nav button {
+  color: #fff !important;
+  transition: color 300ms var(--ease-out);
+}
+header[data-scrolled="true"] nav a,
+header[data-scrolled="true"] nav button {
+  color: #111 !important;
+}
+/* Filled pill button keeps white text regardless of scroll state */
+header nav a[class*="bg-primary"],
+header nav a[class*="bg-gold"],
+header[data-scrolled="true"] nav a[class*="bg-primary"],
+header[data-scrolled="true"] nav a[class*="bg-gold"] {
+  color: #fff !important;
 }
 
 /* UI Skills: transitions-dev tokens */

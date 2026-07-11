@@ -38,57 +38,64 @@ export default function Page() {
   return (
     <div className="flex flex-col font-sans">
       {/* HERO SECTION */}
-      <section className="relative h-[650px] w-full flex items-center justify-center overflow-hidden">
-        <Image
-          src="/images/hero_brunch.jpg"
-          alt="Town Tonic Gourmet Brunch"
-          fill
-          priority
-          className="object-cover brightness-75"
-          sizes="100vw"
-        />
-        <div className="relative z-10 text-center text-white px-4 max-w-3xl">
-          <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight mb-4 drop-shadow-sm">
-            Town Tonic
-          </h1>
-          <p className="text-lg md:text-2xl font-light mb-8 max-w-xl mx-auto leading-relaxed">
-            Locally Sourced, Seasonal Dining — Addington, Christchurch
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/reservations"
-              className="bg-primary hover:bg-primary-hover text-white text-base font-semibold px-8 py-3.5 rounded-sm t-hover-lift shadow-sm w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              Reserve a Table
-            </Link>
-            <Link
-              href="/menu"
-              className="border-2 border-white/20 hover:bg-bg-elevated hover:border-sage hover:text-text-primary text-white text-base font-semibold px-8 py-3 rounded-sm t-hover-lift w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              Explore Menu
-            </Link>
-          </div>
-        </div>
-      </section>
+      <section className="-mt-32">
+        <div className="relative h-screen w-full overflow-hidden bg-bg-page">
+          <Image
+            src="/images/dishes/dish8.jpeg"
+            alt="Town Tonic seasonal dish"
+            fill
+            priority
+            className="object-contain object-right"
+            sizes="(max-width: 768px) 100vw, 60vw"
+          />
+          {/* Gradient wash on the left for heading legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-bg-page via-bg-page/70 to-transparent" />
 
-      {/* MOBILE QUICK ACTION BAR / INFO BANNER */}
-      <section className="bg-bg-card border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-border">
-          <a href="tel:+6433381150" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
-            <Phone size={18} className="text-gold" />
-            <span>Call Us: 03 338 1150</span>
-          </a>
-          <a href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch" target="_blank" rel="noopener noreferrer" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
-            <MapPin size={18} className="text-gold" />
-            <span>Shop 1/335 Lincoln Road</span>
-          </a>
-          <div className="py-2 sm:py-0 flex items-center justify-center gap-2 text-text-secondary font-medium">
-            <Clock size={18} className="text-gold" />
-            <span>Open: 8:30 am – 2:00 pm today</span>
-            <span className="inline-flex items-center gap-1.5 bg-sage-soft text-sage text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide ml-1">
-              <span className="t-pulse-dot" aria-hidden="true" />
-              Open now
-            </span>
+          {/* Foreground: heading fills, info strip pinned at bottom */}
+          <div className="relative z-10 flex flex-col h-full">
+            <div className="flex-1 flex items-center p-6 md:p-12 lg:p-16 md:w-1/2">
+              <div className="w-full max-w-3xl">
+                <h1 className="text-white text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight">
+                  Locally sourced,
+                  <br />
+                  <span className="italic font-serif font-normal">seasonal</span> dining.
+                </h1>
+                <p className="mt-5 max-w-md text-white/70 text-base md:text-lg font-sans">
+                  A neighbourhood eating house in Addington, Christchurch — brunch to bistro, all day.
+                </p>
+              </div>
+            </div>
+
+            {/* Info strip: phone, address, hours */}
+            <aside className="bg-bg-card/95 backdrop-blur-sm border-t border-border text-white font-sans">
+            <ul className="mx-auto max-w-7xl px-4 py-5 grid grid-cols-1 sm:grid-cols-3 gap-4 text-lg md:text-xl">
+              <li className="flex items-center justify-center sm:justify-start gap-3">
+                <Phone size={22} className="text-gold shrink-0" />
+                <a href="tel:+6433381150" className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
+                  03 338 1150
+                </a>
+              </li>
+              <li className="flex items-center justify-center sm:justify-start gap-3">
+                <MapPin size={22} className="text-gold shrink-0" />
+                <a
+                  href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+                >
+                  Shop 1/335 Lincoln Road, Addington
+                </a>
+              </li>
+              <li className="flex items-center justify-center sm:justify-start gap-3 flex-wrap">
+                <Clock size={22} className="text-gold shrink-0" />
+                <span>Today: 8:30 am – 2:00 pm</span>
+                <span className="inline-flex items-center gap-1.5 bg-sage-soft text-sage text-xs font-semibold px-2.5 py-1 rounded-sm uppercase tracking-wide">
+                  <span className="t-pulse-dot" aria-hidden="true" />
+                  Open now
+                </span>
+              </li>
+            </ul>
+          </aside>
           </div>
         </div>
       </section>

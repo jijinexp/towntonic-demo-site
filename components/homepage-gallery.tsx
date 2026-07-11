@@ -59,7 +59,7 @@ export default function HomepageGallery({ items }: HomepageGalleryProps) {
                   src={item.src}
                   alt={item.title}
                   fill
-                  className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105"
+                  className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
