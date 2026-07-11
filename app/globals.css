@@ -5,14 +5,19 @@
   --color-primary-hover: #2B3847;
   --color-gold: #BD8545;
   --color-gold-hover: #9C6D32;
+  --color-sage: #8FA47A;
+  --color-sage-hover: #A3B78F;
+  --color-sage-soft: #3A4636;
   --color-bg-soft: #252830;
   --color-bg-page: #1C1F26;
   --color-bg-card: #252830;
-  --color-bg-elevated: #2D3039;
+  --color-bg-elevated: #31343E;
   --color-text-primary: #E8E4DF;
   --color-text-secondary: #9CA3AF;
+  --color-text-soft: #B8B0A6;
   --color-text-muted: #6B7280;
   --color-border: #2D3039;
+  --color-border-strong: #3A3E48;
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Outfit", sans-serif;
 }
