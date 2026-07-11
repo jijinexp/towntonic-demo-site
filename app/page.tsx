@@ -61,7 +61,7 @@ export default function Page() {
             </Link>
             <Link
               href="/menu"
-              className="border-2 border-white hover:bg-white hover:text-primary text-white text-base font-semibold px-8 py-3 rounded-sm transition-all w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="border-2 border-white/20 hover:bg-bg-elevated hover:text-text-primary text-white text-base font-semibold px-8 py-3 rounded-sm transition-all w-full sm:w-auto text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               Explore Menu
             </Link>
@@ -70,8 +70,8 @@ export default function Page() {
       </section>
 
       {/* MOBILE QUICK ACTION BAR / INFO BANNER */}
-      <section className="bg-stone-50 border-b border-stone-200">
-        <div className="mx-auto max-w-7xl px-4 py-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-stone-200">
+      <section className="bg-bg-card border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 py-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-border">
           <a href="tel:+6433381150" className="py-2 sm:py-0 flex items-center justify-center gap-2 text-primary font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
             <Phone size={18} className="text-gold" />
             <span>Call Us: 03 338 1150</span>
@@ -80,7 +80,7 @@ export default function Page() {
             <MapPin size={18} className="text-gold" />
             <span>Shop 1/335 Lincoln Road</span>
           </a>
-          <div className="py-2 sm:py-0 flex items-center justify-center gap-2 text-stone-700 font-medium">
+          <div className="py-2 sm:py-0 flex items-center justify-center gap-2 text-text-secondary font-medium">
             <Clock size={18} className="text-gold" />
             <span>Open: 8:30 am – 2:00 pm today</span>
           </div>
@@ -88,12 +88,12 @@ export default function Page() {
       </section>
 
       {/* MINIMALISTIC HOME GALLERY SECTION */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-bg-page">
         <div className="mx-auto max-w-7xl">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Story</span>
             <h2 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Simple Craft, Local Passion</h2>
-            <p className="text-stone-600 mt-4">
+            <p className="text-text-secondary mt-4">
               We believe in serving real food made from Canterbury ingredients. Click on any item below to view details.
             </p>
           </div>
@@ -103,7 +103,7 @@ export default function Page() {
       </section>
 
       {/* TESTIMONIAL carousel */}
-      <section className="bg-stone-50 py-16 px-4 border-y border-stone-200">
+      <section className="bg-bg-card py-16 px-4 border-y border-border">
         <div className="mx-auto max-w-4xl text-center">
           <div className="flex justify-center gap-1 text-gold mb-4">
             {[...Array(5)].map((_, i) => (
@@ -113,14 +113,14 @@ export default function Page() {
           <p className="font-serif text-xl md:text-2xl italic leading-relaxed text-primary max-w-2xl mx-auto">
             &ldquo;The avocado toast was absolutely fresh and the atmosphere was lovely. A perfect blend of refined brunch and cozy cafe vibes.&rdquo;
           </p>
-          <span className="block mt-4 text-xs font-semibold uppercase tracking-wider text-stone-500">
+          <span className="block mt-4 text-xs font-semibold uppercase tracking-wider text-text-muted">
             — Sarah M., Christchurch Diner
           </span>
         </div>
       </section>
 
       {/* STICKY BOTTOM ACTION BAR FOR MOBILE */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-stone-200 p-3 flex gap-3 shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-bg-page border-t border-border p-3 flex gap-3 shadow-lg">
         <Link href="/menu" className="flex-1 border border-primary text-primary text-center py-2.5 rounded-sm font-semibold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
           View Menu
         </Link>

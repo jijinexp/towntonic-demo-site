@@ -21,7 +21,7 @@ export default function GalleryPage() {
       <div className="text-center max-w-xl mx-auto mb-16">
         <span className="text-gold uppercase tracking-wider font-semibold text-xs">Visual Showcase</span>
         <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mt-2 mb-3">Gallery</h1>
-        <p className="text-stone-600 text-sm">
+        <p className="text-text-secondary text-sm">
           Explore our crafted dishes, locally roasted coffee, and the relaxed dining ambiance of our space.
         </p>
       </div>
