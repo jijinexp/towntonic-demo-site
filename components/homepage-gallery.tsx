@@ -51,7 +51,7 @@ export default function HomepageGallery({ items }: HomepageGalleryProps) {
             key={idx}
             type="button"
             onClick={() => setActiveImg(idx)}
-            className="text-left w-full block group cursor-pointer border border-stone-100 rounded-sm overflow-hidden bg-stone-50 transition-all duration-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="text-left w-full block group cursor-pointer border border-border rounded-sm overflow-hidden bg-bg-card transition-all duration-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
             <div className="relative h-[300px] w-full overflow-hidden">
               <Image
@@ -66,7 +66,7 @@ export default function HomepageGallery({ items }: HomepageGalleryProps) {
               <h3 className="font-serif text-xl font-bold text-primary group-hover:text-gold transition-colors">
                 {item.title}
               </h3>
-              <p className="text-stone-600 text-sm mt-2 leading-relaxed">
+              <p className="text-text-secondary text-sm mt-2 leading-relaxed">
                 {item.desc}
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function HomepageGallery({ items }: HomepageGalleryProps) {
             </div>
             <div className="text-center text-white mt-6 max-w-xl">
               <h3 id="lightbox-title" className="font-serif text-2xl font-bold text-gold">{items[activeImg].title}</h3>
-              <p className="text-stone-300 mt-2 text-sm">{items[activeImg].desc}</p>
+              <p className="text-text-secondary mt-2 text-sm">{items[activeImg].desc}</p>
             </div>
           </div>
         </div>

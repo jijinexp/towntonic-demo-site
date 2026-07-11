@@ -50,7 +50,7 @@ export default function GalleryGrid({ images }: GalleryGridProps) {
             key={idx}
             type="button"
             onClick={() => setSelectedImg(idx)}
-            className="relative h-[250px] w-full border border-stone-200 rounded overflow-hidden cursor-pointer group bg-stone-100 shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="relative h-[250px] w-full border border-border rounded overflow-hidden cursor-pointer group bg-bg-card shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             aria-label={`View larger image of ${img.title}`}
           >
             <Image

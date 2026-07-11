@@ -89,7 +89,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
         role="tablist" 
         aria-label="Menu Categories" 
         onKeyDown={handleTabKeyDown}
-        className="flex justify-center border-b border-stone-200 mb-8"
+        className="flex justify-center border-b border-border mb-8"
       >
         {tabs.map((tab) => (
           <button
@@ -105,7 +105,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
             className={`px-8 py-3.5 text-base font-semibold capitalize border-b-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
               activeTab === tab
                 ? "border-primary text-primary"
-                : "border-transparent text-stone-400 hover:text-stone-600"
+                : "border-transparent text-text-muted hover:text-text-secondary"
             }`}
           >
             {tab === "brunch" ? "All Day Menu (8am - 2pm)" : tab === "dinner" ? "Dinner" : tab === "dessert" ? "Dessert" : "Drinks"}
@@ -122,7 +122,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
             className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
               selectedTag === tag
                 ? "bg-primary border-primary text-white"
-                : "bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100"
+                : "bg-bg-card border-border text-text-secondary hover:bg-bg-elevated"
             }`}
           >
             {tag}
@@ -194,7 +194,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Trust the Chef</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Tasting menus priced per person</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Tasting menus priced per person</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -211,7 +211,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Clearwater & Canterbury Growers</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Grown in Canterbury soil, sustainable & symbiotic living</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Grown in Canterbury soil, sustainable & symbiotic living</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -228,7 +228,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Theo&apos;s Fisheries & Seafood</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Harvested ethically and sustainably with wild caught perfection</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Harvested ethically and sustainably with wild caught perfection</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -245,7 +245,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Maihan & Westmeats Mains</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Family businesses supporting the community and local farms</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Family businesses supporting the community and local farms</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -264,7 +264,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cocktails & Mocktails</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Artisanal creations and refreshing non-alcoholic blends</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Artisanal creations and refreshing non-alcoholic blends</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -281,7 +281,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Fine Wines</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Proudly curated by local Christchurch Powerhouse Wine Company</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Proudly curated by local Christchurch Powerhouse Wine Company</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -298,7 +298,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Craft Beers & Cider</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Featuring local Christchurch Three Boys & Cassels breweries</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Featuring local Christchurch Three Boys & Cassels breweries</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -315,7 +315,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <div>
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Coffee, Tea & Non-Alcoholic</h3>
-                    <p className="text-stone-500 text-xs italic mt-0.5">Espresso bar available all day, freshly squeezed juices until 2pm</p>
+                    <p className="text-text-muted text-xs italic mt-0.5">Espresso bar available all day, freshly squeezed juices until 2pm</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
@@ -385,23 +385,23 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
             </div>
           )
         ) : (
-          <div className="text-center py-20 border border-stone-100 rounded bg-stone-50">
-            <p className="text-stone-500 font-medium">No dishes match your selected filter.</p>
+          <div className="text-center py-20 border border-border rounded bg-bg-card">
+            <p className="text-text-muted font-medium">No dishes match your selected filter.</p>
           </div>
         )}
 
         {/* ADD-ONS SECTION */}
         {activeTab === "brunch" && (
-          <div className="mt-16 border-t border-stone-200 pt-12 max-w-4xl mx-auto">
+          <div className="mt-16 border-t border-border pt-12 max-w-4xl mx-auto">
             <div className="text-center mb-8">
               <span className="text-gold uppercase tracking-wider font-semibold text-xs">Side Additions</span>
               <h3 className="font-serif text-2xl md:text-3xl font-bold text-primary mt-1">Menu Add-ons</h3>
-              <p className="text-stone-500 text-xs mt-1 italic">Only available to order with meals</p>
+              <p className="text-text-muted text-xs mt-1 italic">Only available to order with meals</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {ADD_ONS.map((addon, index) => (
-                <div key={index} className="flex justify-between items-center bg-stone-50 border border-stone-200 rounded px-4 py-3 font-sans">
-                  <span className="text-stone-700 font-medium text-sm">{addon.name}</span>
+                <div key={index} className="flex justify-between items-center bg-bg-card border border-border rounded px-4 py-3 font-sans">
+                  <span className="text-text-primary font-medium text-sm">{addon.name}</span>
                   <span className="text-gold font-bold text-sm">${addon.price.toFixed(2)}</span>
                 </div>
               ))}
@@ -422,7 +422,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
           <div 
             ref={modalRef}
             onClick={(e) => e.stopPropagation()}
-            className={`t-modal ${isClosing ? "is-closing" : "is-open"} bg-white rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative focus-visible:outline-none`}
+            className={`t-modal ${isClosing ? "is-closing" : "is-open"} bg-bg-card rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative focus-visible:outline-none`}
             tabIndex={-1}
           >
             <button
@@ -446,9 +446,9 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 <h3 id="modal-title" className="font-serif text-2xl font-bold text-primary">{selectedItem.name}</h3>
                 <span className="font-sans font-bold text-gold text-xl">${selectedItem.price.toFixed(2)}</span>
               </div>
-              <p className="text-stone-600 leading-relaxed text-sm mb-6">{selectedItem.description}</p>
+              <p className="text-text-secondary leading-relaxed text-sm mb-6">{selectedItem.description}</p>
               
-              <div className="border-t border-stone-200 pt-6">
+              <div className="border-t border-border pt-6">
                 <h5 className="font-semibold text-xs text-primary uppercase tracking-wider mb-2.5">Dietary Profile</h5>
                 <div className="flex gap-2">
                   {selectedItem.tags.length > 0 ? (
@@ -458,7 +458,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                       </span>
                     ))
                   ) : (
-                    <span className="text-xs text-stone-400 font-medium">Traditional Chef Recipe</span>
+                    <span className="text-xs text-text-muted font-medium">Traditional Chef Recipe</span>
                   )}
                 </div>
               </div>

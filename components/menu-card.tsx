@@ -22,7 +22,7 @@ export default function MenuCard({ item, onSelect }: MenuCardProps) {
     <button
       type="button"
       onClick={() => onSelect(item)}
-      className="text-left w-full flex flex-col border border-stone-200 rounded-sm bg-white overflow-hidden cursor-pointer hover:border-gold hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-all duration-200"
+      className="text-left w-full flex flex-col border border-border rounded-sm bg-bg-card overflow-hidden cursor-pointer hover:border-gold hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-all duration-200"
     >
       <span className="relative h-[200px] w-full block">
         <Image
@@ -39,11 +39,11 @@ export default function MenuCard({ item, onSelect }: MenuCardProps) {
             <span className="font-serif text-lg font-bold text-primary block">{item.name}</span>
             <span className="font-sans font-medium text-gold">${item.price.toFixed(2)}</span>
           </span>
-          <span className="text-stone-600 text-xs leading-relaxed mb-4 block">{item.description}</span>
+          <span className="text-text-secondary text-xs leading-relaxed mb-4 block">{item.description}</span>
         </span>
         <span className="flex flex-wrap gap-1.5 block">
           {item.tags.map((t, idx) => (
-            <span key={idx} className="bg-stone-100 text-stone-600 text-[10px] font-semibold px-2 py-0.5 rounded-sm">
+            <span key={idx} className="bg-bg-page text-text-secondary text-[10px] font-semibold px-2 py-0.5 rounded-sm">
               {t}
             </span>
           ))}

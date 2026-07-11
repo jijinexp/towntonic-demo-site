@@ -100,7 +100,7 @@ export default function BookingWizard() {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto border border-stone-200 rounded-sm bg-white p-8 shadow-sm">
+    <div className="w-full max-w-xl mx-auto border border-border rounded-sm bg-bg-card p-8 shadow-sm">
       {step < 4 && (
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
@@ -109,7 +109,7 @@ export default function BookingWizard() {
               {step === 2 && "Step 2 of 3: Seating"}
               {step === 3 && "Step 3 of 3: Contact"}
             </span>
-            <span className="text-stone-400 text-xs font-semibold">{step}/3</span>
+            <span className="text-text-muted text-xs font-semibold">{step}/3</span>
           </div>
           {/* PROGRESS BAR */}
           <div
@@ -118,7 +118,7 @@ export default function BookingWizard() {
             aria-valuemin={1}
             aria-valuemax={3}
             aria-valuetext={`Step ${step} of 3`}
-            className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden"
+            className="w-full bg-bg-page h-1.5 rounded-full overflow-hidden"
           >
             <div
               className="bg-primary h-full transition-all duration-300"
@@ -129,7 +129,7 @@ export default function BookingWizard() {
       )}
 
       {error && (
-        <div className="bg-red-50 text-red-700 text-xs font-semibold p-3 rounded-sm mb-6 border border-red-100">
+        <div className="bg-red-900/20 text-red-400 text-xs font-semibold p-3 rounded-sm mb-6 border border-red-800/30">
           {error}
         </div>
       )}
@@ -145,7 +145,7 @@ export default function BookingWizard() {
                 id="booking-guests"
                 value={guests}
                 onChange={(e) => setGuests(parseInt(e.target.value))}
-                className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+                className="flex-grow bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
               >
                 {[...Array(10)].map((_, i) => (
                   <option key={i} value={i + 1}>{i + 1} {i + 1 === 1 ? "Guest" : "Guests"}</option>
@@ -164,7 +164,7 @@ export default function BookingWizard() {
                 min={mounted ? getLocalDateString() : undefined}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="flex-grow bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+                className="flex-grow bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
               />
             </div>
           </div>
@@ -184,7 +184,7 @@ export default function BookingWizard() {
                   className={`py-2 text-xs font-semibold rounded border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
                     time === slot
                       ? "bg-primary border-primary text-white"
-                      : "bg-white border-stone-200 text-stone-600 hover:bg-stone-50"
+                      : "bg-bg-card border-border text-text-secondary hover:bg-bg-elevated"
                   }`}
                 >
                   {slot}
@@ -215,8 +215,8 @@ export default function BookingWizard() {
                   htmlFor={`zone-${sz.id}`}
                   className={`p-4 border rounded cursor-pointer block transition-all focus-within:ring-2 focus-within:ring-gold focus-within:outline-none ${
                     zone === sz.id
-                      ? "border-gold bg-stone-50/50"
-                      : "border-stone-200 bg-white hover:bg-stone-50"
+                      ? "border-gold bg-bg-page/50"
+                      : "border-border bg-bg-card hover:bg-bg-elevated"
                   }`}
                 >
                   <div className="flex justify-between items-center mb-1">
@@ -231,7 +231,7 @@ export default function BookingWizard() {
                       className="accent-primary"
                     />
                   </div>
-                  <p className="text-stone-500 text-xs leading-relaxed">{sz.desc}</p>
+                  <p className="text-text-muted text-xs leading-relaxed">{sz.desc}</p>
                 </label>
               ))}
             </div>
@@ -240,7 +240,7 @@ export default function BookingWizard() {
           <div className="flex gap-4 mt-4">
             <button
               onClick={() => setStep(1)}
-              className="flex-1 border border-stone-200 text-stone-600 hover:bg-stone-50 py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="flex-1 border border-border text-text-secondary hover:bg-bg-elevated py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <ArrowLeft size={16} />
               <span>Back</span>
@@ -269,7 +269,7 @@ export default function BookingWizard() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. John Doe"
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -283,7 +283,7 @@ export default function BookingWizard() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 021 234 567"
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -297,7 +297,7 @@ export default function BookingWizard() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. john@example.com"
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -308,7 +308,7 @@ export default function BookingWizard() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Allergies, high chair requests, birthdays..."
-              className="bg-stone-50 border border-stone-200 px-4 py-2.5 rounded text-sm text-stone-700 h-24 resize-none focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary h-24 resize-none focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
@@ -316,7 +316,7 @@ export default function BookingWizard() {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="flex-1 border border-stone-200 text-stone-600 hover:bg-stone-50 py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="flex-1 border border-border text-text-secondary hover:bg-bg-elevated py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <ArrowLeft size={16} />
               <span>Back</span>
@@ -342,16 +342,16 @@ export default function BookingWizard() {
             </span>
           </div>
           <h3 className="font-serif text-3xl font-bold text-primary mb-2">Table Reserved</h3>
-          <p className="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-6">
             Booking Ref: <span className="text-gold font-bold">{bookingRef}</span>
           </p>
           
-          <div className="bg-stone-50 border border-stone-200 rounded-sm p-5 text-left mb-8 text-sm text-stone-600 flex flex-col gap-3 font-sans">
-            <div className="flex justify-between border-b border-stone-200 pb-2">
+          <div className="bg-bg-page border border-border rounded-sm p-5 text-left mb-8 text-sm text-text-secondary flex flex-col gap-3 font-sans">
+            <div className="flex justify-between border-b border-border pb-2">
               <span className="font-semibold text-primary">Guest Count:</span>
               <span>{guests} {guests === 1 ? "person" : "people"}</span>
             </div>
-            <div className="flex justify-between border-b border-stone-200 pb-2">
+            <div className="flex justify-between border-b border-border pb-2">
               <span className="font-semibold text-primary">Date & Time:</span>
               <span>{formatFriendlyDate(date)} at {time}</span>
             </div>
@@ -361,7 +361,7 @@ export default function BookingWizard() {
             </div>
           </div>
 
-          <p className="text-xs text-stone-500 mb-8 leading-relaxed max-w-sm mx-auto">
+          <p className="text-xs text-text-muted mb-8 leading-relaxed max-w-sm mx-auto">
             A confirmation email has been dispatched to <span className="font-semibold">{email}</span>. If you need to make changes, please dial <a href="tel:+6433381150" className="text-primary hover:underline font-semibold">03 338 1150</a>.
           </p>
 
