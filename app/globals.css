@@ -195,6 +195,25 @@ h1, h2, h3, h4, .font-serif {
   transform-origin: left center;
 }
 
+/* Pulsing dot for "Open now" indicator */
+.t-pulse-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-sage);
+  box-shadow: 0 0 0 0 var(--color-sage);
+  animation: t-pulse 2s var(--ease-in-out) infinite;
+}
+@keyframes t-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(143, 164, 122, 0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(143, 164, 122, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(143, 164, 122, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-pulse-dot { animation: none; }
+}
+
 /* Global reduced-motion guard. Per-component overrides may still opt out. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

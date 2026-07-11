@@ -84,6 +84,10 @@ export default function Page() {
           <div className="py-2 sm:py-0 flex items-center justify-center gap-2 text-text-secondary font-medium">
             <Clock size={18} className="text-gold" />
             <span>Open: 8:30 am – 2:00 pm today</span>
+            <span className="inline-flex items-center gap-1.5 bg-sage-soft text-sage text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide ml-1">
+              <span className="t-pulse-dot" aria-hidden="true" />
+              Open now
+            </span>
           </div>
         </div>
       </section>

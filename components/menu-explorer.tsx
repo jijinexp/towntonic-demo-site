@@ -4,6 +4,7 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import MenuCard, { MenuItem } from "@/components/menu-card";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+import Reveal from "@/components/reveal";
 
 const ADD_ONS = [
   { name: "Two Eggs", price: 7.00 },
@@ -121,7 +122,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
             onClick={() => setSelectedTag(tag)}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
               selectedTag === tag
-                ? "bg-primary border-primary text-white"
+                ? "bg-sage-soft border-sage text-sage"
                 : "bg-bg-card border-border text-text-secondary hover:bg-bg-elevated"
             }`}
           >
@@ -148,8 +149,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "honest")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -164,8 +167,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "eggs")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -180,8 +185,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "lunch")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -199,8 +206,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "tasting")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -216,8 +225,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "growers")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -233,8 +244,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "seafood")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -250,8 +263,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "meat")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -269,8 +284,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "cocktails")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -286,8 +303,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "wines")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -303,8 +322,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "beers")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -320,8 +341,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "softs")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -338,8 +361,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "dessert")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -354,8 +379,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "cookies")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -370,8 +397,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems
                       .filter((item) => item.subCategory === "cheese")
-                      .map((item) => (
-                        <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+                      .map((item, index) => (
+                        <Reveal delayMs={index * 30} key={item.id}>
+                          <MenuCard item={item} onSelect={setSelectedItem} />
+                        </Reveal>
                       ))}
                   </div>
                 </div>
@@ -379,8 +408,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredItems.map((item) => (
-                <MenuCard key={item.id} item={item} onSelect={setSelectedItem} />
+              {filteredItems.map((item, index) => (
+                <Reveal delayMs={index * 30} key={item.id}>
+                  <MenuCard item={item} onSelect={setSelectedItem} />
+                </Reveal>
               ))}
             </div>
           )

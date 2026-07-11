@@ -9,6 +9,7 @@ export interface MenuItem {
   category: "brunch" | "dinner" | "drinks" | "dessert";
   subCategory?: string;
   tags: ("Vegan" | "Vegetarian" | "Gluten-Free" | "Dairy-Free")[];
+  sourceTags?: ("local" | "seasonal")[];
   image: string;
 }
 
@@ -34,6 +35,18 @@ export default function MenuCard({ item, onSelect }: MenuCardProps) {
         />
       </span>
       <span className="p-5 flex-grow flex flex-col justify-between w-full block">
+        {item.sourceTags && item.sourceTags.length > 0 && (
+          <span className="flex gap-1.5 mb-2 block">
+            {item.sourceTags.map((t) => (
+              <span
+                key={t}
+                className="bg-sage-soft text-sage text-[11px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide"
+              >
+                {t === "local" ? "Local" : "Seasonal"}
+              </span>
+            ))}
+          </span>
+        )}
         <span className="block">
           <span className="flex justify-between items-baseline mb-2 block">
             <span className="font-serif text-lg font-bold text-primary block">{item.name}</span>

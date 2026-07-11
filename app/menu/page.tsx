@@ -17,6 +17,7 @@ const MENU_ITEMS: MenuItem[] = [
     category: "brunch",
     subCategory: "honest",
     tags: ["Vegan", "Vegetarian", "Dairy-Free"],
+    sourceTags: ["local"],
     image: "/images/hero_brunch.jpg",
   },
   {
@@ -219,6 +220,7 @@ const MENU_ITEMS: MenuItem[] = [
     category: "dinner",
     subCategory: "growers",
     tags: ["Vegan", "Vegetarian", "Dairy-Free"],
+    sourceTags: ["seasonal"],
     image: "/images/about_suppliers.jpg",
   },
   {
