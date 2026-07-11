@@ -20,7 +20,7 @@ export default function GalleryPage() {
   return (
     <div className="py-16 px-4 max-w-7xl mx-auto font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
-        <SprigHeading eyebrow="Visual Showcase" as="h1">Gallery</SprigHeading>
+        <SprigHeading eyebrow="Visual Showcase" as="h1" className="mb-3">Gallery</SprigHeading>
         <p className="text-text-secondary text-sm">
           Explore our crafted dishes, locally roasted coffee, and the relaxed dining ambiance of our space.
         </p>

@@ -12,7 +12,7 @@ export default function AboutPage() {
   return (
     <div className="py-16 px-4 max-w-5xl mx-auto font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
-        <SprigHeading eyebrow="Our Origins" as="h1">Our Story</SprigHeading>
+        <SprigHeading eyebrow="Our Origins" as="h1" className="mb-3">Our Story</SprigHeading>
         <p className="text-text-secondary text-sm">
           Bridging organic Canterbury farming and modern culinary craft.
         </p>

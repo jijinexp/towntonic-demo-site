@@ -12,7 +12,7 @@ export default function ReservationsPage() {
   return (
     <div className="bg-bg-page py-16 px-4 font-sans min-h-[70vh] flex flex-col justify-center">
       <div className="text-center max-w-xl mx-auto mb-10">
-        <SprigHeading eyebrow="Join Us" as="h1">Reserve a Table</SprigHeading>
+        <SprigHeading eyebrow="Join Us" as="h1" className="mb-3">Reserve a Table</SprigHeading>
         <p className="text-text-secondary text-sm mb-6">
           Select your party details, choose your favorite seating zone, and book your spot instantly.
         </p>
