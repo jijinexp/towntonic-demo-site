@@ -13,3 +13,8 @@
 - [x] Palette+Motion Task 1: Palette foundation (commits c513265..72d3e07, review clean)
 - [x] Palette+Motion Task 2: Motion tokens + Reveal (commits 72d3e07..a5cc532, review clean; Minor: components/reveal.tsx setTimeout not cleared on unmount — Task 3 stagger use case)
 - [x] Palette+Motion Task 3: Hover polish + reveals (commits a5cc532..abab123, review clean; note: jest.setup.ts polyfill added outside brief scope but reviewer approved; footer "Follow" section not present — eyebrow applied to two real headings)
+- [x] Palette+Motion Task 4: Sage in service (Task-4 commit c5a08c2, review clean; user-authored commit 6c52579 followed with unrelated skill-tooling + Next image warnings — not part of Task 4)
+- [x] Palette+Motion Task 5: SprigHeading (commits 6c52579..7a2a85a, review clean after mb-3 fix on interior pages; app/menu/page.tsx intentionally skipped — no eyebrow pattern to adopt against)
+- [x] Palette+Motion Task 6: Route/wizard/sticky bar (commits 7a2a85a..9f8dd83, review clean after keyframes fix for wizard step transition; plan brief was wrong that a CSS transition with data-active="true" at insertion animates — replaced with @keyframes)
+- [x] Palette+Motion Task 7: QA verification doc (commit 4f247e9; brief steps 3 walking-the-checklist and 4 Lighthouse baseline skipped — sandbox limitation, user runs manually)
+- [x] Final whole-branch review (commit 49075f5; ready to merge — Yes with follow-ups: Reveal setTimeout cleanup, nav data-active wiring via usePathname, sticky bar mount-slide start hidden)

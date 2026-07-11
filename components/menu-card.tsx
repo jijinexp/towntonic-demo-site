@@ -1,6 +1,3 @@
-"use client";
-import Image from "next/image";
-
 export interface MenuItem {
   id: string;
   name: string;
@@ -15,53 +12,46 @@ export interface MenuItem {
 
 interface MenuCardProps {
   item: MenuItem;
-  onSelect: (item: MenuItem) => void;
 }
 
-export default function MenuCard({ item, onSelect }: MenuCardProps) {
+export default function MenuCard({ item }: MenuCardProps) {
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(item)}
-      className="text-left w-full flex flex-col border border-border rounded-sm bg-bg-card overflow-hidden cursor-pointer hover:border-border-strong hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-all duration-200"
-    >
-      <span className="relative h-[200px] w-full block">
-        <Image
-          src={item.image}
-          alt={item.name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
+    <article className="py-6 border-b border-neutral-300/70">
+      <div className="flex items-baseline gap-3">
+        <h4 className="font-serif text-2xl md:text-3xl font-bold text-neutral-900">
+          {item.name}
+        </h4>
+        <span
+          aria-hidden="true"
+          className="flex-1 border-b border-dotted border-neutral-500 translate-y-[-6px]"
         />
-      </span>
-      <span className="p-5 flex-grow flex flex-col justify-between w-full block">
-        {item.sourceTags && item.sourceTags.length > 0 && (
-          <span className="flex gap-1.5 mb-2 block">
-            {item.sourceTags.map((t) => (
-              <span
-                key={t}
-                className="bg-sage-soft text-sage text-[11px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide"
-              >
-                {t === "local" ? "Local" : "Seasonal"}
-              </span>
-            ))}
-          </span>
-        )}
-        <span className="block">
-          <span className="flex justify-between items-baseline mb-2 block">
-            <span className="font-serif text-lg font-bold text-primary block">{item.name}</span>
-            <span className="font-sans font-medium text-gold">${item.price.toFixed(2)}</span>
-          </span>
-          <span className="text-text-secondary text-xs leading-relaxed mb-4 block">{item.description}</span>
+        <span className="font-sans font-semibold text-gold text-xl md:text-2xl shrink-0">
+          ${item.price.toFixed(2)}
         </span>
-        <span className="flex flex-wrap gap-1.5 block">
+      </div>
+      <p className="mt-2 text-neutral-700 text-base md:text-lg leading-relaxed">
+        {item.description}
+      </p>
+      {(item.tags.length > 0 || (item.sourceTags && item.sourceTags.length > 0)) && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {item.sourceTags?.map((t) => (
+            <span
+              key={t}
+              className="bg-sage-soft text-sage text-xs font-semibold px-2.5 py-1 rounded-sm uppercase tracking-wide"
+            >
+              {t === "local" ? "Local" : "Seasonal"}
+            </span>
+          ))}
           {item.tags.map((t, idx) => (
-            <span key={idx} className="bg-bg-page text-text-secondary text-[10px] font-semibold px-2 py-0.5 rounded-sm">
+            <span
+              key={idx}
+              className="bg-neutral-900/85 text-neutral-100 text-xs font-semibold px-2.5 py-1 rounded-sm"
+            >
               {t}
             </span>
           ))}
-        </span>
-      </span>
-    </button>
+        </div>
+      )}
+    </article>
   );
 }

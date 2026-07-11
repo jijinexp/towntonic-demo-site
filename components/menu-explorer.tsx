@@ -1,10 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { X } from "lucide-react";
+import { useState } from "react";
 import MenuCard, { MenuItem } from "@/components/menu-card";
-import { useFocusTrap } from "@/hooks/use-focus-trap";
 import Reveal from "@/components/reveal";
+import MenuBackground from "@/components/menu-background";
 
 const ADD_ONS = [
   { name: "Two Eggs", price: 7.00 },
@@ -25,29 +23,7 @@ interface MenuExplorerProps {
 export default function MenuExplorer({ items }: MenuExplorerProps) {
   const [activeTab, setActiveTab] = useState<"brunch" | "dinner" | "dessert" | "drinks" >("brunch");
   const [selectedTag, setSelectedTag] = useState<"All" | MenuItem["tags"][number]>("All");
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
-
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setSelectedItem(null);
-      setIsClosing(false);
-    }, 150);
-  };
-
   const filterTags = ["All", "Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"] as const;
-
-  useEffect(() => {
-    if (!selectedItem) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        handleClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedItem]);
 
   const tabs = ["brunch", "dinner", "dessert", "drinks"] as const;
 
@@ -80,8 +56,6 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
     const matchesTag = selectedTag === "All" || item.tags.includes(selectedTag as MenuItem["tags"][number]);
     return matchesCategory && matchesTag;
   });
-
-  const modalRef = useFocusTrap(selectedItem !== null);
 
   return (
     <>
@@ -132,11 +106,13 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
       </div>
 
       {/* MENU GRID PANEL */}
-      <div 
-        id="menu-grid-panel" 
+      <div
+        id="menu-grid-panel"
         role="tabpanel"
         aria-label={`${activeTab} menu section`}
+        className="relative isolate rounded-sm overflow-hidden p-6 md:p-10"
       >
+        <MenuBackground />
         {filteredItems.length > 0 ? (
           activeTab === "brunch" ? (
             <div className="flex flex-col gap-14">
@@ -146,12 +122,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Honest</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "honest")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -164,12 +140,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Eggs</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "eggs")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -182,12 +158,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Lunch</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "lunch")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -203,12 +179,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Trust the Chef</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Tasting menus priced per person</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "tasting")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -222,12 +198,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Clearwater & Canterbury Growers</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Grown in Canterbury soil, sustainable & symbiotic living</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "growers")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -241,12 +217,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Theo&apos;s Fisheries & Seafood</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Harvested ethically and sustainably with wild caught perfection</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "seafood")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -260,12 +236,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Maihan & Westmeats Mains</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Family businesses supporting the community and local farms</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "meat")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -281,12 +257,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cocktails & Mocktails</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Artisanal creations and refreshing non-alcoholic blends</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "cocktails")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -300,12 +276,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Fine Wines</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Proudly curated by local Christchurch Powerhouse Wine Company</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "wines")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -319,12 +295,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Craft Beers & Cider</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Featuring local Christchurch Three Boys & Cassels breweries</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "beers")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -338,12 +314,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Coffee, Tea & Non-Alcoholic</h3>
                     <p className="text-text-muted text-xs italic mt-0.5">Espresso bar available all day, freshly squeezed juices until 2pm</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "softs")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -358,12 +334,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Desserts</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "dessert")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -376,12 +352,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cookies</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "cookies")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -394,12 +370,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   <div className="border-l-4 border-gold pl-3 mb-6">
                     <h3 className="font-serif text-2xl font-bold text-primary capitalize tracking-wide">Cheese Selection</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                     {filteredItems
                       .filter((item) => item.subCategory === "cheese")
                       .map((item, index) => (
                         <Reveal delayMs={index * 30} key={item.id}>
-                          <MenuCard item={item} onSelect={setSelectedItem} />
+                          <MenuCard item={item} />
                         </Reveal>
                       ))}
                   </div>
@@ -407,10 +383,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
               {filteredItems.map((item, index) => (
                 <Reveal delayMs={index * 30} key={item.id}>
-                  <MenuCard item={item} onSelect={setSelectedItem} />
+                  <MenuCard item={item} />
                 </Reveal>
               ))}
             </div>
@@ -423,80 +399,30 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
 
         {/* ADD-ONS SECTION */}
         {activeTab === "brunch" && (
-          <div className="mt-16 border-t border-border pt-12 max-w-4xl mx-auto">
+          <div className="mt-16 border-t border-neutral-300/70 pt-12 max-w-4xl mx-auto">
             <div className="text-center mb-8">
               <span className="text-gold uppercase tracking-wider font-semibold text-xs">Side Additions</span>
-              <h3 className="font-serif text-2xl md:text-3xl font-bold text-primary mt-1">Menu Add-ons</h3>
-              <p className="text-text-muted text-xs mt-1 italic">Only available to order with meals</p>
+              <h3 className="font-serif text-2xl md:text-3xl font-bold mt-1">Menu Add-ons</h3>
+              <p className="text-neutral-600 text-sm mt-1 italic">Only available to order with meals</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
               {ADD_ONS.map((addon, index) => (
-                <div key={index} className="flex justify-between items-center bg-bg-card border border-border rounded px-4 py-3 font-sans">
-                  <span className="text-text-primary font-medium text-sm">{addon.name}</span>
-                  <span className="text-gold font-bold text-sm">${addon.price.toFixed(2)}</span>
-                </div>
+                <li
+                  key={index}
+                  className="flex items-baseline gap-3 py-3 border-b border-neutral-300/70 font-sans"
+                >
+                  <span className="text-neutral-900 font-medium text-lg">{addon.name}</span>
+                  <span
+                    aria-hidden="true"
+                    className="flex-1 border-b border-dotted border-neutral-500 translate-y-[-4px]"
+                  />
+                  <span className="text-gold font-semibold text-lg shrink-0">${addon.price.toFixed(2)}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
       </div>
-
-      {/* DETAILS MODAL */}
-      {selectedItem && (
-        <div 
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-          onClick={handleClose}
-          className="fixed inset-0 z-50 bg-black/55 flex items-center justify-center p-4 backdrop-blur-xs"
-        >
-          <div 
-            ref={modalRef}
-            onClick={(e) => e.stopPropagation()}
-            className={`t-modal ${isClosing ? "is-closing" : "is-open"} bg-bg-card rounded-sm w-full max-w-2xl overflow-hidden shadow-2xl relative focus-visible:outline-none`}
-            tabIndex={-1}
-          >
-            <button
-              onClick={handleClose}
-              className="absolute top-4 right-4 z-10 text-white bg-black/40 hover:bg-black/60 p-2 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-              aria-label="Close Modal"
-            >
-              <X size={20} />
-            </button>
-            <div className="relative h-[300px] w-full">
-              <Image
-                src={selectedItem.image}
-                alt={selectedItem.name}
-                fill
-                className="object-cover"
-                sizes="100vw"
-              />
-            </div>
-            <div className="p-8">
-              <div className="flex justify-between items-baseline mb-3">
-                <h3 id="modal-title" className="font-serif text-2xl font-bold text-primary">{selectedItem.name}</h3>
-                <span className="font-sans font-bold text-gold text-xl">${selectedItem.price.toFixed(2)}</span>
-              </div>
-              <p className="text-text-secondary leading-relaxed text-sm mb-6">{selectedItem.description}</p>
-              
-              <div className="border-t border-border pt-6">
-                <h5 className="font-semibold text-xs text-primary uppercase tracking-wider mb-2.5">Dietary Profile</h5>
-                <div className="flex gap-2">
-                  {selectedItem.tags.length > 0 ? (
-                    selectedItem.tags.map((t, idx) => (
-                      <span key={idx} className="bg-primary/5 text-primary text-xs font-semibold px-3 py-1 rounded-sm">
-                        {t}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="text-xs text-text-muted font-medium">Traditional Chef Recipe</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

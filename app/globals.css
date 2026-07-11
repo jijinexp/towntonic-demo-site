@@ -64,6 +64,16 @@ a[class*="bg-gold"] {
   color: #fff !important;
 }
 
+/* Menu panel sits on a light paper texture — headings inside it should be dark. */
+#menu-grid-panel h1,
+#menu-grid-panel h2,
+#menu-grid-panel h3,
+#menu-grid-panel h4,
+#menu-grid-panel h5,
+#menu-grid-panel h6 {
+  color: #171717 !important;
+}
+
 /* Navbar: white text at top (transparent over hero), dark once scrolled onto white bg */
 header nav a,
 header nav button {
