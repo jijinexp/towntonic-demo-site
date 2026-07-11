@@ -647,7 +647,7 @@ export default function MenuPage() {
       <div className="text-center max-w-xl mx-auto mb-12">
         <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary mb-3">Our Menu</h1>
         <p className="text-text-secondary text-sm">
-          Canterbury ingredients prepared with care. We serve our All Day Menu from 8:00 am to 2:00 pm daily, refined dinners from 5:30 pm, and selected local drinks.
+          We serve our All Day Menu from 8:00 am to 2:00 pm daily, refined dinners from 5:30 pm, and selected local drinks.
         </p>
       </div>
 
