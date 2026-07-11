@@ -235,6 +235,46 @@ h1, h2, h3, h4, .font-serif {
   .t-sprig .t-sprig-leaf   { opacity: 1 !important; transition: none !important; }
 }
 
+/* Route change: opacity fade */
+.t-route {
+  animation: t-route-in var(--dur-base) var(--ease-out) both;
+}
+@keyframes t-route-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-route { animation: none; opacity: 1; }
+}
+
+/* Wizard step-to-step transition */
+.t-wizard-step {
+  opacity: 0;
+  transform: translateX(12px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.t-wizard-step[data-active="true"] {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-wizard-step { transition: none; }
+}
+
+/* Mobile sticky action bar */
+.t-sticky-bar {
+  transform: translateY(0);
+  transition: transform var(--dur-slow) var(--ease-spring);
+}
+.t-sticky-bar[data-hidden="true"] {
+  transform: translateY(100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-sticky-bar { transition: none; }
+}
+
 /* Global reduced-motion guard. Per-component overrides may still opt out. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

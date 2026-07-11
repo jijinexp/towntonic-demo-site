@@ -1,11 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [barHidden, setBarHidden] = useState(false);
+  const lastScrollY = useRef(0);
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const dy = y - lastScrollY.current;
+        if (Math.abs(dy) > 4) {
+          // Show on scroll up, hide on scroll down. Always show near top.
+          setBarHidden(dy > 0 && y > 120);
+          lastScrollY.current = y;
+        }
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
@@ -64,16 +85,19 @@ export default function NavBar() {
       </header>
 
       {/* Mobile Sticky Bottom Action Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-bg-page/95 border-t border-border p-3 flex gap-3 shadow-lg">
+      <div
+        className="t-sticky-bar md:hidden fixed bottom-0 left-0 right-0 z-40 bg-bg-page/95 backdrop-blur-sm border-t border-border p-3 flex gap-3 shadow-lg"
+        data-hidden={barHidden ? "true" : "false"}
+      >
         <Link
           href="/menu"
-          className="flex-1 border border-primary text-primary hover:bg-bg-elevated text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="t-hover-lift flex-1 border border-primary text-primary hover:bg-bg-elevated text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
           View Menu
         </Link>
         <Link
           href="/reservations"
-          className="flex-1 bg-primary text-white hover:bg-primary-hover text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="t-hover-lift flex-1 bg-primary text-white hover:bg-primary-hover text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
           Book Table
         </Link>

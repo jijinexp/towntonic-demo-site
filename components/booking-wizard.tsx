@@ -121,7 +121,7 @@ export default function BookingWizard() {
             className="w-full bg-bg-page h-1.5 rounded-full overflow-hidden"
           >
             <div
-              className="bg-primary h-full transition-all duration-300"
+              className="bg-gold h-full transition-all duration-300"
               style={{ width: `${(step / 3) * 100}%` }}
             />
           </div>
@@ -136,7 +136,7 @@ export default function BookingWizard() {
 
       {/* STEP 1: GUESTS, DATE, TIME */}
       {step === 1 && (
-        <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+        <div className="t-wizard-step flex flex-col gap-6" data-active="true" key="step-1">
           <div className="flex flex-col">
             <label htmlFor="booking-guests" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Number of Guests</label>
             <div className="flex items-center gap-3">
@@ -205,7 +205,7 @@ export default function BookingWizard() {
 
       {/* STEP 2: SEATING ZONE */}
       {step === 2 && (
-        <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+        <div className="t-wizard-step flex flex-col gap-6" data-active="true" key="step-2">
           <div className="flex flex-col">
             <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Choose Dining Zone</span>
             <div role="radiogroup" aria-label="Choose Dining Zone" className="flex flex-col gap-3">
@@ -258,7 +258,7 @@ export default function BookingWizard() {
 
       {/* STEP 3: CONTACT INFORMATION */}
       {step === 3 && (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 animate-in fade-in duration-200">
+        <form onSubmit={handleSubmit} className="t-wizard-step flex flex-col gap-5" data-active="true" key="step-3">
           <div className="flex flex-col">
             <label htmlFor="booking-name" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Full Name</label>
             <input
@@ -333,7 +333,7 @@ export default function BookingWizard() {
 
       {/* STEP 4: SUCCESS SCREEN */}
       {step === 4 && (
-        <div className="text-center py-6">
+        <div className="t-wizard-step text-center py-6" data-active="true" key="step-4">
           <div className="flex justify-center mb-6">
             <span className="t-success-check" data-state={step === 4 ? "in" : "out"} aria-hidden="true">
               <svg className="w-16 h-16 text-gold" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
