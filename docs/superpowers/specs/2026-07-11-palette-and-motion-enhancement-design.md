@@ -206,7 +206,7 @@ Alongside every section eyebrow label, a small SVG sprig (3–4 leaves) sits to 
   }
   ```
 - Sprig SVGs get `aria-hidden="true"`.
-- Testimonial autoplay pauses on hover **and** focus-within, exposes prev/next controls (WCAG 2.2.2).
+- (Testimonial autoplay is out of scope for this pass; requirements documented in §3.3 for future.)
 
 ---
 
