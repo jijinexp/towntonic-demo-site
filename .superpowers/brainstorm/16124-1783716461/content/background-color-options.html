@@ -1,0 +1,223 @@
+<h2>Background Color Options</h2>
+<p class="subtitle">Pure white (#FFFFFF) feels too neutral against the Steel Blue & Timber Gold palette. Here are three tinted alternatives — each one picks up a different undertone from <code>floorshot2.jpeg</code>.</p>
+
+<style>
+  .bg-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bg-option {
+    border: 1px solid #e0ddd8;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .bg-option:hover {
+    border-color: #bd8545;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  .bg-option.selected {
+    border-color: #bd8545;
+    box-shadow: 0 0 0 2px #bd8545;
+  }
+
+  .bg-label-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    background: #f8f7f4;
+    border-bottom: 1px solid #eae8e3;
+  }
+
+  .bg-label-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #1a1a1a;
+  }
+
+  .bg-label-hex {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #666;
+    background: #fff;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #e5e5e0;
+  }
+
+  .bg-preview {
+    padding: 2rem 2rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .bg-preview-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(62,81,103,0.12);
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-logo {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3e5167;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #3e5167;
+  }
+
+  .bg-preview-hero {
+    margin-bottom: 1.5rem;
+  }
+
+  .bg-preview-hero h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #3e5167;
+    margin-bottom: 0.3rem;
+  }
+
+  .bg-preview-hero p {
+    font-size: 0.85rem;
+    color: #1C2430;
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+
+  .bg-preview-cards {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .mini-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 1rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .mini-card h4 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3e5167;
+    margin-bottom: 0.25rem;
+  }
+
+  .mini-card .price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #bd8545;
+  }
+
+  .mini-card .desc {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
+  }
+
+  .bg-reason {
+    padding: 0.75rem 1.25rem;
+    background: #fafaf7;
+    border-top: 1px solid #eae8e3;
+    font-size: 0.82rem;
+    color: #555;
+    line-height: 1.4;
+  }
+</style>
+
+<div class="bg-options">
+  <!-- OPTION A: Warm Linen Cream -->
+  <div class="bg-option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="bg-label-bar">
+      <span class="bg-label-name">A · Warm Linen Cream (Recommended)</span>
+      <span class="bg-label-hex">#F8F6F1</span>
+    </div>
+    <div class="bg-preview" style="background-color: #F8F6F1;">
+      <div class="bg-preview-nav">
+        <span class="nav-logo">Town Tonic</span>
+        <div class="nav-links"><span>Menu</span><span>About</span><span>Reserve</span></div>
+      </div>
+      <div class="bg-preview-hero">
+        <h3>Welcome to Town Tonic</h3>
+        <p>A neighbourhood kitchen & bar in the heart of Mornington. Farm-to-table dining with locally sourced produce.</p>
+      </div>
+      <div class="bg-preview-cards">
+        <div class="mini-card"><h4>Mr. Simple</h4><span class="price">$21.00</span><p class="desc">Smashed avo, sourdough</p></div>
+        <div class="mini-card"><h4>French Toast</h4><span class="price">$24.00</span><p class="desc">Brioche, berries, maple</p></div>
+        <div class="mini-card"><h4>Pan Fried Fish</h4><span class="price">$42.00</span><p class="desc">Market fish, greens</p></div>
+      </div>
+    </div>
+    <div class="bg-reason">☀️ Warm yellow-cream undertone from the timber floors. Creates a cozy, organic cafe feel that pairs naturally with the Timber Gold accent.</div>
+  </div>
+
+  <!-- OPTION B: Cool Ice Tint -->
+  <div class="bg-option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="bg-label-bar">
+      <span class="bg-label-name">B · Cool Steel Mist</span>
+      <span class="bg-label-hex">#F4F6F8</span>
+    </div>
+    <div class="bg-preview" style="background-color: #F4F6F8;">
+      <div class="bg-preview-nav">
+        <span class="nav-logo">Town Tonic</span>
+        <div class="nav-links"><span>Menu</span><span>About</span><span>Reserve</span></div>
+      </div>
+      <div class="bg-preview-hero">
+        <h3>Welcome to Town Tonic</h3>
+        <p>A neighbourhood kitchen & bar in the heart of Mornington. Farm-to-table dining with locally sourced produce.</p>
+      </div>
+      <div class="bg-preview-cards">
+        <div class="mini-card"><h4>Mr. Simple</h4><span class="price">$21.00</span><p class="desc">Smashed avo, sourdough</p></div>
+        <div class="mini-card"><h4>French Toast</h4><span class="price">$24.00</span><p class="desc">Brioche, berries, maple</p></div>
+        <div class="mini-card"><h4>Pan Fried Fish</h4><span class="price">$42.00</span><p class="desc">Market fish, greens</p></div>
+      </div>
+    </div>
+    <div class="bg-reason">❄️ Cool blue-grey undertone pulled from the steel panels and sky. Modern, architectural, and crisp — emphasizes the Steel Blue primary.</div>
+  </div>
+
+  <!-- OPTION C: Warm Sand Stone -->
+  <div class="bg-option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="bg-label-bar">
+      <span class="bg-label-name">C · Warm Sandstone</span>
+      <span class="bg-label-hex">#F5F2EC</span>
+    </div>
+    <div class="bg-preview" style="background-color: #F5F2EC;">
+      <div class="bg-preview-nav">
+        <span class="nav-logo">Town Tonic</span>
+        <div class="nav-links"><span>Menu</span><span>About</span><span>Reserve</span></div>
+      </div>
+      <div class="bg-preview-hero">
+        <h3>Welcome to Town Tonic</h3>
+        <p>A neighbourhood kitchen & bar in the heart of Mornington. Farm-to-table dining with locally sourced produce.</p>
+      </div>
+      <div class="bg-preview-cards">
+        <div class="mini-card"><h4>Mr. Simple</h4><span class="price">$21.00</span><p class="desc">Smashed avo, sourdough</p></div>
+        <div class="mini-card"><h4>French Toast</h4><span class="price">$24.00</span><p class="desc">Brioche, berries, maple</p></div>
+        <div class="mini-card"><h4>Pan Fried Fish</h4><span class="price">$42.00</span><p class="desc">Market fish, greens</p></div>
+      </div>
+    </div>
+    <div class="bg-reason">🏜️ Earthier, deeper warmth than Option A — more like bare sandstone or raw plaster. Gives a rustic, Mediterranean bistro feeling.</div>
+  </div>
+</div>

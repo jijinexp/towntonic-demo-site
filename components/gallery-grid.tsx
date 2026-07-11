@@ -80,7 +80,7 @@ export default function GalleryGrid({ images }: GalleryGridProps) {
         >
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-white hover:text-stone-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="absolute top-4 right-4 text-white hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             aria-label="Close Lightbox"
           >
             <X size={32} />
