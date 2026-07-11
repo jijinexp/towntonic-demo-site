@@ -247,20 +247,16 @@ h1, h2, h3, h4, .font-serif {
   .t-route { animation: none; opacity: 1; }
 }
 
-/* Wizard step-to-step transition */
+/* Wizard step-to-step transition (plays on mount via key={step}) */
 .t-wizard-step {
-  opacity: 0;
-  transform: translateX(12px);
-  transition:
-    opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out);
+  animation: t-wizard-step-in var(--dur-base) var(--ease-out) both;
 }
-.t-wizard-step[data-active="true"] {
-  opacity: 1;
-  transform: translateX(0);
+@keyframes t-wizard-step-in {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .t-wizard-step { transition: none; }
+  .t-wizard-step { animation: none; }
 }
 
 /* Mobile sticky action bar */
