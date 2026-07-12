@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import { Phone, MapPin, Mail, Clock, ShieldAlert } from "lucide-react";
-import SprigHeading from "@/components/sprig-heading";
+import { ShieldAlert } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact & Location - Town Tonic Christchurch",
@@ -11,70 +10,74 @@ export default function ContactPage() {
   return (
     <div className="py-16 px-4 max-w-6xl mx-auto font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
-        <SprigHeading eyebrow="Find Us" as="h1" className="mb-3">Contact Us</SprigHeading>
+        <div className="mb-3">
+          <span className="block text-gold uppercase tracking-wider font-semibold text-xs">Find Us</span>
+          <h1 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Contact Us</h1>
+        </div>
         <p className="text-text-secondary text-sm">
           We are situated in the energetic heart of Addington, ready for your visit.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-        {/* MAP PLACEHOLDER */}
-        <div className="bg-bg-card border border-border rounded-sm h-[400px] flex flex-col justify-center items-center text-center p-8 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-bg-card flex flex-col justify-center items-center">
-            <MapPin size={48} className="text-gold mb-4" />
-            <h3 className="font-serif text-xl font-bold text-primary mb-2">Lincoln Road, Addington</h3>
-            <p className="text-text-muted text-xs mb-6 max-w-xs">
-              Shop 1/335 Lincoln Road, Addington, Christchurch 8024
-            </p>
-            <a
-              href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              Open in Google Maps
-            </a>
-          </div>
-        </div>
-
+      <div className="mb-16">
         {/* CONTACT INFORMATION */}
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col max-w-2xl mx-auto">
           <h2 className="font-serif text-3xl font-bold text-primary mb-6">Get in Touch</h2>
           
-          <div className="space-y-6 text-sm text-text-secondary mb-8">
-            <div className="flex items-start gap-4">
-              <MapPin className="text-gold mt-1" size={20} />
-              <div>
-                <h4 className="font-bold text-primary mb-1">Address</h4>
-                <p>Shop 1/335 Lincoln Road, Addington, Christchurch 8024</p>
-              </div>
+          <form
+            action="mailto:info@towntonic.co.nz"
+            method="post"
+            encType="text/plain"
+            className="space-y-4 mb-8"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <label className="flex flex-col gap-1.5 text-xs font-semibold text-primary uppercase tracking-wider">
+                Name
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className="bg-bg-card border border-border rounded-sm px-3 py-2.5 text-sm font-normal normal-case tracking-normal text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  placeholder="Your name"
+                />
+              </label>
+              <label className="flex flex-col gap-1.5 text-xs font-semibold text-primary uppercase tracking-wider">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="bg-bg-card border border-border rounded-sm px-3 py-2.5 text-sm font-normal normal-case tracking-normal text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  placeholder="you@example.com"
+                />
+              </label>
             </div>
-
-            <div className="flex items-start gap-4">
-              <Phone className="text-gold mt-1" size={20} />
-              <div>
-                <h4 className="font-bold text-primary mb-1">Phone</h4>
-                <a href="tel:+6433381150" className="hover:underline text-primary font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">03 338 1150</a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <Mail className="text-gold mt-1" size={20} />
-              <div>
-                <h4 className="font-bold text-primary mb-1">Email</h4>
-                <a href="mailto:info@towntonic.co.nz" className="hover:underline text-primary font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">info@towntonic.co.nz</a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <Clock className="text-gold mt-1" size={20} />
-              <div>
-                <h4 className="font-bold text-primary mb-1">Hours of Operation</h4>
-                <p>Mon - Fri: 7:00 am - Late</p>
-                <p>Sat - Sun: 8:00 am - Late</p>
-              </div>
-            </div>
-          </div>
+            <label className="flex flex-col gap-1.5 text-xs font-semibold text-primary uppercase tracking-wider">
+              Subject
+              <input
+                type="text"
+                name="subject"
+                className="bg-bg-card border border-border rounded-sm px-3 py-2.5 text-sm font-normal normal-case tracking-normal text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                placeholder="Reservation enquiry, private event, feedback…"
+              />
+            </label>
+            <label className="flex flex-col gap-1.5 text-xs font-semibold text-primary uppercase tracking-wider">
+              Message
+              <textarea
+                name="message"
+                required
+                rows={5}
+                className="bg-bg-card border border-border rounded-sm px-3 py-2.5 text-sm font-normal normal-case tracking-normal text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold resize-y"
+                placeholder="How can we help?"
+              />
+            </label>
+            <button
+              type="submit"
+              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold uppercase tracking-wider px-6 py-3 rounded-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              Send Message
+            </button>
+          </form>
 
           <div className="bg-bg-card border border-border rounded p-5 text-xs text-text-muted flex gap-3">
             <ShieldAlert className="text-gold flex-shrink-0" size={20} />

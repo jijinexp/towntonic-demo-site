@@ -52,24 +52,23 @@ export default function HomepageGallery({ items }: HomepageGalleryProps) {
             <button
               type="button"
               onClick={() => setActiveImg(idx)}
-              className="text-left w-full block group cursor-pointer border border-border rounded-sm overflow-hidden bg-bg-card transition-all duration-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="relative text-left w-full block group cursor-pointer rounded-sm overflow-hidden transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              aria-label={`View ${item.title}`}
             >
-              <div className="relative h-[300px] w-full overflow-hidden">
+              <div className="relative h-[380px] w-full overflow-hidden">
                 <Image
                   src={item.src}
                   alt={item.title}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-              </div>
-              <div className="p-6">
-                <h3 className="font-serif text-xl font-bold text-primary group-hover:text-gold transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-text-secondary text-sm mt-2 leading-relaxed">
-                  {item.desc}
-                </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="font-serif text-xl md:text-2xl font-bold text-white">
+                    {item.title}
+                  </h3>
+                </div>
               </div>
             </button>
           </Reveal>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, MapPin, Mail } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import { OpeningHours } from "@/types";
 import Logo from "./logo";
 
@@ -22,26 +22,27 @@ export default function Footer() {
             Christchurch’s favorite eating house & bar. Bridges the gap between casual daytime cafe and premium evening bistro.
           </p>
         </div>
-        <div>
-          <h4 className="mb-4">
-            <span className="text-gold uppercase tracking-wider font-semibold text-xs">Contact & Location</span>
-          </h4>
-          <ul className="space-y-3">
-            <li className="flex items-center gap-2.5">
-              <MapPin size={16} className="text-gold" />
-              <a href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch" target="_blank" rel="noopener noreferrer" className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">
-                Shop 1/335 Lincoln Road, Addington, Christchurch
-              </a>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Phone size={16} className="text-gold" />
-              <a href="tel:+6433381150" className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">03 338 1150</a>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Mail size={16} className="text-gold" />
-              <a href="mailto:info@towntonic.co.nz" className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">info@towntonic.co.nz</a>
-            </li>
-          </ul>
+        <div className="bg-bg border border-border rounded-sm flex flex-col justify-center items-center text-center p-6">
+          <MapPin size={36} className="text-gold mb-3" />
+          <h3 className="font-serif text-lg font-bold text-primary mb-1">Lincoln Road, Addington</h3>
+          <p className="text-text-muted text-xs mb-3 max-w-xs">
+            Shop 1/335 Lincoln Road, Addington, Christchurch 8024
+          </p>
+          <a
+            href="tel:+6433381150"
+            className="flex items-center gap-2 text-primary text-xs font-medium mb-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+          >
+            <Phone size={14} className="text-gold" />
+            03 338 1150
+          </a>
+          <a
+            href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-5 py-2.5 rounded-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          >
+            Open in Google Maps
+          </a>
         </div>
         <div>
           <h4 className="mb-4">

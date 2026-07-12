@@ -1,13 +1,17 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Calendar, User, ArrowRight, ArrowLeft } from "lucide-react";
+import { Calendar, User, Minus, Plus, Clock } from "lucide-react";
 
-const TIME_SLOTS = ["11:30 am", "12:00 pm", "12:30 pm", "1:00 pm", "5:30 pm", "6:00 pm", "6:30 pm", "7:00 pm", "7:30 pm"];
-const SEAT_ZONES = [
-  { id: "main", name: "Main Dining Room", desc: "Cozy refined seating close to our kitchen showcase." },
-  { id: "window", name: "Sunlit Window Seating", desc: "Settle next to our floor-to-ceiling glass fronts overlooking Addington." },
-  { id: "garden", name: "Heated Garden Bar", desc: "Lush outdoor green courtyard setting with overhead heating." },
-];
+const formatFriendlyTime = (t: string) => {
+  if (!t) return "";
+  const [hStr, mStr] = t.split(":");
+  const h = parseInt(hStr);
+  const m = parseInt(mStr);
+  if (Number.isNaN(h) || Number.isNaN(m)) return t;
+  const period = h >= 12 ? "pm" : "am";
+  const displayH = h % 12 === 0 ? 12 : h % 12;
+  return `${displayH}:${mStr.padStart(2, "0")} ${period}`;
+};
 
 const formatFriendlyDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -31,40 +35,40 @@ const getLocalDateString = () => {
 
 export default function BookingWizard() {
   const [mounted, setMounted] = useState(false);
-  const [step, setStep] = useState(1);
+  const [submitted, setSubmitted] = useState(false);
   const [guests, setGuests] = useState(2);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [zone, setZone] = useState("main");
-  
-  // Contact Info
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
-  
+
   const [error, setError] = useState("");
   const [bookingRef, setBookingRef] = useState("");
 
   const pathRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
-    if (step === 4 && pathRef.current) {
+    if (submitted && pathRef.current) {
       const len = typeof pathRef.current.getTotalLength === "function"
         ? Math.ceil(pathRef.current.getTotalLength())
         : 40;
       pathRef.current.style.strokeDasharray = String(len);
       pathRef.current.style.strokeDashoffset = String(len);
     }
-  }, [step]);
+  }, [submitted]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     setDate(getLocalDateString());
+    setTime("18:00");
   }, []);
 
-  const handleStep1Next = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!date) {
       setError("Please select a dining date.");
       return;
@@ -75,87 +79,68 @@ export default function BookingWizard() {
       return;
     }
     if (!time) {
-      setError("Please select a dining time slot.");
+      setError("Please select a dining time.");
       return;
     }
-    setError("");
-    setStep(2);
-  };
-
-  const handleStep2Next = () => {
-    setStep(3);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
     if (!name.trim() || !phone.trim() || !email.trim()) {
       setError("Please fill out all contact fields.");
       return;
     }
     setError("");
-    // Generate mock ref
     const ref = "TT-" + Math.floor(100000 + Math.random() * 900000);
     setBookingRef(ref);
-    setStep(4);
+    setSubmitted(true);
   };
 
   return (
     <div className="w-full max-w-xl mx-auto border border-border rounded-sm bg-bg-card p-8 shadow-sm">
-      {step < 4 && (
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-gold">
-              {step === 1 && "Step 1 of 3: Details"}
-              {step === 2 && "Step 2 of 3: Seating"}
-              {step === 3 && "Step 3 of 3: Contact"}
-            </span>
-            <span className="text-text-muted text-xs font-semibold">{step}/3</span>
-          </div>
-          {/* PROGRESS BAR */}
-          <div
-            role="progressbar"
-            aria-valuenow={step}
-            aria-valuemin={1}
-            aria-valuemax={3}
-            aria-valuetext={`Step ${step} of 3`}
-            className="w-full bg-bg-page h-1.5 rounded-full overflow-hidden"
-          >
-            <div
-              className="bg-gold h-full transition-all duration-300"
-              style={{ width: `${(step / 3) * 100}%` }}
-            />
-          </div>
-        </div>
-      )}
-
       {error && (
         <div className="bg-red-900/20 text-red-400 text-xs font-semibold p-3 rounded-sm mb-6 border border-red-800/30">
           {error}
         </div>
       )}
 
-      {/* STEP 1: GUESTS, DATE, TIME */}
-      {step === 1 && (
-        <div className="t-wizard-step flex flex-col gap-6" key="step-1">
+      {!submitted && (
+        <form onSubmit={handleSubmit} className="t-wizard-step flex flex-col gap-6" key="form">
           <div className="flex flex-col">
-            <label htmlFor="booking-guests" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Number of Guests</label>
+            <span id="booking-guests-label" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Number of Guests</span>
             <div className="flex items-center gap-3">
               <User size={18} className="text-gold" />
-              <select
-                id="booking-guests"
-                value={guests}
-                onChange={(e) => setGuests(parseInt(e.target.value))}
-                className="flex-grow bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              <div
+                className="flex-grow flex items-center justify-between bg-bg-page border border-border rounded px-2 py-1.5 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold"
+                role="group"
+                aria-labelledby="booking-guests-label"
               >
-                {[...Array(10)].map((_, i) => (
-                  <option key={i} value={i + 1}>{i + 1} {i + 1 === 1 ? "Guest" : "Guests"}</option>
-                ))}
-              </select>
+                <button
+                  type="button"
+                  aria-label="Decrease guests"
+                  onClick={() => setGuests((g) => Math.max(1, g - 1))}
+                  disabled={guests <= 1}
+                  className="h-9 w-9 inline-flex items-center justify-center rounded text-text-primary hover:bg-bg-elevated disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                >
+                  <Minus size={16} />
+                </button>
+                <span
+                  aria-live="polite"
+                  className="text-sm font-semibold text-text-primary tabular-nums"
+                >
+                  {guests} {guests === 1 ? "Guest" : "Guests"}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Increase guests"
+                  onClick={() => setGuests((g) => Math.min(10, g + 1))}
+                  disabled={guests >= 10}
+                  className="h-9 w-9 inline-flex items-center justify-center rounded text-text-primary hover:bg-bg-elevated disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
             </div>
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-date" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Select Date</label>
+            <label htmlFor="booking-date" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Select Date</label>
             <div className="flex items-center gap-3">
               <Calendar size={18} className="text-gold" />
               <input
@@ -164,103 +149,85 @@ export default function BookingWizard() {
                 min={mounted ? getLocalDateString() : undefined}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="flex-grow bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+                className="flex-grow bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary font-medium text-center [&::-webkit-date-and-time-value]:text-center [&::-webkit-datetime-edit]:text-center [&::-webkit-datetime-edit-fields-wrapper]:justify-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
               />
             </div>
           </div>
 
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Preferred Time Slot</span>
-            <div role="group" aria-label="Preferred Time Slot" className="grid grid-cols-3 gap-2">
-              {TIME_SLOTS.map((slot) => (
-                <button
-                  key={slot}
-                  type="button"
-                  aria-pressed={time === slot}
-                  onClick={() => {
-                    setTime(slot);
+            <span id="booking-time-label" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Preferred Time</span>
+            <div className="flex items-center gap-3">
+              <Clock size={18} className="text-gold" />
+              <div
+                role="group"
+                aria-labelledby="booking-time-label"
+                className="flex-grow flex items-center justify-center bg-bg-page border border-border rounded px-3 py-2 gap-1 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold"
+              >
+                {(() => {
+                  const [h24Str = "", mStr = ""] = time.split(":");
+                  const h24 = parseInt(h24Str);
+                  const m = parseInt(mStr);
+                  const validH = !Number.isNaN(h24);
+                  const validM = !Number.isNaN(m);
+                  const hour12 = validH ? (h24 % 12 === 0 ? 12 : h24 % 12) : 12;
+                  const period: "AM" | "PM" = validH && h24 >= 12 ? "PM" : "AM";
+                  const minute = validM ? m : 0;
+
+                  const commit = (nh: number, nm: number, np: "AM" | "PM") => {
+                    let h = nh % 12;
+                    if (np === "PM") h += 12;
+                    setTime(`${String(h).padStart(2, "0")}:${String(nm).padStart(2, "0")}`);
                     setError("");
-                  }}
-                  className={`py-2 text-xs font-semibold rounded border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                    time === slot
-                      ? "bg-primary border-primary text-white"
-                      : "bg-bg-card border-border text-text-secondary hover:bg-bg-elevated"
-                  }`}
-                >
-                  {slot}
-                </button>
-              ))}
+                  };
+
+                  const selectClass =
+                    "bg-transparent text-sm text-text-primary font-medium tabular-nums focus:outline-none appearance-none pr-1";
+
+                  return (
+                    <>
+                      <select
+                        aria-label="Hour"
+                        value={hour12}
+                        onChange={(e) => commit(parseInt(e.target.value), minute, period)}
+                        className={selectClass}
+                      >
+                        {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
+                          <option key={h} value={h}>
+                            {h}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="text-text-primary">:</span>
+                      <select
+                        aria-label="Minute"
+                        value={minute}
+                        onChange={(e) => commit(hour12, parseInt(e.target.value), period)}
+                        className={selectClass}
+                      >
+                        {Array.from({ length: 12 }, (_, i) => i * 5).map((mm) => (
+                          <option key={mm} value={mm}>
+                            {String(mm).padStart(2, "0")}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        aria-label="AM or PM"
+                        value={period}
+                        onChange={(e) => commit(hour12, minute, e.target.value as "AM" | "PM")}
+                        className={`${selectClass} ml-2`}
+                      >
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                      </select>
+                    </>
+                  );
+                })()}
+              </div>
             </div>
           </div>
 
-          <button
-            onClick={handleStep1Next}
-            className="mt-4 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-          >
-            <span>Next Step</span>
-            <ArrowRight size={16} />
-          </button>
-        </div>
-      )}
-
-      {/* STEP 2: SEATING ZONE */}
-      {step === 2 && (
-        <div className="t-wizard-step flex flex-col gap-6" key="step-2">
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Choose Dining Zone</span>
-            <div role="radiogroup" aria-label="Choose Dining Zone" className="flex flex-col gap-3">
-              {SEAT_ZONES.map((sz) => (
-                <label
-                  key={sz.id}
-                  htmlFor={`zone-${sz.id}`}
-                  className={`p-4 border rounded cursor-pointer block transition-all focus-within:ring-2 focus-within:ring-gold focus-within:outline-none ${
-                    zone === sz.id
-                      ? "border-gold bg-bg-page/50"
-                      : "border-border bg-bg-card hover:bg-bg-elevated"
-                  }`}
-                >
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-semibold text-sm text-primary">{sz.name}</span>
-                    <input
-                      id={`zone-${sz.id}`}
-                      type="radio"
-                      name="dining-zone"
-                      value={sz.id}
-                      checked={zone === sz.id}
-                      onChange={() => setZone(sz.id)}
-                      className="accent-primary"
-                    />
-                  </div>
-                  <p className="text-text-muted text-xs leading-relaxed">{sz.desc}</p>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex gap-4 mt-4">
-            <button
-              onClick={() => setStep(1)}
-              className="flex-1 border border-border text-text-secondary hover:bg-bg-elevated py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              <ArrowLeft size={16} />
-              <span>Back</span>
-            </button>
-            <button
-              onClick={handleStep2Next}
-              className="flex-1 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              <span>Next Step</span>
-              <ArrowRight size={16} />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 3: CONTACT INFORMATION */}
-      {step === 3 && (
-        <form onSubmit={handleSubmit} className="t-wizard-step flex flex-col gap-5" key="step-3">
-          <div className="flex flex-col">
-            <label htmlFor="booking-name" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Full Name</label>
+            <label htmlFor="booking-name" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Full Name</label>
             <input
               id="booking-name"
               type="text"
@@ -269,12 +236,12 @@ export default function BookingWizard() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. John Doe"
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-phone" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Phone Number</label>
+            <label htmlFor="booking-phone" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Phone Number</label>
             <input
               id="booking-phone"
               type="tel"
@@ -283,12 +250,12 @@ export default function BookingWizard() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 021 234 567"
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-email" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Email Address</label>
+            <label htmlFor="booking-email" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Email Address</label>
             <input
               id="booking-email"
               type="email"
@@ -297,45 +264,34 @@ export default function BookingWizard() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. john@example.com"
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-notes" className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Special Notes (Optional)</label>
+            <label htmlFor="booking-notes" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Special Notes (Optional)</label>
             <textarea
               id="booking-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Allergies, high chair requests, birthdays..."
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary h-24 resize-none focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              placeholder="Allergies, seating preferences, high chair requests, birthdays..."
+              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary h-24 resize-none text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
             />
           </div>
 
-          <div className="flex gap-4 mt-4">
-            <button
-              type="button"
-              onClick={() => setStep(2)}
-              className="flex-1 border border-border text-text-secondary hover:bg-bg-elevated py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              <ArrowLeft size={16} />
-              <span>Back</span>
-            </button>
-            <button
-              type="submit"
-              className="flex-1 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              <span>Confirm Booking</span>
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="mt-2 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          >
+            <span>Confirm Booking</span>
+          </button>
         </form>
       )}
 
-      {/* STEP 4: SUCCESS SCREEN */}
-      {step === 4 && (
-        <div className="t-wizard-step text-center py-6" key="step-4">
+      {submitted && (
+        <div className="t-wizard-step text-center py-6" key="success">
           <div className="flex justify-center mb-6">
-            <span className="t-success-check" data-state={step === 4 ? "in" : "out"} aria-hidden="true">
+            <span className="t-success-check" data-state="in" aria-hidden="true">
               <svg className="w-16 h-16 text-gold" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
                 <path ref={pathRef} d="M14 24l8 8 14-16" />
               </svg>
@@ -345,19 +301,15 @@ export default function BookingWizard() {
           <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-6">
             Booking Ref: <span className="text-gold font-bold">{bookingRef}</span>
           </p>
-          
+
           <div className="bg-bg-page border border-border rounded-sm p-5 text-left mb-8 text-sm text-text-secondary flex flex-col gap-3 font-sans">
             <div className="flex justify-between border-b border-border pb-2">
               <span className="font-semibold text-primary">Guest Count:</span>
               <span>{guests} {guests === 1 ? "person" : "people"}</span>
             </div>
-            <div className="flex justify-between border-b border-border pb-2">
-              <span className="font-semibold text-primary">Date & Time:</span>
-              <span>{formatFriendlyDate(date)} at {time}</span>
-            </div>
             <div className="flex justify-between">
-              <span className="font-semibold text-primary">Dining Zone:</span>
-              <span className="capitalize">{zone} Area</span>
+              <span className="font-semibold text-primary">Date & Time:</span>
+              <span>{formatFriendlyDate(date)} at {formatFriendlyTime(time)}</span>
             </div>
           </div>
 
@@ -367,11 +319,10 @@ export default function BookingWizard() {
 
           <button
             onClick={() => {
-              setStep(1);
+              setSubmitted(false);
               setGuests(2);
               setDate(getLocalDateString());
-              setTime("");
-              setZone("main");
+              setTime("18:00");
               setName("");
               setPhone("");
               setEmail("");
@@ -388,4 +339,3 @@ export default function BookingWizard() {
     </div>
   );
 }
-

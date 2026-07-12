@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import MenuCard, { MenuItem } from "@/components/menu-card";
 import Reveal from "@/components/reveal";
 import MenuBackground from "@/components/menu-background";
@@ -57,8 +57,7 @@ interface MenuExplorerProps {
 }
 
 export default function MenuExplorer({ items }: MenuExplorerProps) {
-  const [openTab, setOpenTab] = useState<Tab>("brunch");
-  const [selectedTag, setSelectedTag] = useState<"All" | MenuItem["tags"][number]>("All");
+  const [openTab, setOpenTab] = useState<Tab | null>(null);
   const [showScrollHint, setShowScrollHint] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const mobileTabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({
@@ -69,7 +68,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
   });
 
   const handleMobileTabClick = (tab: Tab) => {
-    if (openTab === tab) return;
+    if (openTab === tab) {
+      setOpenTab(null);
+      return;
+    }
     setOpenTab(tab);
     // The accordion animates height over 500ms; scrolling before the previously
     // open panel has collapsed lands us at the wrong Y. Wait for the transition,
@@ -82,8 +84,25 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
       window.scrollTo({ top, behavior: "smooth" });
     }, 520);
   };
-  const filterTags = ["All", "Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"] as const;
   const tabs: Tab[] = ["brunch", "dinner", "dessert", "drinks"];
+
+  // On desktop the four-column layout looks best with one panel already open;
+  // mobile stays collapsed so the user picks a section deliberately.
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      setOpenTab("brunch");
+    }
+  }, []);
+
+  // Collapse the accordion when the mobile "View Menu" bar re-triggers on /menu.
+  useEffect(() => {
+    const onCollapse = () => {
+      setOpenTab(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    window.addEventListener("menu:collapse", onCollapse);
+    return () => window.removeEventListener("menu:collapse", onCollapse);
+  }, []);
 
   // Reset + track the "more below" hint whenever the open tab or filter changes.
   useEffect(() => {
@@ -97,21 +116,10 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
     evaluate();
     el.addEventListener("scroll", evaluate, { passive: true });
     return () => el.removeEventListener("scroll", evaluate);
-  }, [openTab, selectedTag]);
-
-  const matchesFilter = (item: MenuItem) =>
-    selectedTag === "All" || item.tags.includes(selectedTag as MenuItem["tags"][number]);
+  }, [openTab]);
 
   const renderTabBody = (tab: Tab) => {
-    const tabItems = items.filter((i) => i.category === tab && matchesFilter(i));
-    if (tabItems.length === 0) {
-      return (
-        <p className="text-neutral-600 italic text-center py-10">
-          No dishes match your selected filter.
-        </p>
-      );
-    }
-
+    const tabItems = items.filter((i) => i.category === tab);
     const groups = LAYOUT[tab].filter((g) => tabItems.some((i) => i.subCategory === g.sub));
 
     return (
@@ -175,23 +183,6 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
 
   return (
     <>
-      {/* DIETARY FILTER CHIPS */}
-      <div className="flex flex-wrap gap-2 justify-center mb-10">
-        {filterTags.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => setSelectedTag(tag)}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-              selectedTag === tag
-                ? "bg-sage-soft border-sage text-sage"
-                : "bg-bg-card border-border text-text-secondary hover:bg-bg-elevated"
-            }`}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
-
       {/* ACCORDION SHELL */}
       <div
         id="menu-grid-panel"
@@ -201,7 +192,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
 
         {/* Desktop: horizontal strips with vertical labels. Fixed viewport
             height keeps every strip the same length across menus. */}
-        <div className="hidden md:flex h-[calc(100vh-8rem)] divide-x divide-neutral-400/60">
+        <div className="menu-text-fade-in hidden md:flex h-[calc(100vh-8rem)] divide-x divide-neutral-400/60">
           {tabs.map((tab, i) => {
             const isOpen = openTab === tab;
             return (
@@ -215,7 +206,12 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
               >
                 {isOpen ? (
                   <div key={tab} ref={scrollRef} className="menu-fade-in h-full overflow-y-auto">
-                    <div className="sticky top-0 z-20 px-8 md:px-12 pt-8 md:pt-10 pb-5 bg-[#f2f1e8]/95 backdrop-blur-lg border-b border-neutral-300/60 shadow-[0_1px_0_rgba(0,0,0,0.03)]">
+                    <button
+                      type="button"
+                      onClick={() => setOpenTab(null)}
+                      aria-label={`Collapse ${TAB_LABEL[tab]} menu`}
+                      className="group sticky top-0 z-20 w-full text-left px-8 md:px-12 pt-8 md:pt-10 pb-5 bg-[#f2f1e8]/60 backdrop-blur-xl backdrop-saturate-150 border-b border-white/30 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_4px_20px_-8px_rgba(0,0,0,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                    >
                       <div className="flex items-baseline gap-6">
                         <span className="text-gold font-mono text-sm tracking-[0.2em]">
                           {String(i + 1).padStart(2, "0")}
@@ -223,8 +219,14 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                         <h2 className="font-serif text-4xl md:text-6xl font-bold text-neutral-900 leading-none">
                           {TAB_LABEL[tab]}
                         </h2>
+                        <span
+                          className="ml-auto inline-flex h-14 w-14 items-center justify-center text-neutral-900 transition-colors group-hover:text-gold"
+                          aria-hidden="true"
+                        >
+                          <X size={36} strokeWidth={2} />
+                        </span>
                       </div>
-                    </div>
+                    </button>
                     <div className="px-8 md:px-12 pt-8 pb-24 md:pb-28">
                       {renderTabBody(tab)}
                     </div>
@@ -234,15 +236,16 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                 {isOpen && (
                   <div
                     aria-hidden="true"
-                    className={`pointer-events-none absolute inset-x-0 bottom-0 z-30 flex flex-col items-center pb-4 transition-opacity duration-300 ${
+                    className={`pointer-events-none absolute inset-x-0 bottom-0 z-30 flex flex-col items-center transition-opacity duration-500 ${
                       showScrollHint ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    <div className="h-16 w-full bg-gradient-to-t from-[#f2f1e8] to-transparent -mb-4" />
-                    <span className="relative flex items-center gap-2 rounded-full bg-neutral-900/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-50 shadow-lg">
-                      Scroll
-                      <ChevronDown size={16} className="animate-bounce" />
-                    </span>
+                    <div className="h-20 w-full bg-gradient-to-t from-[#f2f1e8] via-[#f2f1e8]/70 to-transparent" />
+                    <ChevronDown
+                      size={22}
+                      strokeWidth={1.25}
+                      className="-mt-8 mb-5 text-neutral-500/80 animate-[bounce_2.4s_ease-in-out_infinite]"
+                    />
                   </div>
                 )}
 
@@ -273,7 +276,7 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
         </div>
 
         {/* Mobile: stacked accordion */}
-        <ul className="md:hidden divide-y divide-neutral-400/60 px-6">
+        <ul className="menu-text-fade-in md:hidden divide-y divide-neutral-400/60 px-6">
           {tabs.map((tab, i) => {
             const isOpen = openTab === tab;
             return (
@@ -286,7 +289,11 @@ export default function MenuExplorer({ items }: MenuExplorerProps) {
                   aria-expanded={isOpen}
                   aria-controls={`panel-${tab}`}
                   onClick={() => handleMobileTabClick(tab)}
-                  className="w-full flex items-baseline justify-between text-left py-6 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+                  className={`w-full flex items-baseline justify-between text-left py-6 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm sticky top-16 z-20 -mx-6 px-6 transition-all duration-300 ${
+                    isOpen
+                      ? "bg-[#f2f1e8]/60 backdrop-blur-xl backdrop-saturate-150 border-b border-white/30 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_4px_20px_-8px_rgba(0,0,0,0.15)]"
+                      : ""
+                  }`}
                 >
                   <span className="flex items-baseline gap-4">
                     <span className="text-gold font-mono text-xs tracking-[0.2em]">

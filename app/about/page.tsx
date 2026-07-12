@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import SprigHeading from "@/components/sprig-heading";
 
 export const metadata: Metadata = {
   title: "Our Story - Town Tonic Christchurch",
@@ -12,7 +11,10 @@ export default function AboutPage() {
   return (
     <div className="py-16 px-4 max-w-5xl mx-auto font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
-        <SprigHeading eyebrow="Our Origins" as="h1" className="mb-3">Our Story</SprigHeading>
+        <div className="mb-3">
+          <span className="block text-gold uppercase tracking-wider font-semibold text-xs">Our Origins</span>
+          <h1 className="font-serif text-3xl md:text-5xl font-bold mt-2 text-primary">Our Story</h1>
+        </div>
         <p className="text-text-secondary text-sm">
           Bridging organic Canterbury farming and modern culinary craft.
         </p>
