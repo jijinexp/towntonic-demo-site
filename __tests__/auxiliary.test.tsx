@@ -1,15 +1,8 @@
 import { render, screen, fireEvent, waitForElementToBeRemoved } from "@testing-library/react";
-import AboutPage from "@/app/about/page";
 import ContactPage from "@/app/contact/page";
 import GalleryPage from "@/app/gallery/page";
 
 describe("Auxiliary Pages Content", () => {
-  it("renders About page contents", () => {
-    render(<AboutPage />);
-    expect(screen.getByRole("heading", { name: "Our Story" })).toBeInTheDocument();
-    expect(screen.getByText(/Canterbury suppliers/i)).toBeInTheDocument();
-  });
-
   it("renders Contact page details and international phone link", () => {
     render(<ContactPage />);
     expect(screen.getByRole("heading", { name: "Contact Us" })).toBeInTheDocument();

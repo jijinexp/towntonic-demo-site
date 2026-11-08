@@ -42,19 +42,22 @@ describe("Homepage hero", () => {
 
   it("no longer renders its own mobile action bar (the nav provides one site-wide)", () => {
     render(<Homepage />);
-    expect(screen.queryByRole("link", { name: "Book Table" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Reservations" })).not.toBeInTheDocument();
   });
 });
 
 describe("Homepage below the hero", () => {
-  it("shows the food menu straight after the hero, and nothing else", () => {
+  it("shows the chef, then the menu index, after the hero, and nothing else", () => {
     const { container } = render(<Homepage />);
     const sections = container.querySelectorAll(":scope > div > section"); // top-level page sections only
-    expect(sections).toHaveLength(2);
-    const menu = sections[1];
+    expect(sections).toHaveLength(3);
+    const team = sections[1];
+    expect(team).toHaveAttribute("id", "team");
+    expect(within(team as HTMLElement).getByRole("heading", { level: 2, name: "Behind the Pass" })).toBeInTheDocument();
+    const menu = sections[2];
     expect(menu).toHaveAttribute("id", "menu");
-    expect(within(menu as HTMLElement).getByRole("heading", { level: 2, name: "Our Menu" })).toBeInTheDocument();
-    expect(within(menu as HTMLElement).getAllByText("All Day").length).toBeGreaterThan(0);
+    expect(within(menu as HTMLElement).getByRole("heading", { level: 2, name: "Our Menus" })).toBeInTheDocument();
+    expect(within(menu as HTMLElement).getByRole("link", { name: "All Day menu" })).toHaveAttribute("href", "/menu/all-day");
     expect(screen.queryByText(/An Invitation/i)).not.toBeInTheDocument();
   });
 });

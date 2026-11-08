@@ -1,6 +1,16 @@
-import type { MenuItem } from "@/components/menu-card";
+export interface MenuItem {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  category: "brunch" | "dinner" | "drinks" | "dessert";
+  subCategory?: string;
+  tags: ("Vegan" | "Vegetarian" | "Gluten-Free" | "Dairy-Free")[];
+  sourceTags?: ("local" | "seasonal")[];
+  image: string;
+}
 
-// Full Town Tonic menu, shared by the homepage and /menu.
+// Full Town Tonic menu: every dish and drink, shown on the per-menu pages (/menu/<slug>).
 export const MENU_ITEMS: MenuItem[] = [
   // ALL DAY BRUNCH (from PDF & original items)
   {

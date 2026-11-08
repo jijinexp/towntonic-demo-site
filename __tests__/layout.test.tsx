@@ -70,11 +70,11 @@ describe("Global layout components", () => {
     
     expect(findHrefByText("Menu")).toBe("/#menu");
     expect(findHrefByText("View Menu")).toBe("/#menu");
-    expect(findHrefByText("Our Story")).toBe("/about");
+    expect(findHrefByText("Our Story")).toBeNull();
     expect(findHrefByText("Contact")).toBe("/contact");
     expect(findHrefByText("Reservations")).toBe("/reservations");
     
-    const bookTableLinks = links.filter(link => link.textContent === "Book Table");
+    const bookTableLinks = links.filter(link => link.textContent === "Reservations");
     expect(bookTableLinks.length).toBeGreaterThan(0);
     bookTableLinks.forEach(link => {
       expect(link.getAttribute("href")).toBe("/reservations");

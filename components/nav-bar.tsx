@@ -57,20 +57,25 @@ export default function NavBar() {
           scrolled ? "bg-bg-page/80 backdrop-blur-xl border-b border-border shadow-sm" : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
-          <Link href="/" className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm" aria-label="Town Tonic Home">
+        {/* Three columns: links | centred logo | action. The equal 1fr side
+            columns keep the logo dead centre whatever the links' widths. */}
+        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center p-4">
+          {/* Desktop: left links */}
+          <nav aria-label="Main" className="hidden md:flex items-center gap-8 justify-self-start text-text-secondary text-3xl">
+            <Link href="/#menu" onClick={jumpToMenu} data-active={pathname === "/menu" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Menu</Link>
+            <Link href="/contact" data-active={pathname === "/contact" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Contact</Link>
+          </nav>
+          {/* Mobile: empty left column balances the hamburger so the logo stays centred */}
+          <span aria-hidden="true" className="md:hidden" />
+
+          <Link href="/" className="col-start-2 flex items-center justify-self-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm" aria-label="Town Tonic Home">
             <Logo className="h-16 md:h-24 w-auto" invert={false} />
           </Link>
-          
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 font-sans font-medium text-text-secondary text-3xl">
-            <Link href="/#menu" onClick={jumpToMenu} data-active={pathname === "/menu" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Menu</Link>
-            <Link href="/about" data-active={pathname === "/about" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Our Story</Link>
-            <Link href="/contact" data-active={pathname === "/contact" ? "true" : "false"} className="t-nav-link hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Contact</Link>
-            <Link href="/reservations" className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-sm t-hover-lift hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
-              Book Table
-            </Link>
-          </nav>
+
+          {/* Desktop: right action */}
+          <Link href="/reservations" className="btn hidden md:inline-flex justify-self-end px-6 py-2 text-2xl normal-case tracking-normal">
+            Reservations
+          </Link>
 
           {/* Mobile hamburger (animates to X) */}
           <button
@@ -79,7 +84,7 @@ export default function NavBar() {
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
-            className={`group md:hidden p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm transition-colors text-text-primary`}
+            className={`group md:hidden justify-self-end p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm transition-colors text-text-primary`}
           >
             <span className="relative block h-6 w-6" aria-hidden="true">
               <span className="absolute inset-x-0.5 h-0.5 rounded-full bg-current top-[22%] -translate-y-1/2 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open=true]:top-1/2 group-data-[open=true]:rotate-45" />
@@ -108,15 +113,14 @@ export default function NavBar() {
         <nav
           id="mobile-menu"
           aria-label="Mobile"
-          className="absolute inset-y-0 right-0 w-full max-w-sm bg-bg-page/90 backdrop-blur-xl border-l border-border shadow-2xl px-6 pt-28 pb-10 flex flex-col gap-6 font-sans font-medium text-text-primary text-lg translate-x-full group-data-[open=true]:translate-x-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          className="absolute inset-y-0 right-0 w-full max-w-sm bg-bg-page/90 backdrop-blur-xl border-l border-border shadow-2xl px-6 pt-28 pb-10 flex flex-col gap-6 text-text-primary text-3xl translate-x-full group-data-[open=true]:translate-x-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
         >
           <div className="flex flex-col gap-5">
             <Link href="/#menu" onClick={(e) => { setIsOpen(false); jumpToMenu(e); }} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Menu</Link>
-            <Link href="/about" onClick={() => setIsOpen(false)} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Our Story</Link>
             <Link href="/contact" onClick={() => setIsOpen(false)} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm">Contact</Link>
           </div>
-          <Link href="/reservations" onClick={() => setIsOpen(false)} className="mt-auto bg-primary text-white text-center py-3 rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
-            Book Table
+          <Link href="/reservations" onClick={() => setIsOpen(false)} className="btn mt-auto py-3 text-2xl normal-case tracking-normal">
+            Reservations
           </Link>
         </nav>
       </div>
@@ -129,15 +133,15 @@ export default function NavBar() {
         <Link
           href="/#menu"
           onClick={jumpToMenu}
-          className="t-hover-lift flex-1 border border-primary text-primary hover:bg-bg-elevated text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="btn flex-1 h-11 px-3 text-sm"
         >
           View Menu
         </Link>
         <Link
           href="/reservations"
-          className="t-hover-lift flex-1 bg-primary text-white hover:bg-primary-hover text-center py-2.5 rounded-sm font-semibold transition-all text-sm flex items-center justify-center h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="btn flex-1 h-11 px-3 text-sm"
         >
-          Book Table
+          Reservations
         </Link>
       </div>
     </>

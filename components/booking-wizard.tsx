@@ -281,7 +281,7 @@ export default function BookingWizard() {
 
           <button
             type="submit"
-            className="mt-2 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="btn mt-2 w-full py-3 text-sm"
           >
             <span>Confirm Booking</span>
           </button>
@@ -330,7 +330,7 @@ export default function BookingWizard() {
               setBookingRef("");
               setError("");
             }}
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="btn px-6 py-3 text-sm"
           >
             Book Another Table
           </button>

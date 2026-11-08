@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import MenuSection from "@/components/menu-section";
+import MenuIndex from "@/components/menu-index";
 
 export const metadata: Metadata = {
   title: "Our Menu - Seasonal Brunch & Dinner | Town Tonic Christchurch",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function MenuPage() {
-  return <MenuSection headingLevel="h1" />;
+  return <MenuIndex headingLevel="h1" />;
 }

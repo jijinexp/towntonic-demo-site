@@ -12,25 +12,25 @@ const openingHours: OpeningHours[] = [
 
 export default function Footer() {
   return (
-    <footer className="bg-bg-card border-t border-border-strong py-12 text-sm text-text-secondary font-sans">
+    <footer className="footer-ink py-14 text-base text-text-secondary">
       <div className="mx-auto max-w-7xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <Link href="/" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm mb-4" aria-label="Town Tonic Home">
-            <Logo className="h-16 md:h-20 w-auto" invert={false} />
+            <Logo className="h-16 md:h-20 w-auto" invert />
           </Link>
-          <p className="leading-relaxed">
+          <p className="leading-relaxed text-lg!">
             Christchurch’s favorite eating house & bar. Bridges the gap between casual daytime cafe and premium evening bistro.
           </p>
         </div>
-        <div className="bg-bg border border-border rounded-sm flex flex-col justify-center items-center text-center p-6">
+        <div className="border border-border flex flex-col justify-center items-center text-center p-6">
           <MapPin size={36} className="text-gold mb-3" />
-          <h3 className="font-serif text-lg font-bold text-primary mb-1">Lincoln Road, Addington</h3>
-          <p className="text-text-muted text-xs mb-3 max-w-xs">
+          <h3 className="font-normal text-2xl text-text-primary mb-1">Lincoln Road, Addington</h3>
+          <p className="text-text-muted text-base! mb-3 max-w-xs">
             Shop 1/335 Lincoln Road, Addington, Christchurch 8024
           </p>
           <a
             href="tel:+6433381150"
-            className="flex items-center gap-2 text-primary text-xs font-medium mb-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+            className="flex items-center gap-2 text-text-primary text-base mb-5 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
           >
             <Phone size={14} className="text-gold" />
             03 338 1150
@@ -39,20 +39,20 @@ export default function Footer() {
             href="https://maps.google.com/?q=Shop+1/335+Lincoln+Road+Addington+Christchurch"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-5 py-2.5 rounded-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="btn btn-inverse px-5 py-2.5 text-sm"
           >
             Open in Google Maps
           </a>
         </div>
         <div>
           <h4 className="mb-4">
-            <span className="text-gold uppercase tracking-wider font-semibold text-xs">Opening Hours</span>
+            <span className="text-text-primary uppercase tracking-[0.2em] font-semibold text-sm">Opening Hours</span>
           </h4>
           <ul className="space-y-2 flex flex-col">
             {openingHours.map((item) => (
               <li
                 key={item.day}
-                className={`flex justify-between ${item.closed ? "font-medium text-red-700" : ""}`}
+                className={`flex justify-between ${item.closed ? "text-text-muted" : "text-text-primary"}`}
               >
                 <span>{item.day}:</span>
                 <span>{item.hours}</span>

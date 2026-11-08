@@ -1,4 +1,4 @@
-import type { MenuItem } from "@/components/menu-card";
+import type { MenuItem } from "@/components/menu-items";
 
 // How the menu is organised on the page: the four parts in order, the groups
 // inside each part (matched to MenuItem.subCategory), and the All Day add-ons.

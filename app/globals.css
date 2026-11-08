@@ -51,10 +51,7 @@ p, li, dd, blockquote {
 h1, h2, h3, h4, h5, h6,
 h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif,
 nav a, nav button,
-button,
-a[class*="bg-primary"],
-a[class*="bg-gold"],
-a[class*="border-primary"] {
+button {
   font-family: var(--font-display) !important;
 }
 
@@ -67,10 +64,17 @@ a[class*="border-primary"] {
   }
 }
 
-/* Filled buttons keep white text */
-a[class*="bg-primary"],
-a[class*="bg-gold"] {
-  color: #fff !important;
+/* Nav links (desktop header and the phone menu) use the title serif, same as
+   "Welcome to Town Tonic"; more specific than the display-font rule above. */
+header nav a,
+#mobile-menu a {
+  font-family: var(--font-serif) !important;
+  font-weight: 500;
+}
+
+/* No italics anywhere on the site, even from default em/i/cite styles */
+em, i, cite, dfn, var, address {
+  font-style: normal;
 }
 
 /* Navbar: dark ink on the off-white site, whether or not the page has scrolled */
@@ -81,13 +85,6 @@ header nav button {
 }
 header nav a:hover {
   color: var(--color-gold) !important;
-}
-/* Filled pill button keeps white text regardless of scroll state */
-header nav a[class*="bg-primary"],
-header nav a[class*="bg-gold"],
-header[data-scrolled="true"] nav a[class*="bg-primary"],
-header[data-scrolled="true"] nav a[class*="bg-gold"] {
-  color: #fff !important;
 }
 
 /* UI Skills: transitions-dev tokens */
@@ -228,6 +225,78 @@ header[data-scrolled="true"] nav a[class*="bg-gold"] {
   .t-hover-lift:hover, .t-hover-lift:active { transform: none; }
 }
 
+/* Buttons: a fine black outline on a clear background, filling black on hover.
+   One style for every button and button-like link on the site; size and case
+   can be adjusted with utilities (this lives in the components layer, so
+   utilities win). .btn-inverse is the same on a black background (the footer). */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid #111;
+    border-radius: 0;
+    background-color: transparent;
+    color: #111;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 350ms var(--ease-out), color 350ms var(--ease-out), border-color 350ms var(--ease-out);
+  }
+  .btn:hover,
+  .btn:focus-visible {
+    background-color: #111;
+    color: #f6f3ee;
+  }
+  .btn:focus-visible {
+    outline: 1px solid #111;
+    outline-offset: 3px;
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .btn-inverse {
+    border-color: #f6f3ee;
+    color: #f6f3ee;
+  }
+  .btn-inverse:hover,
+  .btn-inverse:focus-visible {
+    background-color: #f6f3ee;
+    color: #111;
+  }
+  .btn-inverse:focus-visible {
+    outline-color: #f6f3ee;
+  }
+}
+/* the title serif, over the display-font rule for <button> */
+.btn {
+  font-family: var(--font-serif) !important;
+}
+
+/* Footer: black, with the site's colours inverted. Re-pointing the colour
+   tokens inside flips every utility that uses them in one place. */
+.footer-ink {
+  --color-text-primary: #f6f3ee;
+  --color-text-secondary: rgb(246 243 238 / 0.75);
+  --color-text-muted: rgb(246 243 238 / 0.6);
+  --color-primary: #f6f3ee;
+  --color-gold: #f6f3ee;
+  --color-border: rgb(246 243 238 / 0.2);
+  --color-border-strong: rgb(246 243 238 / 0.2);
+  background-color: #111;
+  color: var(--color-text-primary);
+}
+.footer-ink,
+.footer-ink * {
+  font-family: var(--font-serif) !important;
+}
+
 /* Nav underline: scaleX from left on hover */
 .t-nav-link {
   position: relative;
@@ -331,118 +400,40 @@ h1.hero-heading {
 
 /* Menu: same Cormorant face as the hero heading, overriding the Lilita rule. */
 .menu-serif :is(h1, h2, h3, h4, h5, h6),
-.menu-serif nav a,
-.menu-serif .menu-strip {
+.menu-serif nav a {
   font-family: var(--font-serif) !important;
 }
 
-/* Menu parts. Each starts closed: a large photo with the title covering the
-   dishes. Clicking it sets data-open (menu-part.tsx) and the photo moves aside:
-   desktop slides it to a pinned soft-cornered frame on one half (data-side);
-   phones shrink it up into a pinned band under the nav. */
-/* Stacked strips (menu-stack.tsx): parts scrolled past shrink to strips under
-   the nav; --stack-count is set from scroll, and the current part's pinned
-   photo/band sits below the stack. Strip heights mirror STRIP_* in menu-reveal.ts. */
-.menu-parts {
-  --strip: 44px;
-  --stack-h: calc(var(--stack-count, 0) * var(--strip));
-  --below-h: calc(var(--below-count, 0) * var(--strip));
-  overflow-anchor: none; /* stage/strip size changes must not make the browser nudge the scroll */
+/* Serif + one charcoal: every word in the title serif, in one neutral charcoal.
+   Used by the menu index, the menu pages and the contact page. Re-pointing the
+   colour tokens inside recolours every utility that uses them (text, borders,
+   dividers, focus rings) in one place. */
+.serif-ink {
+  --color-charcoal: #2b2b2b;
+  --color-text-primary: var(--color-charcoal);
+  --color-text-secondary: var(--color-charcoal);
+  --color-text-muted: var(--color-charcoal);
+  --color-gold: var(--color-charcoal);
+  --color-gold-hover: var(--color-charcoal);
+  --color-border: rgb(43 43 43 / 0.16);
+  color: var(--color-charcoal);
 }
-.menu-stack { top: 96px; } /* 1px under the nav so no sliver of menu shows between them */
-.menu-stack-bottom { bottom: 0; transition: bottom .36s cubic-bezier(.34, 1.35, .64, 1); }
-/* phones: ride above the View Menu / Book Table bar while it is showing, and
-   drop flush to the bottom when it slides away (matches .t-sticky-bar timing) */
-body:has(.t-sticky-bar[data-hidden="false"]) .menu-stack-bottom { bottom: 69px; }
-.menu-stack-list { background: var(--color-bg-page); }
-.menu-strip { height: var(--strip); flex-shrink: 0; animation: menu-strip-in .35s cubic-bezier(.22, 1, .36, 1) both; }
-.menu-strip + .menu-strip { box-shadow: inset 0 1px 0 var(--color-bg-page); } /* solid divider */
-@keyframes menu-strip-in { from { opacity: 0; transform: translateY(-40%); } }
-.menu-stack-bottom .menu-strip { animation-name: menu-strip-up; }
-@keyframes menu-strip-up { from { opacity: 0; transform: translateY(40%); } }
-@media (min-width: 768px) {
-  .menu-parts { --strip: 56px; }
-  .menu-stack { top: 128px; }
-  body:has(.t-sticky-bar[data-hidden="false"]) .menu-stack-bottom { bottom: 0; } /* no bar on desktop */
-}
-@media (prefers-reduced-motion: reduce) { .menu-strip { animation: none; } }
-
-.menu-part { scroll-margin-top: calc(97px + var(--i, 0) * var(--strip, 44px)); overflow: clip; } /* clip, not hidden: keeps sticky working */
-.menu-part-content { padding: 48px 20px 64px; }
-
-/* Phones: the stage is a pinned band under the nav. Closed, the photo hangs
-   down from it to fill most of the screen; open, it shrinks up into the band. */
-@media (max-width: 767.98px) {
-  .menu-part-stage {
-    position: sticky;
-    top: calc(97px + var(--stack-h, 0px));
-    height: max(120px, 20svh);
-    background: var(--color-bg-page);
-  }
-  .menu-part-panel {
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: calc(100svh - 97px - 72px - var(--stack-h, 0px));
-    transition: height 1.1s cubic-bezier(.65, 0, .25, 1);
-  }
-  .menu-part-frame {
-    border-radius: 0;
-    transition: top 1.1s cubic-bezier(.65, 0, .25, 1), left 1.1s cubic-bezier(.65, 0, .25, 1),
-      right 1.1s cubic-bezier(.65, 0, .25, 1), bottom 1.1s cubic-bezier(.65, 0, .25, 1),
-      border-radius 1.1s cubic-bezier(.65, 0, .25, 1);
-  }
-  .menu-part-title { transition: transform 1.1s cubic-bezier(.65, 0, .25, 1); }
-  .menu-part[data-open="true"] .menu-part-panel { height: 100%; }
-  .menu-part[data-open="true"] .menu-part-frame { top: 8px; left: 16px; right: 16px; bottom: 8px; border-radius: 16px; }
-  .menu-part[data-open="true"] .menu-part-title { transform: scale(0.62); }
-  .menu-part[data-open="true"] .menu-part-hint { display: none; }
-  .menu-part-content { padding-top: 24px; }
-}
-@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
-  .menu-part-panel, .menu-part-frame, .menu-part-title { transition: none; }
-}
-@media (min-width: 768px) {
-  .menu-part { scroll-margin-top: calc(129px + var(--i, 0) * var(--strip, 56px)); }
-  .menu-part-stage {
-    position: sticky;
-    top: calc(129px + var(--stack-h, 0px));
-    height: calc(100svh - 129px - var(--stack-h, 0px) - var(--below-h, 0px));
-  }
-  .menu-part-panel {
-    width: 100%;
-    transition: width 1.1s cubic-bezier(.65, 0, .25, 1);
-  }
-  .menu-part-frame {
-    border-radius: 0;
-    transition: top 1.1s cubic-bezier(.65, 0, .25, 1), left 1.1s cubic-bezier(.65, 0, .25, 1),
-      right 1.1s cubic-bezier(.65, 0, .25, 1), bottom 1.1s cubic-bezier(.65, 0, .25, 1),
-      border-radius 1.1s cubic-bezier(.65, 0, .25, 1);
-  }
-  .menu-part[data-open="true"] .menu-part-panel { width: 50%; }
-  .menu-part[data-open="true"] .menu-part-frame {
-    top: clamp(24px, 5vh, 48px);
-    left: clamp(24px, 4vw, 64px);
-    right: clamp(12px, 2vw, 32px);
-    bottom: clamp(24px, 5vh, 48px);
-    border-radius: 24px;
-  }
-  .menu-part-content {
-    margin-left: 50%;
-    margin-top: calc(-1 * (100svh - 129px - var(--stack-h, 0px) - var(--below-h, 0px))); /* matches the stage height */
-    padding: clamp(32px, 6vh, 64px) clamp(24px, 4vw, 64px) 96px;
-  }
-  /* Mirror for parts whose photo settles on the right */
-  .menu-part[data-side="right"] .menu-part-panel { margin-left: auto; }
-  .menu-part[data-side="right"][data-open="true"] .menu-part-frame {
-    left: clamp(12px, 2vw, 32px);
-    right: clamp(24px, 4vw, 64px);
-  }
-  .menu-part[data-side="right"] .menu-part-content { margin-left: 0; margin-right: 50%; }
-}
-@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
-  .menu-part-panel, .menu-part-frame { transition: none; }
+.serif-ink,
+.serif-ink * {
+  font-family: var(--font-serif) !important;
 }
 
-/* The "View menu" prompt only shows while a part is closed. */
-.menu-part-hint { transition: opacity .4s ease; }
-.menu-part[data-open="true"] .menu-part-hint { opacity: 0; }
+/* Section titles: Marcellus in capitals (after El Nacional's section titles).
+   "html body" outranks the serif rules above (.serif-ink *, .menu-serif h2,
+   and the display-font rule on headings); the * reaches the word spans that
+   RiseTitle splits a title into. */
+html body .title-font,
+html body .title-font * {
+  font-family: var(--font-title), var(--font-serif), serif !important;
+  font-weight: 400;
+}
+.title-font {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
