@@ -18,9 +18,9 @@ export default function MenuCard({ item }: MenuCardProps) {
   return (
     <article className="py-6 border-b border-neutral-300/70">
       <div className="flex items-baseline gap-3">
-        <h4 className="font-serif text-2xl md:text-3xl font-bold text-neutral-900">
+        <h5 className="text-2xl md:text-3xl font-semibold text-text-primary">
           {item.name}
-        </h4>
+        </h5>
         <span
           aria-hidden="true"
           className="flex-1 border-b border-dotted border-neutral-500 translate-y-[-6px]"

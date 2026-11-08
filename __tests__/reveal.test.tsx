@@ -24,8 +24,7 @@ describe("Reveal", () => {
         observers.push({ cb, observe: this.observe, disconnect: this.disconnect });
       }
     }
-    // @ts-expect-error test polyfill
-    global.IntersectionObserver = MockIO;
+    global.IntersectionObserver = MockIO as unknown as typeof IntersectionObserver;
   });
 
   it("starts hidden and reveals when intersecting", () => {
@@ -34,7 +33,7 @@ describe("Reveal", () => {
     expect(el).toHaveAttribute("data-revealed", "false");
 
     // Simulate intersection.
-    const entry = { isIntersecting: true, target: el } as IntersectionObserverEntry;
+    const entry = { isIntersecting: true, target: el } as unknown as IntersectionObserverEntry;
     act(() => {
       observers[0].cb([entry], {} as IntersectionObserver);
     });

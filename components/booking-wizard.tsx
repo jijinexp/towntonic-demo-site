@@ -95,7 +95,7 @@ export default function BookingWizard() {
   return (
     <div className="w-full max-w-xl mx-auto border border-border rounded-sm bg-bg-card p-8 shadow-sm">
       {error && (
-        <div className="bg-red-900/20 text-red-400 text-xs font-semibold p-3 rounded-sm mb-6 border border-red-800/30">
+        <div className="bg-red-50 text-red-700 text-xs font-semibold p-3 rounded-sm mb-6 border border-red-200">
           {error}
         </div>
       )}
@@ -103,7 +103,7 @@ export default function BookingWizard() {
       {!submitted && (
         <form onSubmit={handleSubmit} className="t-wizard-step flex flex-col gap-6" key="form">
           <div className="flex flex-col">
-            <span id="booking-guests-label" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Number of Guests</span>
+            <span id="booking-guests-label" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Number of Guests</span>
             <div className="flex items-center gap-3">
               <User size={18} className="text-gold" />
               <div
@@ -140,7 +140,7 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-date" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Select Date</label>
+            <label htmlFor="booking-date" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Select Date</label>
             <div className="flex items-center gap-3">
               <Calendar size={18} className="text-gold" />
               <input
@@ -155,7 +155,7 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <span id="booking-time-label" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Preferred Time</span>
+            <span id="booking-time-label" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Preferred Time</span>
             <div className="flex items-center gap-3">
               <Clock size={18} className="text-gold" />
               <div
@@ -227,7 +227,7 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-name" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Full Name</label>
+            <label htmlFor="booking-name" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Full Name</label>
             <input
               id="booking-name"
               type="text"
@@ -241,7 +241,7 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-phone" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Phone Number</label>
+            <label htmlFor="booking-phone" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Phone Number</label>
             <input
               id="booking-phone"
               type="tel"
@@ -255,7 +255,7 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-email" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Email Address</label>
+            <label htmlFor="booking-email" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Email Address</label>
             <input
               id="booking-email"
               type="email"
@@ -269,7 +269,7 @@ export default function BookingWizard() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="booking-notes" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Special Notes (Optional)</label>
+            <label htmlFor="booking-notes" className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 text-center">Special Notes (Optional)</label>
             <textarea
               id="booking-notes"
               value={notes}

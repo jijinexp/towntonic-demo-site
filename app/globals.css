@@ -3,28 +3,30 @@
 @theme {
   --color-primary: #3E5167;
   --color-primary-hover: #2B3847;
-  --color-gold: #BD8545;
-  --color-gold-hover: #9C6D32;
-  --color-sage: #8FA47A;
-  --color-sage-hover: #A3B78F;
-  --color-sage-soft: #3A4636;
-  --color-bg-soft: #252830;
-  --color-bg-page: #1C1F26;
-  --color-bg-card: #252830;
-  --color-bg-elevated: #31343E;
-  --color-text-primary: #E8E4DF;
-  --color-text-secondary: #9CA3AF;
-  --color-text-soft: #B8B0A6;
-  --color-text-muted: #6B7280;
-  --color-border: #2D3039;
-  --color-border-strong: #3A3E48;
+  /* Off-white theme (2026-11-08). Gold here is the deeper bronze used for text
+     and links; it reaches 4.5:1 on both page and card backgrounds. */
+  --color-gold: #8E5D2B;
+  --color-gold-hover: #74491F;
+  --color-sage: #5C7049;
+  --color-sage-hover: #4B5D3B;
+  --color-sage-soft: #E3E8DC;
+  --color-bg-soft: #ECE6DD;
+  --color-bg-page: #F6F3EE;
+  --color-bg-card: #ECE6DD;
+  --color-bg-elevated: #E4DDD2;
+  --color-text-primary: #1C1F26;
+  --color-text-secondary: #5E5A54;
+  --color-text-soft: #5E5A54;
+  --color-text-muted: #66615A;
+  --color-border: #DDD6CB;
+  --color-border-strong: #CFC6B8;
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Outfit", sans-serif;
 }
 
 body {
-  background-color: #1C1F26;
-  color: #E8E4DF;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
   line-height: 1.65;
 }
@@ -56,66 +58,29 @@ a[class*="border-primary"] {
   font-family: var(--font-display) !important;
 }
 
-/* White fill for hero-scale headings + filled buttons on dark surfaces */
-h1, h2, h3, h4, h5, h6,
-h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif,
+/* Headings take the ink colour on the off-white site; headings over photos opt
+   back into white with an explicit text-white class. Kept in the base layer so
+   Tailwind colour utilities (text-white, text-primary) still win. */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-primary);
+  }
+}
+
+/* Filled buttons keep white text */
 a[class*="bg-primary"],
 a[class*="bg-gold"] {
   color: #fff !important;
 }
 
-/* Menu accordion: content of the newly opened strip fades in after the
-   width transition has finished so text doesn't crawl into view. */
-@keyframes menuFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.menu-fade-in {
-  animation: menuFadeIn 500ms cubic-bezier(0.22, 1, 0.36, 1) 450ms both;
-}
-
-/* Menu explorer mount: background comes in first, tabs/text follow. */
-@keyframes menuBgFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.menu-bg-fade-in {
-  animation: menuBgFadeIn 600ms ease-out both;
-}
-@keyframes menuTextFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.menu-text-fade-in {
-  animation: menuTextFadeIn 700ms cubic-bezier(0.22, 1, 0.36, 1) 500ms both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .menu-bg-fade-in,
-  .menu-text-fade-in,
-  .menu-fade-in {
-    animation: none;
-  }
-}
-
-/* Menu panel sits on a light paper texture — headings inside it should be dark. */
-#menu-grid-panel h1,
-#menu-grid-panel h2,
-#menu-grid-panel h3,
-#menu-grid-panel h4,
-#menu-grid-panel h5,
-#menu-grid-panel h6 {
-  color: #171717 !important;
-}
-
-/* Navbar: white text at top (transparent over hero), dark once scrolled onto white bg */
+/* Navbar: dark ink on the off-white site, whether or not the page has scrolled */
 header nav a,
 header nav button {
-  color: #fff !important;
+  color: var(--color-text-primary) !important;
   transition: color 300ms var(--ease-out);
 }
-header[data-scrolled="true"] nav a,
-header[data-scrolled="true"] nav button {
-  color: #111 !important;
+header nav a:hover {
+  color: var(--color-gold) !important;
 }
 /* Filled pill button keeps white text regardless of scroll state */
 header nav a[class*="bg-primary"],
@@ -352,3 +317,100 @@ header[data-scrolled="true"] nav a[class*="bg-gold"] {
     scroll-behavior: auto !important;
   }
 }
+
+/* Homepage hero heading: Cormorant, not the Lilita display face; one line on
+   wide screens, broken after "to" on tall ones. */
+h1.hero-heading {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(40px, 11vw, 76px);
+}
+@media (min-aspect-ratio: 1/1) {
+  h1.hero-heading { font-size: clamp(40px, 4.4vw, 64px); }
+  h1.hero-heading br { display: none; }
+}
+
+/* Menu: same Cormorant face as the hero heading, overriding the Lilita rule. */
+.menu-serif :is(h1, h2, h3, h4, h5, h6),
+.menu-serif nav a {
+  font-family: var(--font-serif) !important;
+}
+
+/* Menu parts. Each starts closed: a large photo with the title covering the
+   dishes. Clicking it sets data-open (menu-part.tsx) and the photo moves aside:
+   desktop slides it to a pinned soft-cornered frame on one half (data-side);
+   phones shrink it up into a pinned band under the nav. */
+.menu-part { scroll-margin-top: 97px; overflow: clip; } /* clip, not hidden: keeps sticky working */
+.menu-part-content { padding: 48px 20px 64px; }
+
+/* Phones: the stage is a pinned band under the nav. Closed, the photo hangs
+   down from it to fill most of the screen; open, it shrinks up into the band. */
+@media (max-width: 767.98px) {
+  .menu-part-stage {
+    position: sticky;
+    top: 97px;
+    height: max(120px, 20svh);
+    background: var(--color-bg-page);
+  }
+  .menu-part-panel {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: calc(100svh - 97px - 72px);
+    transition: height 1.1s cubic-bezier(.65, 0, .25, 1);
+  }
+  .menu-part-frame {
+    border-radius: 0;
+    transition: top 1.1s cubic-bezier(.65, 0, .25, 1), left 1.1s cubic-bezier(.65, 0, .25, 1),
+      right 1.1s cubic-bezier(.65, 0, .25, 1), bottom 1.1s cubic-bezier(.65, 0, .25, 1),
+      border-radius 1.1s cubic-bezier(.65, 0, .25, 1);
+  }
+  .menu-part-title { transition: transform 1.1s cubic-bezier(.65, 0, .25, 1); }
+  .menu-part[data-open="true"] .menu-part-panel { height: 100%; }
+  .menu-part[data-open="true"] .menu-part-frame { top: 8px; left: 16px; right: 16px; bottom: 8px; border-radius: 16px; }
+  .menu-part[data-open="true"] .menu-part-title { transform: scale(0.62); }
+  .menu-part[data-open="true"] .menu-part-hint { display: none; }
+  .menu-part-content { padding-top: 24px; }
+}
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+  .menu-part-panel, .menu-part-frame, .menu-part-title { transition: none; }
+}
+@media (min-width: 768px) {
+  .menu-part { scroll-margin-top: 129px; }
+  .menu-part-stage { position: sticky; top: 129px; height: calc(100svh - 129px); }
+  .menu-part-panel {
+    width: 100%;
+    transition: width 1.1s cubic-bezier(.65, 0, .25, 1);
+  }
+  .menu-part-frame {
+    border-radius: 0;
+    transition: top 1.1s cubic-bezier(.65, 0, .25, 1), left 1.1s cubic-bezier(.65, 0, .25, 1),
+      right 1.1s cubic-bezier(.65, 0, .25, 1), bottom 1.1s cubic-bezier(.65, 0, .25, 1),
+      border-radius 1.1s cubic-bezier(.65, 0, .25, 1);
+  }
+  .menu-part[data-open="true"] .menu-part-panel { width: 50%; }
+  .menu-part[data-open="true"] .menu-part-frame {
+    top: clamp(24px, 5vh, 48px);
+    left: clamp(24px, 4vw, 64px);
+    right: clamp(12px, 2vw, 32px);
+    bottom: clamp(24px, 5vh, 48px);
+    border-radius: 24px;
+  }
+  .menu-part-content {
+    margin-left: 50%;
+    margin-top: calc(-1 * (100svh - 129px));
+    padding: clamp(32px, 6vh, 64px) clamp(24px, 4vw, 64px) 96px;
+  }
+  /* Mirror for parts whose photo settles on the right */
+  .menu-part[data-side="right"] .menu-part-panel { margin-left: auto; }
+  .menu-part[data-side="right"][data-open="true"] .menu-part-frame {
+    left: clamp(12px, 2vw, 32px);
+    right: clamp(24px, 4vw, 64px);
+  }
+  .menu-part[data-side="right"] .menu-part-content { margin-left: 0; margin-right: 50%; }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .menu-part-panel, .menu-part-frame { transition: none; }
+}
+
+/* The "View menu" prompt only shows while a part is closed. */
+.menu-part-hint { transition: opacity .4s ease; }
+.menu-part[data-open="true"] .menu-part-hint { opacity: 0; }

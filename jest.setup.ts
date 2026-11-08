@@ -14,6 +14,21 @@ if (typeof global.IntersectionObserver === 'undefined') {
     takeRecords = () => [];
     constructor(..._args: ConstructorParameters<typeof IntersectionObserver>) {}
   }
-  // @ts-expect-error test polyfill
   global.IntersectionObserver = MockIntersectionObserver;
+}
+
+// jsdom does not implement matchMedia. Default to "no match" for every query;
+// tests that care (e.g. reduced motion, screen shape) install their own mock.
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
 }

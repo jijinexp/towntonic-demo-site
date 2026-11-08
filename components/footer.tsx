@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <Link href="/" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm mb-4" aria-label="Town Tonic Home">
-            <Logo className="h-16 md:h-20 w-auto" />
+            <Logo className="h-16 md:h-20 w-auto" invert={false} />
           </Link>
           <p className="leading-relaxed">
             Christchurch’s favorite eating house & bar. Bridges the gap between casual daytime cafe and premium evening bistro.
@@ -52,7 +52,7 @@ export default function Footer() {
             {openingHours.map((item) => (
               <li
                 key={item.day}
-                className={`flex justify-between ${item.closed ? "font-medium text-red-400" : ""}`}
+                className={`flex justify-between ${item.closed ? "font-medium text-red-700" : ""}`}
               >
                 <span>{item.day}:</span>
                 <span>{item.hours}</span>

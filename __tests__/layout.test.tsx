@@ -68,8 +68,8 @@ describe("Global layout components", () => {
       return match ? match.getAttribute("href") : null;
     };
     
-    expect(findHrefByText("Menu")).toBe("/menu");
-    expect(findHrefByText("View Menu")).toBe("/menu");
+    expect(findHrefByText("Menu")).toBe("/#menu");
+    expect(findHrefByText("View Menu")).toBe("/#menu");
     expect(findHrefByText("Our Story")).toBe("/about");
     expect(findHrefByText("Contact")).toBe("/contact");
     expect(findHrefByText("Reservations")).toBe("/reservations");
