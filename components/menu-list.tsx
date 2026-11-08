@@ -1,6 +1,7 @@
 import MenuCard, { type MenuItem } from "@/components/menu-card";
 import { ADD_ONS, MENU_SECTIONS } from "@/components/menu-layout";
 import MenuPart from "@/components/menu-part";
+import MenuStack from "@/components/menu-stack";
 
 /** The whole menu, stacked: each part (All Day, Dinner, Dessert, Drinks) is a subsection. */
 export default function MenuList({ items }: { items: MenuItem[] }) {
@@ -10,6 +11,7 @@ export default function MenuList({ items }: { items: MenuItem[] }) {
     const groups = part.groups.filter((g) => partItems.some((i) => i.subCategory === g.sub));
     return { part, partItems, groups };
   }).filter(({ groups }) => groups.length > 0);
+  const stackParts = parts.map(({ part }) => ({ id: part.id, label: part.label, image: part.image }));
 
   return (
     <div className="font-sans">
@@ -25,7 +27,8 @@ export default function MenuList({ items }: { items: MenuItem[] }) {
         ))}
       </nav>
 
-      <div className="flex flex-col">
+      <div className="menu-parts flex flex-col">
+        <MenuStack parts={stackParts} />
         {parts.map(({ part, partItems, groups }, shown) => {
           return (
             <MenuPart
@@ -36,6 +39,7 @@ export default function MenuList({ items }: { items: MenuItem[] }) {
               image={part.image}
               imageAlt={part.imageAlt}
               side={shown % 2 === 0 ? "left" : "right"}
+              index={shown}
             >
               <div className="flex flex-col gap-14">
                 {groups.map(({ label, caption, sub }) => (
@@ -75,6 +79,7 @@ export default function MenuList({ items }: { items: MenuItem[] }) {
             </MenuPart>
           );
         })}
+        <MenuStack parts={stackParts} position="bottom" />
       </div>
     </div>
   );

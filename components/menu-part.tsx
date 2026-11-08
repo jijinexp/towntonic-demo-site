@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
-import { nextInView } from "./menu-reveal";
+import { nextInView, stripHeight } from "./menu-reveal";
 
 interface MenuPartProps {
   id: string;
@@ -11,6 +11,8 @@ interface MenuPartProps {
   imageAlt: string;
   /** Which half the photo settles into on desktop. */
   side?: "left" | "right";
+  /** Position among the parts shown; earlier parts stack as strips above this one. */
+  index?: number;
   children: ReactNode;
 }
 
@@ -23,7 +25,7 @@ interface MenuPartProps {
  * frame on one half; on phones it shrinks up into a pinned band under the nav.
  * The layout and motion live in globals.css, keyed off data-open / data-side.
  */
-export default function MenuPart({ id, title, hours, image, imageAlt, side = "left", children }: MenuPartProps) {
+export default function MenuPart({ id, title, hours, image, imageAlt, side = "left", index = 0, children }: MenuPartProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const contentId = `menu-${id}-dishes`;
@@ -37,7 +39,8 @@ export default function MenuPart({ id, title, hours, image, imageAlt, side = "le
     let raf = 0;
     const update = () => {
       raf = 0;
-      const navBottom = document.querySelector("header")?.getBoundingClientRect().bottom ?? 0;
+      // measured from below the strips of the earlier parts stacked under the nav
+      const navBottom = (document.querySelector("header")?.getBoundingClientRect().bottom ?? 0) + index * stripHeight();
       const next = nextInView(inView, el.getBoundingClientRect().top, navBottom, window.innerHeight);
       if (next !== inView) {
         inView = next;
@@ -55,7 +58,7 @@ export default function MenuPart({ id, title, hours, image, imageAlt, side = "le
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, []);
+  }, [index]);
 
   return (
     <section
@@ -65,6 +68,7 @@ export default function MenuPart({ id, title, hours, image, imageAlt, side = "le
       className="menu-part relative"
       data-open={open ? "true" : "false"}
       data-side={side}
+      style={{ "--i": index } as CSSProperties}
     >
       <div className="menu-part-stage z-10 pointer-events-none">
         <div className="menu-part-panel relative h-full pointer-events-auto">

@@ -331,7 +331,8 @@ h1.hero-heading {
 
 /* Menu: same Cormorant face as the hero heading, overriding the Lilita rule. */
 .menu-serif :is(h1, h2, h3, h4, h5, h6),
-.menu-serif nav a {
+.menu-serif nav a,
+.menu-serif .menu-strip {
   font-family: var(--font-serif) !important;
 }
 
@@ -339,7 +340,34 @@ h1.hero-heading {
    dishes. Clicking it sets data-open (menu-part.tsx) and the photo moves aside:
    desktop slides it to a pinned soft-cornered frame on one half (data-side);
    phones shrink it up into a pinned band under the nav. */
-.menu-part { scroll-margin-top: 97px; overflow: clip; } /* clip, not hidden: keeps sticky working */
+/* Stacked strips (menu-stack.tsx): parts scrolled past shrink to strips under
+   the nav; --stack-count is set from scroll, and the current part's pinned
+   photo/band sits below the stack. Strip heights mirror STRIP_* in menu-reveal.ts. */
+.menu-parts {
+  --strip: 44px;
+  --stack-h: calc(var(--stack-count, 0) * var(--strip));
+  --below-h: calc(var(--below-count, 0) * var(--strip));
+  overflow-anchor: none; /* stage/strip size changes must not make the browser nudge the scroll */
+}
+.menu-stack { top: 96px; } /* 1px under the nav so no sliver of menu shows between them */
+.menu-stack-bottom { bottom: 0; transition: bottom .36s cubic-bezier(.34, 1.35, .64, 1); }
+/* phones: ride above the View Menu / Book Table bar while it is showing, and
+   drop flush to the bottom when it slides away (matches .t-sticky-bar timing) */
+body:has(.t-sticky-bar[data-hidden="false"]) .menu-stack-bottom { bottom: 69px; }
+.menu-stack-list { background: var(--color-bg-page); }
+.menu-strip { height: var(--strip); flex-shrink: 0; animation: menu-strip-in .35s cubic-bezier(.22, 1, .36, 1) both; }
+.menu-strip + .menu-strip { box-shadow: inset 0 1px 0 var(--color-bg-page); } /* solid divider */
+@keyframes menu-strip-in { from { opacity: 0; transform: translateY(-40%); } }
+.menu-stack-bottom .menu-strip { animation-name: menu-strip-up; }
+@keyframes menu-strip-up { from { opacity: 0; transform: translateY(40%); } }
+@media (min-width: 768px) {
+  .menu-parts { --strip: 56px; }
+  .menu-stack { top: 128px; }
+  body:has(.t-sticky-bar[data-hidden="false"]) .menu-stack-bottom { bottom: 0; } /* no bar on desktop */
+}
+@media (prefers-reduced-motion: reduce) { .menu-strip { animation: none; } }
+
+.menu-part { scroll-margin-top: calc(97px + var(--i, 0) * var(--strip, 44px)); overflow: clip; } /* clip, not hidden: keeps sticky working */
 .menu-part-content { padding: 48px 20px 64px; }
 
 /* Phones: the stage is a pinned band under the nav. Closed, the photo hangs
@@ -347,14 +375,14 @@ h1.hero-heading {
 @media (max-width: 767.98px) {
   .menu-part-stage {
     position: sticky;
-    top: 97px;
+    top: calc(97px + var(--stack-h, 0px));
     height: max(120px, 20svh);
     background: var(--color-bg-page);
   }
   .menu-part-panel {
     position: absolute;
     inset: 0 0 auto 0;
-    height: calc(100svh - 97px - 72px);
+    height: calc(100svh - 97px - 72px - var(--stack-h, 0px));
     transition: height 1.1s cubic-bezier(.65, 0, .25, 1);
   }
   .menu-part-frame {
@@ -374,8 +402,12 @@ h1.hero-heading {
   .menu-part-panel, .menu-part-frame, .menu-part-title { transition: none; }
 }
 @media (min-width: 768px) {
-  .menu-part { scroll-margin-top: 129px; }
-  .menu-part-stage { position: sticky; top: 129px; height: calc(100svh - 129px); }
+  .menu-part { scroll-margin-top: calc(129px + var(--i, 0) * var(--strip, 56px)); }
+  .menu-part-stage {
+    position: sticky;
+    top: calc(129px + var(--stack-h, 0px));
+    height: calc(100svh - 129px - var(--stack-h, 0px) - var(--below-h, 0px));
+  }
   .menu-part-panel {
     width: 100%;
     transition: width 1.1s cubic-bezier(.65, 0, .25, 1);
@@ -396,7 +428,7 @@ h1.hero-heading {
   }
   .menu-part-content {
     margin-left: 50%;
-    margin-top: calc(-1 * (100svh - 129px));
+    margin-top: calc(-1 * (100svh - 129px - var(--stack-h, 0px) - var(--below-h, 0px))); /* matches the stage height */
     padding: clamp(32px, 6vh, 64px) clamp(24px, 4vw, 64px) 96px;
   }
   /* Mirror for parts whose photo settles on the right */
