@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "preview": "npx serve out",
+    "deploy": "next build && wrangler deploy",
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -34,6 +35,7 @@
     "tailwindcss": "^4.3.2",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.158.0"
   }
 }
