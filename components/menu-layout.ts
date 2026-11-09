@@ -19,14 +19,16 @@ export interface MenuPartLayout {
   /** Photo for the part's split-layout panel. */
   image: string;
   imageAlt: string;
+  /** CSS object-position, for photos whose subject sits off-centre in the crop. */
+  imagePosition?: string;
   groups: MenuGroup[];
 }
 
 export const MENU_SECTIONS: MenuPartLayout[] = [
   {
     id: "brunch",
-    image: "/images/dishes/dish1.jpeg",
-    imageAlt: "Brunch toasts",
+    image: "/images/menus/all-day.webp",
+    imageAlt: "French toast with berries and pink crumb",
     label: "All Day",
     hours: "8:00 am – 2:00 pm daily",
     groups: [
@@ -37,8 +39,8 @@ export const MENU_SECTIONS: MenuPartLayout[] = [
   },
   {
     id: "dinner",
-    image: "/images/dishes/dish5.jpeg",
-    imageAlt: "Sous vide beef fillet with carrot velouté",
+    image: "/images/menus/dinner.webp",
+    imageAlt: "A plated dinner dish with nasturtium leaves and capers",
     label: "Dinner",
     hours: "From 5:30 pm",
     groups: [
@@ -50,8 +52,8 @@ export const MENU_SECTIONS: MenuPartLayout[] = [
   },
   {
     id: "dessert",
-    image: "/images/dishes/dessertdish.jpeg",
-    imageAlt: "Dessert",
+    image: "/images/menus/dessert.webp",
+    imageAlt: "A plated dessert with a chocolate bar, berry sauce and ice cream",
     label: "Dessert",
     groups: [
       { label: "Desserts", sub: "dessert" },
@@ -61,8 +63,9 @@ export const MENU_SECTIONS: MenuPartLayout[] = [
   },
   {
     id: "drinks",
-    image: "/images/gallery_coffee.jpg",
-    imageAlt: "Coffee at Town Tonic",
+    image: "/images/menus/drinks.webp",
+    imageAlt: "A red cocktail in a coupe on a wooden table",
+    imagePosition: "50% 25%",
     label: "Drinks",
     groups: [
       { label: "Cocktails & Mocktails", sub: "cocktails", caption: "Artisanal creations and refreshing non-alcoholic blends" },

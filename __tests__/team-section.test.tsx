@@ -9,6 +9,6 @@ describe("TeamSection", () => {
     expect(screen.getByText("Head Chef")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Kanav Khajuria/ })).toBeInTheDocument();
     expect(screen.getByText(/Town Tonic is Kanav’s kitchen/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Taste his menu/ })).toHaveAttribute("href", "#menu");
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 });

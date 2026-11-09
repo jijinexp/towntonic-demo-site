@@ -1,5 +1,6 @@
-// One page per menu: title over a circular photo, a large intro, the dishes in
-// rows on hairlines group by group, and a link on to the next menu.
+// One page per menu: a centred title and intro, then a split layout with the photo
+// bleeding off the left (sticky on desktop) and the dishes group by group on the right,
+// and a link on to the next menu.
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,77 +31,82 @@ export default async function MenuPageRoute({ params }: { params: Promise<{ slug
   return (
     <div className="serif-ink pb-8">
       {/* back + position */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 pt-6 text-sm tracking-wide">
-        <Link href="/#menu" className="hover:underline underline-offset-4">&larr; All menus</Link>
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 pt-8 md:pt-10 text-base md:text-xl uppercase tracking-[0.2em]">
+        <Link
+          href="/#menu"
+          className="group inline-flex items-center gap-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary rounded-sm"
+        >
+          {/* a hairline, like the menu index, that reaches further on hover */}
+          <span aria-hidden="true" className="h-px w-8 md:w-12 bg-current transition-[width] duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:w-14 md:group-hover:w-20" />
+          All menus
+        </Link>
         <span>
-          / {menu.number} of {total}
+          {menu.number} / {total}
         </span>
       </div>
 
-      {/* title over the photo */}
-      <header className="relative mx-auto max-w-6xl px-5 pt-8 md:pt-10 text-center">
-        <RiseTitle as="h1" text={menu.label} className="title-font relative z-10 block text-6xl md:text-[7.5rem] leading-[0.9]" />
-        <div className="relative mx-auto -mt-6 md:-mt-14 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-end gap-6">
-          <Reveal className="order-2 md:order-1 md:text-left md:pb-10">
-            <p className="text-sm! uppercase tracking-[0.2em]">{menu.hours ?? "Served all day"}</p>
-          </Reveal>
-          <Reveal kind="fade" className="order-1 md:order-2 relative mx-auto aspect-square w-[78vw] max-w-[560px] overflow-hidden rounded-full">
-            <Image src={menu.image} alt={menu.imageAlt} fill loading="eager" sizes="(min-width: 768px) 560px, 78vw" className="object-cover" />
-          </Reveal>
-          <Reveal className="order-3 md:text-right md:pb-10">
-            <p className="text-sm! uppercase tracking-[0.2em]">{menu.count} dishes &amp; drinks</p>
-          </Reveal>
-        </div>
+      {/* title, with the hours, count and intro under it */}
+      <header className="mx-auto max-w-3xl px-5 pt-8 pb-12 md:pt-12 md:pb-16 text-center">
+        <RiseTitle as="h1" text={menu.label} className="title-font block text-6xl md:text-[7.5rem] leading-[0.9]" />
+        <Reveal className="mt-6 md:mt-8">
+          <p className="text-sm! uppercase tracking-[0.2em]">
+            {`${menu.hours ?? "Served all day"} \u00b7 ${menu.count} dishes & drinks`}
+          </p>
+        </Reveal>
+        <Reveal as="p" className="mt-6 text-xl! md:text-2xl! leading-snug">{menu.intro}</Reveal>
       </header>
 
-      {/* intro */}
-      <div className="mx-auto max-w-4xl px-5 py-16 md:py-24">
-        <Reveal as="p" className="text-center text-3xl! md:text-5xl! leading-snug">{menu.intro}</Reveal>
-      </div>
+      {/* split: the photo bleeds off the left edge and stays put; the dishes scroll on the right */}
+      <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+        <Reveal
+          kind="fade"
+          className="relative aspect-[4/3] md:aspect-auto md:h-[min(50vw,calc(100svh-8rem))] w-full overflow-hidden md:sticky md:top-32"
+        >
+          <Image src={menu.image} alt={menu.imageAlt} fill loading="eager" sizes="(min-width: 768px) 50vw, 100vw" className="object-cover"
+            style={menu.imagePosition ? { objectPosition: menu.imagePosition } : undefined} />
+        </Reveal>
 
-      {/* the dishes */}
-      <div className="mx-auto max-w-5xl px-5 flex flex-col gap-20">
-        {groups.map((g) => (
-          <section key={g.sub} aria-labelledby={`g-${g.sub}`}>
-            <div className="text-center mb-8">
-              <RiseTitle as="h2" id={`g-${g.sub}`} text={g.label} className="title-font block text-3xl md:text-6xl leading-tight" />
-              {g.caption && <Reveal as="p" className="mt-3 text-lg!">{g.caption}</Reveal>}
-            </div>
-            <ul className="border-t border-text-primary/40">
-              {items
-                .filter((i) => i.subCategory === g.sub)
-                .map((it) => (
-                  <Reveal as="li" key={it.id} className="grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-1 border-b border-text-primary/40 py-5 md:py-6">
-                    <div className="md:flex md:items-baseline md:gap-5">
-                      <h3 className="font-normal text-2xl md:text-3xl shrink-0">{it.name}</h3>
-                      <p className="mt-1 md:mt-0 text-base! md:text-lg! leading-snug">
-                        {it.description}
-                        {it.tags.length > 0 && <span className="mt-1 block text-xs uppercase tracking-[0.12em]">{it.tags.join(" · ")}</span>}
-                      </p>
-                    </div>
-                    <span className="text-xl md:text-2xl">${it.price.toFixed(2)}</span>
+        <div className="w-full max-w-[640px] px-5 pt-12 md:px-12 md:pt-2 lg:px-16 flex flex-col gap-16 md:gap-20">
+          {groups.map((g) => (
+            <section key={g.sub} aria-labelledby={`g-${g.sub}`}>
+              <div className="mb-2">
+                <RiseTitle as="h2" id={`g-${g.sub}`} text={g.label} className="title-font block text-3xl lg:text-4xl leading-tight" />
+                {g.caption && <Reveal as="p" className="mt-2 text-base!">{g.caption}</Reveal>}
+              </div>
+              <ul>
+                {items
+                  .filter((i) => i.subCategory === g.sub)
+                  .map((it) => (
+                    <Reveal as="li" key={it.id} className="border-t border-text-primary/30 py-6 md:py-7">
+                      <div className="flex items-baseline justify-between gap-6">
+                        <h3 className="dish-font text-2xl md:text-[2.1rem] leading-[1.4]">{it.name}</h3>
+                        <span className="shrink-0 text-lg">${it.price.toFixed(2)}</span>
+                      </div>
+                      <p className="mt-3 text-base! leading-snug">{it.description}</p>
+                      {it.tags.length > 0 && <p className="mt-2 text-xs! uppercase tracking-[0.12em]">{it.tags.join(" · ")}</p>}
+                    </Reveal>
+                  ))}
+              </ul>
+            </section>
+          ))}
+
+          {menu.id === "brunch" && (
+            <section aria-labelledby="g-addons">
+              <div className="mb-2">
+                <RiseTitle as="h2" id="g-addons" text="Add-ons" className="title-font block text-3xl lg:text-4xl leading-tight" />
+                <Reveal as="p" className="mt-2 text-base!">Only available to order with meals</Reveal>
+              </div>
+              <ul>
+                {ADD_ONS.map((a) => (
+                  <Reveal as="li" key={a.name} className="flex items-baseline justify-between gap-6 border-t border-text-primary/30 py-4">
+                    <span className="dish-font text-xl md:text-2xl">{a.name}</span>
+                    <span className="text-lg">${a.price.toFixed(2)}</span>
                   </Reveal>
                 ))}
-            </ul>
-          </section>
-        ))}
-
-        {menu.id === "brunch" && (
-          <section aria-labelledby="g-addons">
-            <div className="text-center mb-8">
-              <RiseTitle as="h2" id="g-addons" text="Add-ons" className="title-font block text-3xl md:text-6xl leading-tight" />
-              <Reveal as="p" className="mt-3 text-lg!">Only available to order with meals</Reveal>
-            </div>
-            <ul className="border-t border-text-primary/40 md:columns-2 md:gap-12">
-              {ADD_ONS.map((a) => (
-                <Reveal as="li" key={a.name} className="flex items-baseline justify-between border-b border-text-primary/40 py-4 break-inside-avoid">
-                  <span className="text-xl">{a.name}</span>
-                  <span className="text-xl">${a.price.toFixed(2)}</span>
-                </Reveal>
-              ))}
-            </ul>
-          </section>
-        )}
+              </ul>
+            </section>
+          )}
+        </div>
       </div>
 
       {/* next menu */}

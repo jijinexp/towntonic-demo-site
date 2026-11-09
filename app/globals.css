@@ -3,23 +3,23 @@
 @theme {
   --color-primary: #3E5167;
   --color-primary-hover: #2B3847;
-  /* Off-white theme (2026-11-08). Gold here is the deeper bronze used for text
-     and links; it reaches 4.5:1 on both page and card backgrounds. */
+  /* Frost-white theme (2026-11-09; was warm off-white). Gold here is the deeper
+     bronze used for text and links; it reaches 4.5:1 on page and card backgrounds. */
   --color-gold: #8E5D2B;
   --color-gold-hover: #74491F;
   --color-sage: #5C7049;
   --color-sage-hover: #4B5D3B;
   --color-sage-soft: #E3E8DC;
-  --color-bg-soft: #ECE6DD;
-  --color-bg-page: #F6F3EE;
-  --color-bg-card: #ECE6DD;
-  --color-bg-elevated: #E4DDD2;
+  --color-bg-soft: #ECF0F3;
+  --color-bg-page: #F7F9FA;
+  --color-bg-card: #ECF0F3;
+  --color-bg-elevated: #E2E8EC;
   --color-text-primary: #1C1F26;
-  --color-text-secondary: #5E5A54;
-  --color-text-soft: #5E5A54;
-  --color-text-muted: #66615A;
-  --color-border: #DDD6CB;
-  --color-border-strong: #CFC6B8;
+  --color-text-secondary: #565C63;
+  --color-text-soft: #565C63;
+  --color-text-muted: #5F656C;
+  --color-border: #D9E0E5;
+  --color-border-strong: #C8D1D8;
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Outfit", sans-serif;
 }
@@ -55,7 +55,7 @@ button {
   font-family: var(--font-display) !important;
 }
 
-/* Headings take the ink colour on the off-white site; headings over photos opt
+/* Headings take the ink colour on the frost-white site; headings over photos opt
    back into white with an explicit text-white class. Kept in the base layer so
    Tailwind colour utilities (text-white, text-primary) still win. */
 @layer base {
@@ -66,8 +66,7 @@ button {
 
 /* Nav links (desktop header and the phone menu) use the title serif, same as
    "Welcome to Town Tonic"; more specific than the display-font rule above. */
-header nav a,
-#mobile-menu a {
+header nav a {
   font-family: var(--font-serif) !important;
   font-weight: 500;
 }
@@ -77,13 +76,20 @@ em, i, cite, dfn, var, address {
   font-style: normal;
 }
 
-/* Navbar: dark ink on the off-white site, whether or not the page has scrolled */
+/* Navbar: dark ink on the frost-white site, whether or not the page has scrolled */
 header nav a,
 header nav button {
   color: var(--color-text-primary) !important;
   transition: color 300ms var(--ease-out);
 }
 header nav a:hover {
+  color: var(--color-gold) !important;
+}
+/* Clear over the homepage hero photos: frost-white links */
+header[data-over-hero="true"] nav a {
+  color: #f7f9fa !important;
+}
+header[data-over-hero="true"] nav a:hover {
   color: var(--color-gold) !important;
 }
 
@@ -250,7 +256,7 @@ header nav a:hover {
   .btn:hover,
   .btn:focus-visible {
     background-color: #111;
-    color: #f6f3ee;
+    color: #f7f9fa;
   }
   .btn:focus-visible {
     outline: 1px solid #111;
@@ -262,16 +268,16 @@ header nav a:hover {
     pointer-events: none;
   }
   .btn-inverse {
-    border-color: #f6f3ee;
-    color: #f6f3ee;
+    border-color: #f7f9fa;
+    color: #f7f9fa;
   }
   .btn-inverse:hover,
   .btn-inverse:focus-visible {
-    background-color: #f6f3ee;
+    background-color: #f7f9fa;
     color: #111;
   }
   .btn-inverse:focus-visible {
-    outline-color: #f6f3ee;
+    outline-color: #f7f9fa;
   }
 }
 /* the title serif, over the display-font rule for <button> */
@@ -282,11 +288,11 @@ header nav a:hover {
 /* Footer: black, with the site's colours inverted. Re-pointing the colour
    tokens inside flips every utility that uses them in one place. */
 .footer-ink {
-  --color-text-primary: #f6f3ee;
+  --color-text-primary: #f7f9fa;
   --color-text-secondary: rgb(246 243 238 / 0.75);
   --color-text-muted: rgb(246 243 238 / 0.6);
-  --color-primary: #f6f3ee;
-  --color-gold: #f6f3ee;
+  --color-primary: #f7f9fa;
+  --color-gold: #f7f9fa;
   --color-border: rgb(246 243 238 / 0.2);
   --color-border-strong: rgb(246 243 238 / 0.2);
   background-color: #111;
@@ -435,5 +441,12 @@ html body .title-font * {
 .title-font {
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+/* Dish names on the menu pages: Caudex, as in the Wix "Aperitivo" menu.
+   Same "html body" specificity trick as .title-font. */
+html body .dish-font {
+  font-family: var(--font-dish), var(--font-serif), serif !important;
+  font-weight: 400;
 }
 

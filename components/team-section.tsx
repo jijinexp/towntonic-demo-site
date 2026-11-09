@@ -44,12 +44,6 @@ export default function TeamSection() {
               the Canterbury region has to offer.
             </p>
           </div>
-          <a
-            href="#menu"
-            className="mt-8 inline-flex items-center gap-2 border-b border-gold pb-1 text-lg text-gold hover:text-gold-hover hover:border-gold-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
-          >
-            Taste his menu <span aria-hidden="true">&darr;</span>
-          </a>
         </div>
       </article>
     </div>

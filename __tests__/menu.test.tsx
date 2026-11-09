@@ -25,7 +25,7 @@ describe("/menu/[slug] pages", () => {
   it("shows the menu title, its photo, groups and every dish on it", async () => {
     await renderPage("dinner");
     expect(screen.getByRole("heading", { level: 1, name: "Dinner" })).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "Sous vide beef fillet with carrot velouté" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "A plated dinner dish with nasturtium leaves and capers" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Theo's Fisheries & Seafood" })).toBeInTheDocument();
     const dinner = MENU_ITEMS.filter((i) => i.category === "dinner");
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(dinner.length);
