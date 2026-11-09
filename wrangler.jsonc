@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // The demo site as a Cloudflare Worker that only serves static assets:
+  // the static export from `next build` in ./out.
+  "name": "towntonic-demo",
+  // Always deploy to the Ora Labs account.
+  "account_id": "1ec7d7fbe2f8315b969e1a51242dd4c4",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./out",
+    // /menu/dinner serves /menu/dinner.html; unknown paths get the site's 404 page.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

@@ -39,6 +39,8 @@ const lilita = Lilita_One({
 export const metadata: Metadata = {
   title: "Town Tonic - Christchurch Restaurant & Cafe",
   description: "Premium locally-sourced Canterbury dining in Addington, Christchurch.",
+  // This is a demo, not the restaurant's real site: keep it out of search results.
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
