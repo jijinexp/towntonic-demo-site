@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
 
@@ -15,28 +15,12 @@ describe("Global layout components", () => {
     expect(screen.getByText(/335 Lincoln Road/)).toBeInTheDocument();
   });
 
-  it("toggles the mobile menu visibility when the hamburger button is clicked", () => {
+  it("has no hamburger or overlay: Menu and Contact sit in the one main nav (Menu is desktop-only)", () => {
     const { container } = render(<NavBar />);
-    
-    // The mobile menu container (id="mobile-menu") should not be in the document initially
+    expect(screen.queryByRole("button", { name: /menu/i })).not.toBeInTheDocument();
     expect(container.querySelector("#mobile-menu")).not.toBeInTheDocument();
-    
-    // Find the hamburger button and click it
-    const toggleButton = screen.getByRole("button", { name: /toggle menu/i });
-    expect(toggleButton).toBeInTheDocument();
-    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
-    
-    fireEvent.click(toggleButton);
-    
-    // The mobile menu container should now be in the document
-    const mobileMenu = container.querySelector("#mobile-menu");
-    expect(mobileMenu).toBeInTheDocument();
-    expect(toggleButton).toHaveAttribute("aria-expanded", "true");
-    
-    // Click again to close it
-    fireEvent.click(toggleButton);
-    expect(container.querySelector("#mobile-menu")).not.toBeInTheDocument();
-    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+    const main = screen.getByRole("navigation", { name: "Main" });
+    expect(Array.from(main.querySelectorAll("a")).map((a) => a.textContent)).toEqual(["Menu", "Contact"]);
   });
 
   it("verifies footer links have correct href attributes", () => {
@@ -68,13 +52,13 @@ describe("Global layout components", () => {
       return match ? match.getAttribute("href") : null;
     };
     
-    expect(findHrefByText("Menu")).toBe("/menu");
-    expect(findHrefByText("View Menu")).toBe("/menu");
-    expect(findHrefByText("Our Story")).toBe("/about");
+    expect(findHrefByText("Menu")).toBe("/#menu");
+    expect(findHrefByText("View Menu")).toBe("/#menu");
+    expect(findHrefByText("Our Story")).toBeNull();
     expect(findHrefByText("Contact")).toBe("/contact");
     expect(findHrefByText("Reservations")).toBe("/reservations");
     
-    const bookTableLinks = links.filter(link => link.textContent === "Book Table");
+    const bookTableLinks = links.filter(link => link.textContent === "Reservations");
     expect(bookTableLinks.length).toBeGreaterThan(0);
     bookTableLinks.forEach(link => {
       expect(link.getAttribute("href")).toBe("/reservations");

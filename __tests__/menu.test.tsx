@@ -1,114 +1,51 @@
-import { render, screen, fireEvent, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import MenuPage from "@/app/menu/page";
+import MenuSlugPage, { generateStaticParams } from "@/app/menu/[slug]/page";
+import { MENU_ITEMS } from "@/components/menu-items";
+import { MENU_PAGES } from "@/components/menu-pages";
 
-describe("Interactive Menu Filter", () => {
-  it("renders menu categories and filter tags", () => {
+// The menu is an index of four menus (homepage + /menu), each with its own page.
+describe("/menu index", () => {
+  it("leads with the Our Menus heading and links each menu to its page, numbered", () => {
     render(<MenuPage />);
-    expect(screen.getByText("All Day Menu (8am - 2pm)")).toBeInTheDocument();
-    expect(screen.getByText("Dinner")).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Dessert" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Gluten-Free" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Our Menus" })).toBeInTheDocument();
+    const links = ["All Day", "Dinner", "Dessert", "Drinks"].map((l) => screen.getByRole("link", { name: `${l} menu` }));
+    expect(links.map((a) => a.getAttribute("href"))).toEqual(["/menu/all-day", "/menu/dinner", "/menu/dessert", "/menu/drinks"]);
+    expect(within(links[1]).getByText("/ 02", { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe("/menu/[slug] pages", () => {
+  const renderPage = async (slug: string) => render(await MenuSlugPage({ params: Promise.resolve({ slug }) }));
+
+  it("builds a page for every menu", () => {
+    expect(generateStaticParams()).toEqual(MENU_PAGES.map((m) => ({ slug: m.slug })));
   });
 
-  it("filters items by vegan tag correctly when clicked", async () => {
-    render(<MenuPage />);
-    // Click Vegan filter button
-    const veganFilter = screen.getByRole("button", { name: "Vegan" });
-    fireEvent.click(veganFilter);
-    
-    // Fish of the day is dinner and NOT vegan, it should not show up
-    expect(screen.queryByText("Pan Fried Fish of the Day")).not.toBeInTheDocument();
-    // Mr. Simple is vegan, should be visible
-    expect(screen.getByText("Mr. Simple")).toBeInTheDocument();
+  it("shows the menu title, its photo, groups and every dish on it", async () => {
+    await renderPage("dinner");
+    expect(screen.getByRole("heading", { level: 1, name: "Dinner" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "A plated dinner dish with nasturtium leaves and capers" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Theo's Fisheries & Seafood" })).toBeInTheDocument();
+    const dinner = MENU_ITEMS.filter((i) => i.category === "dinner");
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(dinner.length);
+    expect(screen.getByText("$105.00")).toBeInTheDocument();
   });
 
-  it("switches categories when category tabs are clicked", () => {
-    render(<MenuPage />);
-    
-    // Default category is Brunch, so French Toast should be visible, Pan Fried Fish of the Day should not
-    expect(screen.getByText("French Toast")).toBeInTheDocument();
-    expect(screen.queryByText("Pan Fried Fish of the Day")).not.toBeInTheDocument();
-
-    // Click Dinner tab
-    const dinnerTab = screen.getByRole("tab", { name: "Dinner" });
-    fireEvent.click(dinnerTab);
-
-    // Now Pan Fried Fish of the Day should be visible, French Toast should not
-    expect(screen.getByText("Pan Fried Fish of the Day")).toBeInTheDocument();
-    expect(screen.queryByText("French Toast")).not.toBeInTheDocument();
+  it("lists the add-ons only on All Day", async () => {
+    await renderPage("all-day");
+    expect(screen.getByRole("heading", { level: 2, name: "Add-ons" })).toBeInTheDocument();
+    expect(screen.getByText("Smoked Salmon")).toBeInTheDocument();
   });
 
-  it("opens details modal when clicking a menu item and closes it via close button", async () => {
-    render(<MenuPage />);
-    
-    // Click on Mr. Simple card
-    const itemCard = screen.getByText("Mr. Simple");
-    fireEvent.click(itemCard);
-
-    // Modal with detailed description and close button should appear
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByText("Dietary Profile")).toBeInTheDocument();
-    
-    // Close modal
-    const closeBtn = screen.getByRole("button", { name: "Close Modal" });
-    fireEvent.click(closeBtn);
-
-    // Modal should disappear
-    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
+  it("links on to the next menu, wrapping from the last to the first", async () => {
+    await renderPage("drinks");
+    const next = screen.getByRole("navigation", { name: "Next menu" });
+    expect(within(next).getByRole("link")).toHaveAttribute("href", "/menu/all-day");
+    expect(screen.getByRole("link", { name: /All menus/ })).toHaveAttribute("href", "/#menu");
   });
 
-  it("renders MenuCard as a button and opens details modal when clicked", async () => {
-    render(<MenuPage />);
-    
-    // Check that MenuCard is a focusable button
-    const itemCard = screen.getByRole("button", { name: /Mr. Simple/i });
-    expect(itemCard).toBeInTheDocument();
-    
-    // Clicking it opens the details modal
-    fireEvent.click(itemCard);
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-  });
-
-  it("closes details modal when pressing the Escape key", async () => {
-    render(<MenuPage />);
-    
-    // Click to open the modal
-    const itemCard = screen.getByText("Mr. Simple");
-    fireEvent.click(itemCard);
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-
-    // Press Escape key
-    fireEvent.keyDown(window, { key: "Escape", code: "Escape" });
-    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
-  });
-
-  it("closes details modal when clicking on the backdrop overlay", async () => {
-    render(<MenuPage />);
-    
-    // Click to open the modal
-    const itemCard = screen.getByText("Mr. Simple");
-    fireEvent.click(itemCard);
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-
-    // Click on the backdrop (the element with role="dialog")
-    const backdrop = screen.getByRole("dialog");
-    fireEvent.click(backdrop);
-    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
-  });
-
-  it("does not close details modal when clicking inside the modal content", () => {
-    render(<MenuPage />);
-    
-    // Click to open the modal
-    const itemCard = screen.getByText("Mr. Simple");
-    fireEvent.click(itemCard);
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-
-    // Click inside the modal (e.g. on the title)
-    const modalTitle = screen.getByRole("heading", { name: "Mr. Simple", level: 3 });
-    fireEvent.click(modalTitle);
-    
-    // Modal should still be open
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  it("returns not-found for an unknown menu", async () => {
+    await expect(MenuSlugPage({ params: Promise.resolve({ slug: "brunch" }) })).rejects.toThrow();
   });
 });

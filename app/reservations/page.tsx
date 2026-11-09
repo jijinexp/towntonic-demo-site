@@ -8,11 +8,14 @@ export const metadata: Metadata = {
 
 export default function ReservationsPage() {
   return (
-    <div className="bg-bg-page py-16 px-4 font-sans min-h-[70vh] flex flex-col justify-center">
-      <div className="text-center max-w-xl mx-auto mb-10">
-        <h1 className="font-serif text-3xl md:text-5xl font-bold mb-3 text-primary">Reserve a Table</h1>
-        <p className="text-text-secondary text-sm">
-          Select your party details and book your spot instantly.
+    <div className="serif-ink py-16 px-4 max-w-6xl mx-auto">
+      <div className="text-center max-w-xl mx-auto mb-12 md:mb-16">
+        <div className="mb-3">
+          <span className="block uppercase tracking-[0.2em] font-semibold text-sm">Reservations</span>
+          <h1 className="title-font text-4xl md:text-6xl mt-2 text-text-primary">Reserve a Table</h1>
+        </div>
+        <p className="text-text-primary text-lg!">
+          Choose your party size, date and time, and we&rsquo;ll hold a table for you.
         </p>
       </div>
       <BookingWizard />

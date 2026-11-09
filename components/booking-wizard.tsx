@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Calendar, User, Minus, Plus, Clock } from "lucide-react";
+import { Calendar, Minus, Plus } from "lucide-react";
+import { MAX_GUESTS, formatDateText, formatTimeText, isoDate, parseDate, parseGuests, parseTime } from "./booking-parse";
 
 const formatFriendlyTime = (t: string) => {
   if (!t) return "";
@@ -26,16 +27,15 @@ const formatFriendlyDate = (dateStr: string) => {
   });
 };
 
-const getLocalDateString = () => {
-  const local = new Date();
-  const offset = local.getTimezoneOffset();
-  const localDate = new Date(local.getTime() - (offset * 60 * 1000));
-  return localDate.toISOString().split("T")[0];
-};
+const getLocalDateString = () => isoDate(new Date());
 
 export default function BookingWizard() {
-  const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  // What the visitor has typed; read with booking-parse.ts on blur and on submit.
+  const [guestsText, setGuestsText] = useState("2");
+  const [dateText, setDateText] = useState("");
+  const [timeText, setTimeText] = useState("");
+  // The booking as confirmed.
   const [guests, setGuests] = useState(2);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -49,6 +49,7 @@ export default function BookingWizard() {
   const [bookingRef, setBookingRef] = useState("");
 
   const pathRef = useRef<SVGPathElement>(null);
+  const pickerRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (submitted && pathRef.current) {
@@ -60,26 +61,53 @@ export default function BookingWizard() {
     }
   }, [submitted]);
 
+  const resetDateTime = () => {
+    setDateText(formatDateText(getLocalDateString()));
+    setTimeText(formatTimeText("18:00"));
+  };
+
   useEffect(() => {
+    // Today's date depends on the visitor's clock, so fill it in after mounting.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-    setDate(getLocalDateString());
-    setTime("18:00");
+    resetDateTime();
   }, []);
+
+  const stepGuests = (dir: 1 | -1) => {
+    const n = parseInt(guestsText, 10);
+    const base = Number.isNaN(n) ? 2 : n;
+    setGuestsText(String(Math.min(MAX_GUESTS, Math.max(1, base + dir))));
+    setError("");
+  };
+  const typedGuests = parseInt(guestsText, 10);
+
+  const openPicker = () => {
+    const el = pickerRef.current;
+    if (!el) return;
+    const iso = parseDate(dateText);
+    if (iso) el.value = iso;
+    if (typeof el.showPicker === "function") el.showPicker();
+    else el.click();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!date) {
-      setError("Please select a dining date.");
+    const g = parseGuests(guestsText);
+    if (g === null) {
+      setError(`Please enter between 1 and ${MAX_GUESTS} guests. For larger groups, call us on 03 338 1150.`);
       return;
     }
-    const todayStr = getLocalDateString();
-    if (date < todayStr) {
-      setError("Please select a current or future dining date.");
+    const d = parseDate(dateText);
+    if (!d) {
+      setError("Please enter the date as DD/MM/YYYY, for example 14/11/2026.");
       return;
     }
-    if (!time) {
-      setError("Please select a dining time.");
+    if (d < getLocalDateString()) {
+      setError("Please choose today or a date in the future.");
+      return;
+    }
+    const t = parseTime(timeText);
+    if (!t) {
+      setError("Please enter a time like 6:30 pm or 18:30.");
       return;
     }
     if (!name.trim() || !phone.trim() || !email.trim()) {
@@ -87,147 +115,125 @@ export default function BookingWizard() {
       return;
     }
     setError("");
+    setGuests(g);
+    setDate(d);
+    setTime(t);
+    setDateText(formatDateText(d));
+    setTimeText(formatTimeText(t));
     const ref = "TT-" + Math.floor(100000 + Math.random() * 900000);
     setBookingRef(ref);
     setSubmitted(true);
   };
 
+  // Same field and label styles as the contact form.
+  const labelClass = "flex flex-col gap-1.5 text-sm font-semibold text-text-primary uppercase tracking-[0.14em]";
+  const fieldClass =
+    "w-full bg-bg-card border border-border rounded-sm px-3 py-2.5 text-lg font-normal normal-case tracking-normal text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary";
+  const boxClass =
+    "flex items-center bg-bg-card border border-border rounded-sm text-lg font-normal normal-case tracking-normal text-text-primary focus-within:ring-2 focus-within:ring-text-primary";
+  const stepClass =
+    "h-9 w-9 shrink-0 inline-flex items-center justify-center rounded-sm text-text-primary hover:bg-text-primary/10 disabled:opacity-35 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary";
+  const bareInput = "min-w-0 flex-1 bg-transparent py-2.5 focus:outline-none placeholder:text-text-muted";
+
   return (
-    <div className="w-full max-w-xl mx-auto border border-border rounded-sm bg-bg-card p-8 shadow-sm">
+    <div className="w-full max-w-2xl mx-auto">
       {error && (
-        <div className="bg-red-900/20 text-red-400 text-xs font-semibold p-3 rounded-sm mb-6 border border-red-800/30">
+        <p role="alert" className="mb-6 border border-red-800/40 rounded-sm px-4 py-3 text-base! text-red-900">
           {error}
-        </div>
+        </p>
       )}
 
       {!submitted && (
-        <form onSubmit={handleSubmit} className="t-wizard-step flex flex-col gap-6" key="form">
-          <div className="flex flex-col">
-            <span id="booking-guests-label" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Number of Guests</span>
-            <div className="flex items-center gap-3">
-              <User size={18} className="text-gold" />
-              <div
-                className="flex-grow flex items-center justify-between bg-bg-page border border-border rounded px-2 py-1.5 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold"
-                role="group"
-                aria-labelledby="booking-guests-label"
-              >
-                <button
-                  type="button"
-                  aria-label="Decrease guests"
-                  onClick={() => setGuests((g) => Math.max(1, g - 1))}
-                  disabled={guests <= 1}
-                  className="h-9 w-9 inline-flex items-center justify-center rounded text-text-primary hover:bg-bg-elevated disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                >
+        <form onSubmit={handleSubmit} noValidate className="t-wizard-step space-y-4" key="form">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className={labelClass}>
+              <label htmlFor="booking-guests">Guests</label>
+              <div className={`${boxClass} px-1.5`}>
+                <button type="button" aria-label="Decrease guests" onClick={() => stepGuests(-1)} disabled={typedGuests <= 1} className={stepClass}>
                   <Minus size={16} />
                 </button>
-                <span
-                  aria-live="polite"
-                  className="text-sm font-semibold text-text-primary tabular-nums"
-                >
-                  {guests} {guests === 1 ? "Guest" : "Guests"}
-                </span>
-                <button
-                  type="button"
-                  aria-label="Increase guests"
-                  onClick={() => setGuests((g) => Math.min(10, g + 1))}
-                  disabled={guests >= 10}
-                  className="h-9 w-9 inline-flex items-center justify-center rounded text-text-primary hover:bg-bg-elevated disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                >
+                <input
+                  id="booking-guests"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  value={guestsText}
+                  onChange={(e) => {
+                    setGuestsText(e.target.value);
+                    setError("");
+                  }}
+                  aria-describedby="booking-guests-hint"
+                  className={`${bareInput} text-center tabular-nums`}
+                />
+                <button type="button" aria-label="Increase guests" onClick={() => stepGuests(1)} disabled={typedGuests >= MAX_GUESTS} className={stepClass}>
                   <Plus size={16} />
                 </button>
               </div>
+              <span id="booking-guests-hint" className="sr-only">Up to {MAX_GUESTS} guests</span>
             </div>
-          </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="booking-date" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Select Date</label>
-            <div className="flex items-center gap-3">
-              <Calendar size={18} className="text-gold" />
-              <input
-                id="booking-date"
-                type="date"
-                min={mounted ? getLocalDateString() : undefined}
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="flex-grow bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary font-medium text-center [&::-webkit-date-and-time-value]:text-center [&::-webkit-datetime-edit]:text-center [&::-webkit-datetime-edit-fields-wrapper]:justify-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col">
-            <span id="booking-time-label" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Preferred Time</span>
-            <div className="flex items-center gap-3">
-              <Clock size={18} className="text-gold" />
-              <div
-                role="group"
-                aria-labelledby="booking-time-label"
-                className="flex-grow flex items-center justify-center bg-bg-page border border-border rounded px-3 py-2 gap-1 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold"
-              >
-                {(() => {
-                  const [h24Str = "", mStr = ""] = time.split(":");
-                  const h24 = parseInt(h24Str);
-                  const m = parseInt(mStr);
-                  const validH = !Number.isNaN(h24);
-                  const validM = !Number.isNaN(m);
-                  const hour12 = validH ? (h24 % 12 === 0 ? 12 : h24 % 12) : 12;
-                  const period: "AM" | "PM" = validH && h24 >= 12 ? "PM" : "AM";
-                  const minute = validM ? m : 0;
-
-                  const commit = (nh: number, nm: number, np: "AM" | "PM") => {
-                    let h = nh % 12;
-                    if (np === "PM") h += 12;
-                    setTime(`${String(h).padStart(2, "0")}:${String(nm).padStart(2, "0")}`);
+            <div className={labelClass}>
+              <label htmlFor="booking-date">Date</label>
+              <div className={`${boxClass} relative pl-3 pr-1.5`}>
+                <input
+                  id="booking-date"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="DD/MM/YYYY"
+                  value={dateText}
+                  onChange={(e) => {
+                    setDateText(e.target.value);
                     setError("");
-                  };
-
-                  const selectClass =
-                    "bg-transparent text-sm text-text-primary font-medium tabular-nums focus:outline-none appearance-none pr-1";
-
-                  return (
-                    <>
-                      <select
-                        aria-label="Hour"
-                        value={hour12}
-                        onChange={(e) => commit(parseInt(e.target.value), minute, period)}
-                        className={selectClass}
-                      >
-                        {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
-                          <option key={h} value={h}>
-                            {h}
-                          </option>
-                        ))}
-                      </select>
-                      <span className="text-text-primary">:</span>
-                      <select
-                        aria-label="Minute"
-                        value={minute}
-                        onChange={(e) => commit(hour12, parseInt(e.target.value), period)}
-                        className={selectClass}
-                      >
-                        {Array.from({ length: 12 }, (_, i) => i * 5).map((mm) => (
-                          <option key={mm} value={mm}>
-                            {String(mm).padStart(2, "0")}
-                          </option>
-                        ))}
-                      </select>
-                      <select
-                        aria-label="AM or PM"
-                        value={period}
-                        onChange={(e) => commit(hour12, minute, e.target.value as "AM" | "PM")}
-                        className={`${selectClass} ml-2`}
-                      >
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                      </select>
-                    </>
-                  );
-                })()}
+                  }}
+                  onBlur={() => {
+                    const iso = parseDate(dateText);
+                    if (iso) setDateText(formatDateText(iso));
+                  }}
+                  className={`${bareInput} tabular-nums`}
+                />
+                <button type="button" aria-label="Choose a date from a calendar" onClick={openPicker} className={stepClass}>
+                  <Calendar size={18} strokeWidth={1.5} />
+                </button>
+                {/* the calendar behind the button; typing in the field works without it */}
+                <input
+                  ref={pickerRef}
+                  type="date"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  min={getLocalDateString()}
+                  onChange={(e) => {
+                    if (e.target.value) setDateText(formatDateText(e.target.value));
+                    setError("");
+                  }}
+                  className="pointer-events-none absolute h-0 w-0 opacity-0"
+                />
               </div>
             </div>
+
+            <label htmlFor="booking-time" className={labelClass}>
+              Time
+              <input
+                id="booking-time"
+                type="text"
+                autoComplete="off"
+                placeholder="e.g. 6:30 pm"
+                value={timeText}
+                onChange={(e) => {
+                  setTimeText(e.target.value);
+                  setError("");
+                }}
+                onBlur={() => {
+                  const t = parseTime(timeText);
+                  if (t) setTimeText(formatTimeText(t));
+                }}
+                className={`${fieldClass} tabular-nums`}
+              />
+            </label>
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="booking-name" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Full Name</label>
+          <label htmlFor="booking-name" className={labelClass}>
+            Full Name
             <input
               id="booking-name"
               type="text"
@@ -235,55 +241,54 @@ export default function BookingWizard() {
               autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. John Doe"
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              placeholder="Your name"
+              className={fieldClass}
             />
+          </label>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label htmlFor="booking-phone" className={labelClass}>
+              Phone Number
+              <input
+                id="booking-phone"
+                type="tel"
+                required
+                autoComplete="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="021 234 567"
+                className={fieldClass}
+              />
+            </label>
+            <label htmlFor="booking-email" className={labelClass}>
+              Email Address
+              <input
+                id="booking-email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className={fieldClass}
+              />
+            </label>
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="booking-phone" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Phone Number</label>
-            <input
-              id="booking-phone"
-              type="tel"
-              required
-              autoComplete="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="e.g. 021 234 567"
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label htmlFor="booking-email" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Email Address</label>
-            <input
-              id="booking-email"
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="e.g. john@example.com"
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label htmlFor="booking-notes" className="text-sm font-bold text-white uppercase tracking-wider mb-2 text-center">Special Notes (Optional)</label>
+          <label htmlFor="booking-notes" className={labelClass}>
+            Special Notes (Optional)
             <textarea
               id="booking-notes"
+              rows={4}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Allergies, seating preferences, high chair requests, birthdays..."
-              className="bg-bg-page border border-border px-4 py-2.5 rounded text-sm text-text-primary h-24 resize-none text-center focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              placeholder="Allergies, seating preferences, high chairs, birthdays…"
+              className={`${fieldClass} resize-y`}
             />
-          </div>
+          </label>
 
-          <button
-            type="submit"
-            className="mt-2 bg-primary hover:bg-primary-hover text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-          >
-            <span>Confirm Booking</span>
+          <button type="submit" className="btn text-base">
+            Confirm Booking
           </button>
         </form>
       )}
@@ -292,37 +297,37 @@ export default function BookingWizard() {
         <div className="t-wizard-step text-center py-6" key="success">
           <div className="flex justify-center mb-6">
             <span className="t-success-check" data-state="in" aria-hidden="true">
-              <svg className="w-16 h-16 text-gold" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-16 h-16 text-text-primary" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path ref={pathRef} d="M14 24l8 8 14-16" />
               </svg>
             </span>
           </div>
-          <h3 className="font-serif text-3xl font-bold text-primary mb-2">Table Reserved</h3>
-          <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-6">
-            Booking Ref: <span className="text-gold font-bold">{bookingRef}</span>
+          <h2 className="title-font text-3xl md:text-5xl text-text-primary mb-3">Table Reserved</h2>
+          <p className="text-sm! uppercase tracking-[0.2em] mb-8">
+            Booking Ref: <span className="font-semibold">{bookingRef}</span>
           </p>
 
-          <div className="bg-bg-page border border-border rounded-sm p-5 text-left mb-8 text-sm text-text-secondary flex flex-col gap-3 font-sans">
-            <div className="flex justify-between border-b border-border pb-2">
-              <span className="font-semibold text-primary">Guest Count:</span>
-              <span>{guests} {guests === 1 ? "person" : "people"}</span>
+          <dl className="mx-auto max-w-md text-left border-t border-text-primary/30 mb-8">
+            <div className="flex justify-between gap-6 border-b border-text-primary/30 py-3 text-lg">
+              <dt className="uppercase text-sm tracking-[0.14em] self-center">Guests</dt>
+              <dd>{guests} {guests === 1 ? "person" : "people"}</dd>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold text-primary">Date & Time:</span>
-              <span>{formatFriendlyDate(date)} at {formatFriendlyTime(time)}</span>
+            <div className="flex justify-between gap-6 border-b border-text-primary/30 py-3 text-lg">
+              <dt className="uppercase text-sm tracking-[0.14em] self-center">When</dt>
+              <dd className="text-right">{formatFriendlyDate(date)} at {formatFriendlyTime(time)}</dd>
             </div>
-          </div>
+          </dl>
 
-          <p className="text-xs text-text-muted mb-8 leading-relaxed max-w-sm mx-auto">
-            A confirmation email has been dispatched to <span className="font-semibold">{email}</span>. If you need to make changes, please dial <a href="tel:+6433381150" className="text-primary hover:underline font-semibold">03 338 1150</a>.
+          <p className="text-base! leading-relaxed max-w-md mx-auto mb-8">
+            A confirmation email has been sent to <span className="font-semibold">{email}</span>. If you need to make changes, please call{" "}
+            <a href="tel:+6433381150" className="underline underline-offset-4 hover:no-underline">03 338 1150</a>.
           </p>
 
           <button
             onClick={() => {
               setSubmitted(false);
-              setGuests(2);
-              setDate(getLocalDateString());
-              setTime("18:00");
+              setGuestsText("2");
+              resetDateTime();
               setName("");
               setPhone("");
               setEmail("");
@@ -330,7 +335,7 @@ export default function BookingWizard() {
               setBookingRef("");
               setError("");
             }}
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-6 py-3 rounded-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="btn text-base"
           >
             Book Another Table
           </button>
